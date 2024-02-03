@@ -70,22 +70,27 @@ const skills = [
 
 const EventType = z.enum(["Volunteering", "Training", "Workshop"]);
 
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Name cannot be empty",
-  }),
-  description: z.string().min(1, {
-    message: "Description cannot be empty",
-  }),
-  capacity: z.number(),
-  type: EventType,
-  registrationDeadline: z.date(),
-  startDate: z.date(),
-  endDate: z.date(),
-  skills: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
-});
+const formSchema = z
+  .object({
+    name: z.string().min(1, {
+      message: "Name cannot be empty",
+    }),
+    description: z.string().min(1, {
+      message: "Description cannot be empty",
+    }),
+    capacity: z.number(),
+    type: EventType,
+    registrationDeadline: z.date(),
+    startDate: z.date(),
+    endDate: z.date(),
+    skills: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one item.",
+    }),
+  })
+  .refine((data) => data.endDate > data.startDate, {
+    message: "End date must be greater than start date",
+    path: ["endDate"],
+  });
 
 export function EventForm() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -95,7 +100,7 @@ export function EventForm() {
       try {
         const response = await fetch("/api/event");
         const data = await response.json();
-        console.log(data)
+        console.log(data);
 
         setEvents(data);
       } catch (error) {
@@ -104,7 +109,7 @@ export function EventForm() {
     }
 
     fetchData();
-  }, [])
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -142,295 +147,297 @@ export function EventForm() {
 
   return (
     <>
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-md p-6 bg-white rounded-md shadow-md">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Volunteering at Old Folks Home"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Fill in a name for your event.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Require performers for Old Folks"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Fill in your event requirements.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="capacity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Capacity</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="100" {...field} onChange={(e) => {
-            const parsedValue = parseInt(e.target.value, 10);
-            field.onChange(isNaN(parsedValue) ? '' : parsedValue);
-          }}/>
-                </FormControl>
-                <FormDescription>
-                  Specify the maximum capacity for the event.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Select event type</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-1"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="Volunteering" />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        Volunteering
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="Training" />
-                      </FormControl>
-                      <FormLabel className="font-normal">Training</FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="Workshop" />
-                      </FormControl>
-                      <FormLabel className="font-normal">Workshop</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="registrationDeadline"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Registration Deadline</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <div className="py-2 px-4 bg-white">
-                      {" "}
-                      {/* Set a background color */}
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Event Start Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <div className="py-2 px-4 bg-white">
-                      {" "}
-                      {/* Set a background color */}
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="endDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Event End Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <div className="py-2 px-4 bg-white">
-                      {" "}
-                      {/* Set a background color */}
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="skills"
-            render={() => (
-              <FormItem>
-                <div className="mb-4">
-                  <FormLabel className="text-base">Skills</FormLabel>
+      <div className="w-full px-28 py-6 bg-white rounded-md shadow-md">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
                   <FormDescription>
-                    Select the items skills relevant to your event.
+                    Fill in a name for your event.
                   </FormDescription>
-                </div>
-                {skills.map((skill) => (
-                  <FormField
-                    key={skill.id}
-                    control={form.control}
-                    name="skills"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={skill.id}
-                          className="flex flex-row items-start space-x-3 space-y-0"
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Description</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Fill in your event requirements.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="capacity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Capacity</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => {
+                        const parsedValue = parseInt(e.target.value, 10);
+                        field.onChange(isNaN(parsedValue) ? "" : parsedValue);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Specify the maximum capacity for the event.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Select event type</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="Volunteering" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Volunteering
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="Training" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Training</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="Workshop" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Workshop</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="registrationDeadline"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Registration Deadline</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
                         >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(skill.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, skill.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== skill.id
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {skill.label}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="py-2 px-4 bg-white">
+                        {" "}
+                        {/* Set a background color */}
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event Start Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="py-2 px-4 bg-white">
+                        {" "}
+                        {/* Set a background color */}
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event End Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="py-2 px-4 bg-white">
+                        {" "}
+                        {/* Set a background color */}
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="skills"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Skills</FormLabel>
+                    <FormDescription>
+                      Select the skills relevant to your event.
+                    </FormDescription>
+                  </div>
+                  {skills.map((skill) => (
+                    <FormField
+                      key={skill.id}
+                      control={form.control}
+                      name="skills"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={skill.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(skill.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, skill.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== skill.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {skill.label}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-center items-center">
+              <Button
+                className="border-black bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 rounded"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        </Form>
       </div>
-    </div>
-      
     </>
   );
 }
