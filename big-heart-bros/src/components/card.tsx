@@ -19,19 +19,19 @@ type CardComponentProps = {
 
 const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time, skills_wanted, link, button_desc }) => {
     return (
-    <Card className={cn("w-[380px]")}>
-        <div className="flex justify-center">
-        <Image
-            className="py-2"
-            src={image}
-            alt="Event Image"
-            width={300}
-            height={150}
-        />
-        </div>
+    <Card className={cn("w-[380px] bg-[#ffffff] rounded-3xl my-4")}>
         <CardHeader>
+            <div className="flex justify-center">
+                <Image
+                    className="pb-4"
+                    src={image}
+                    alt="Event Image"
+                    width={300}
+                    height={150}
+                />
+            </div>
             <CardTitle>{title}</CardTitle>
-            <CardDescription>{desc}</CardDescription>
+            <CardDescription className="text-justify">{desc}</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
             <p>Time: {time}</p>
@@ -43,15 +43,17 @@ const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time,
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                     {skills_wanted.map((skill, index) => (
-                        <div key={index} className="bg-gray-100 p-2 rounded-md text-sm text-center">{skill}</div>
+                        <div key={index} className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]">{skill}</div>
                     ))}
                 </div>
             </div>
         </CardFooter>
+        <CardFooter className="flex justify-center">
+            <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-800">
+                <Link href={link}>{button_desc}</Link>
+            </Button>
+        </CardFooter>
 
-        <Button className="w-full">
-            <Link href={link}>{button_desc}</Link>
-        </Button>
     </Card>
     )
 }

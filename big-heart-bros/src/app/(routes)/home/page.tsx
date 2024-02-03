@@ -34,7 +34,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="bg-[#FAA0A0] h-screen"></div>
+      <div className="bg-[#fcb6b6] h-screen"></div>
       <div className="absolute top-[700px] left-1/2 -translate-x-1/2">
         <WaysToGive />
       </div>

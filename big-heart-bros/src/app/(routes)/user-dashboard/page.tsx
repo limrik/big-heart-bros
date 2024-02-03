@@ -63,15 +63,15 @@ const listOfEvents = [
     },
 ];
 
-const About: React.FC = () => {
+const UserDashboard: React.FC = () => {
     return (
-        <div>
+        <div className="bg-[#f7d9d9]">
             <Navbar></Navbar>
             <div className="w-5/6 mx-auto">
             
             <div className="flex justify-between my-4 items-center">
                 <p className="text-2xl font-semibold">User Dashboard</p>
-                <div className="bg-gray-100 rounded-md p-2 px-4 flex items-center">
+                <div className="rounded-md p-2 px-4 flex items-center bg-[#fcb6b6] rounded-2xl">
                     <div className="text-right">
                         <p className="text-xl font-semibold ">Omar Apollo</p>
                         <p className="text-sm">+65 9100 2100</p>
@@ -86,7 +86,7 @@ const About: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-12 mx-auto">
+            <div className="grid grid-cols-3 gap-8 mx-auto">
                 {listOfEvents.map((event, index) => (
                     <Card 
                         key={index} 
@@ -105,4 +105,4 @@ const About: React.FC = () => {
     );
 };
 
-export default About;
+export default UserDashboard;
