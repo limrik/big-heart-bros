@@ -86,19 +86,21 @@ const UserDashboard: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-8 mx-auto">
-                {listOfEvents.map((event, index) => (
-                    <Card 
-                        key={index} 
-                        image={event.image}
-                        title={event.title} 
-                        desc={event.desc} 
-                        time={event.time} 
-                        skills_wanted={event.skills_wanted} 
-                        link={event.onClick} 
-                        button_desc={event.button_desc}
-                    />
-                ))}
+            <div className="flex justify-center">
+                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+                    {listOfEvents.map((event, index) => (
+                        <Card 
+                            key={index} 
+                            image={event.image}
+                            title={event.title} 
+                            desc={event.desc} 
+                            time={event.time} 
+                            skills_wanted={event.skills_wanted} 
+                            link={event.onClick} 
+                            button_desc={event.button_desc}
+                        />
+                    ))}
+                </div>
             </div>
             </div>
         </div>
