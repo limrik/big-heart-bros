@@ -1,11 +1,10 @@
 import React from 'react';
-import Navbar from '../../components/navbar';
+import Navbar from '../../../components/navbar';
 
 const About: React.FC = () => {
     return (
         <div>
             <Navbar></Navbar>
-            <h1>Profile</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
                 mauris eu nisl ultrices, vitae tincidunt nunc tincidunt. Nulla facilisi.

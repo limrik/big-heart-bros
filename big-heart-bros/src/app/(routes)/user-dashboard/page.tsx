@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../../components/navbar';
-import Card from '../../components/card';
+import Navbar from '../../../components/navbar';
+import Card from '../../../components/card';
 
 const nav = () => { 
     return null;
