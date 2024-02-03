@@ -27,45 +27,46 @@ import {
 import { format } from "date-fns";
 import { cn } from "../lib/utils";
 import { Checkbox } from "./ui/checkbox";
+import { useEffect, useState } from "react";
 
 const skills = [
-    {
-      id: "OnGroundVolunteering",
-      label: "On Ground Volunteering",
-    },
-    {
-      id: "Photography",
-      label: "Photography",
-    },
-    {
-      id: "Videography",
-      label: "Videography",
-    },
-    {
-      id: "ArtsAndCraft",
-      label: "Arts and Craft",
-    },
-    {
-      id: "PerformingSkills",
-      label: "Performing Skills",
-    },
-    {
-      id: "Sports",
-      label: "Sports",
-    },
-    {
-        id: "Teaching",
-        label: "Teaching",
-      },
-      {
-        id: "Leadership",
-        label: "Leadership",
-      },
-      {
-        id: "DigitalMarketing",
-        label: "Digital Marketing",
-      },
-  ] as const
+  {
+    id: "OnGroundVolunteering",
+    label: "On Ground Volunteering",
+  },
+  {
+    id: "Photography",
+    label: "Photography",
+  },
+  {
+    id: "Videography",
+    label: "Videography",
+  },
+  {
+    id: "ArtsAndCraft",
+    label: "Arts and Craft",
+  },
+  {
+    id: "PerformingSkills",
+    label: "Performing Skills",
+  },
+  {
+    id: "Sports",
+    label: "Sports",
+  },
+  {
+    id: "Teaching",
+    label: "Teaching",
+  },
+  {
+    id: "Leadership",
+    label: "Leadership",
+  },
+  {
+    id: "DigitalMarketing",
+    label: "Digital Marketing",
+  },
+] as const;
 
 const EventType = z.enum(["Volunteering", "Training", "Workshop"]);
 
@@ -87,6 +88,24 @@ const formSchema = z.object({
 });
 
 export function EventForm() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/event");
+        const data = await response.json();
+        console.log(data)
+
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, [])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -100,12 +119,31 @@ export function EventForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+    await fetch("/api/event", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API response:", data);
+        // Handle the API response as needed
+      })
+      .catch((error) => {
+        console.error("Error making API request:", error);
+        // Handle errors
+      });
   }
 
   return (
     <>
+    <div className="flex items-center justify-center">
+      <div className="w-full max-w-md p-6 bg-white rounded-md shadow-md">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -155,7 +193,10 @@ export function EventForm() {
               <FormItem>
                 <FormLabel>Event Capacity</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="100" {...field} />
+                  <Input type="number" placeholder="100" {...field} onChange={(e) => {
+            const parsedValue = parseInt(e.target.value, 10);
+            field.onChange(isNaN(parsedValue) ? '' : parsedValue);
+          }}/>
                 </FormControl>
                 <FormDescription>
                   Specify the maximum capacity for the event.
@@ -237,9 +278,7 @@ export function EventForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() 
-                        }
+                        disabled={(date) => date < new Date()}
                         initialFocus
                       />
                     </div>
@@ -250,7 +289,7 @@ export function EventForm() {
             )}
           />
 
-        <FormField
+          <FormField
             control={form.control}
             name="startDate"
             render={({ field }) => (
@@ -283,9 +322,7 @@ export function EventForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() 
-                        }
+                        disabled={(date) => date < new Date()}
                         initialFocus
                       />
                     </div>
@@ -329,9 +366,7 @@ export function EventForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() 
-                        }
+                        disabled={(date) => date < new Date()}
                         initialFocus
                       />
                     </div>
@@ -342,58 +377,60 @@ export function EventForm() {
             )}
           />
 
-        <FormField
-          control={form.control}
-          name="skills"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">Skills</FormLabel>
-                <FormDescription>
-                  Select the items skills relevant to your event.
-                </FormDescription>
-              </div>
-              {skills.map((skill) => (
-                <FormField
-                  key={skill.id}
-                  control={form.control}
-                  name="skills"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={skill.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(skill.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, skill.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== skill.id
-                                    )
-                                  )
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {skill.label}
-                        </FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+          <FormField
+            control={form.control}
+            name="skills"
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel className="text-base">Skills</FormLabel>
+                  <FormDescription>
+                    Select the items skills relevant to your event.
+                  </FormDescription>
+                </div>
+                {skills.map((skill) => (
+                  <FormField
+                    key={skill.id}
+                    control={form.control}
+                    name="skills"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={skill.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(skill.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, skill.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== skill.id
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {skill.label}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      </div>
+    </div>
+      
     </>
   );
 }
