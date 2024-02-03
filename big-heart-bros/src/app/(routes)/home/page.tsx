@@ -1,31 +1,46 @@
 import React from "react";
 import Navbar from "../../../components/navbar";
+import AboutUs from "../../../components/about-us";
+import WaysToGive from "../../../components/ways-to-give";
+import backgroundImage from "../../assets/bigathearts1.png";
 
-const Home: React.FC = () => {
+export default function Home() {
   return (
     <div>
-      <div className="h-screen bg-bg1 bg-no-repeat bg-cover h-[400px]">
-        <div className="bg-gray-900/30 absolute top-0 left-0 w-full h-screen">
+      <div
+        className="bg-no-repeat bg-cover h-[800px]"
+        style={{ backgroundImage: `url(${backgroundImage.src})` }}
+      >
+        <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[800px]">
           <Navbar />
-          <div className="absolute top-30 w-full h-2/3 flex flex-col justify-center text-white">
+          <div className="absolute top-[145px] w-full h-2/3 flex flex-col justify-center text-white">
             <div>
               <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center">
-                Welcome back!
+                When volunteering starts changing lives,
+                <br /> including yours.
               </h1>
-              <p className="font-poppins text-base sm:text-xl text-center mx-4">
-                Volunteer Baby!
+              <p className="font-poppins text-base sm:text-xl text-center mx-4 mt-8 mb-12">
+                Start your giving journey with us!
               </p>
               <div className="justify-center flex">
-                <div className="cursor-pointer border-2 border-white rounded-3xl w-48 text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center hover:bg-[#ffbf00] bg-gray-600/70 font-poppins font-semibold">
-                  Start Now
+                <div className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center hover:bg-[#ffbf00] bg-gray-600/70 font-poppins font-semibold mx-8">
+                  Volunteering Opportunities
+                </div>
+                <div className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center hover:bg-[#ffbf00] bg-gray-600/70 font-poppins font-semibold mx-8">
+                  Sign Up
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div className="bg-[#FAA0A0] h-screen"></div>
+      <div className="absolute top-[700px] left-1/2 -translate-x-1/2">
+        <WaysToGive />
+      </div>
+      <div className="absolute top-[1100px] left-1/2 -translate-x-1/2">
+        <AboutUs />
+      </div>
     </div>
   );
-};
-
-export default Home;
+}
