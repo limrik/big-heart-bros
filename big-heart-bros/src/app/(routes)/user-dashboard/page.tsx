@@ -1,57 +1,63 @@
 import React from 'react';
 import Navbar from '../../../components/navbar';
 import Card from '../../../components/card';
-
-const nav = () => { 
-    return null;
-}
+import Image from 'next/image';
+import ProfilePhoto from '../../assets/profile-photo.png'
+import Event1Photo from '../../assets/volunteer-1.jpg'
+import Event2Photo from '../../assets/volunteer-2.jpg'
 
 const listOfEvents = [
     {
-        title: "Event 1",
-        desc: "This is the description of event 1",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event2Photo,
+        title: "ECP Beach Cleanup",
+        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-02-01",
+        skills_wanted: ["Teamwork", "Persistence", "Nature"],
         onClick: "/home",
         button_desc: "Join Event",
     },
     {
-        title: "Event 2",
-        desc: "This is the description of event 2",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event2Photo,
+        title: "WCP Beach Cleanup",
+        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-03-01",
+        skills_wanted: ["Teamwork", "Persistence", "Nature"],
         onClick: "/home",
         button_desc: "Join Event",
     },
     {
-        title: "Event 3",
-        desc: "This is the description of event 3",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event2Photo,
+        title: "Pasir Ris Beach Cleanup",
+        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-03-24",
+        skills_wanted: ["Teamwork", "Persistence", "Nature"],
         onClick: "/home",
         button_desc: "Join Event",
     },
     {
-        title: "Event 4",
-        desc: "This is the description of event 4",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event1Photo,
+        title: "Tembusu Senior Home Visit",
+        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-04-01",
+        skills_wanted: ["Patience", "Dialect", "Chatting"],
         onClick: "/home",
         button_desc: "Join Event",
     },
     {
-        title: "Event 5",
-        desc: "This is the description of event 5",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event1Photo,
+        title: "Bishan Senior Home Visit",
+        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-05-03",
+        skills_wanted: ["Patience", "Dialect", "Chatting"],
         onClick: "/home",
         button_desc: "Join Event",
     },
     {
-        title: "Event 6",
-        desc: "This is the description of event 6",
-        time: "2022-12-12",
-        skills_wanted: ["skill1", "skill2", "skill3"],
+        image: Event1Photo,
+        title: "Clementi Senior Home Visit",
+        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
+        time: "2024-12-13",
+        skills_wanted: ["Patience", "Dialect", "Chatting"],
         onClick: "/home",
         button_desc: "Join Event",
     },
@@ -61,32 +67,40 @@ const About: React.FC = () => {
     return (
         <div>
             <Navbar></Navbar>
-            {listOfEvents.map((event, index) => (
-                <Card 
-                    key={index} 
-                    title={event.title} 
-                    desc={event.desc} 
-                    time={event.time} 
-                    skills_wanted={event.skills_wanted} 
-                    link={event.onClick} 
-                    button_desc={event.button_desc}
-                />
-            ))}
-            <h1>User Dashboard</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-                mauris eu nisl ultrices, vitae tincidunt nunc tincidunt. Nulla facilisi.
-                Nullam auctor, nunc id aliquam tincidunt, nunc elit aliquet nunc, nec
-                luctus nunc nunc id nunc. Sed in semper nunc. Sed auctor, nunc id
-                aliquam tincidunt, nunc elit aliquet nunc, nec luctus nunc nunc id nunc.
-                Sed in semper nunc.
-            </p>
-            <p>
-                Sed auctor, nunc id aliquam tincidunt, nunc elit aliquet nunc, nec
-                luctus nunc nunc id nunc. Sed in semper nunc. Sed auctor, nunc id
-                aliquam tincidunt, nunc elit aliquet nunc, nec luctus nunc nunc id nunc.
-                Sed in semper nunc.
-            </p>
+            <div className="w-5/6 mx-auto">
+            
+            <div className="flex justify-between my-4 items-center">
+                <p className="text-2xl font-semibold">User Dashboard</p>
+                <div className="bg-gray-100 rounded-md p-2 px-4 flex items-center">
+                    <div className="text-right">
+                        <p className="text-xl font-semibold ">Omar Apollo</p>
+                        <p className="text-sm">+65 9100 2100</p>
+                        <p className="text-md">Volunteer</p>
+                    </div>
+                    <Image 
+                        className="rounded-full mx-4"
+                        src={ProfilePhoto}
+                        alt="profile-photo" 
+                        width={100} 
+                        height={100}
+                    />
+                </div>
+            </div>
+            <div className="grid grid-cols-3 gap-12 mx-auto">
+                {listOfEvents.map((event, index) => (
+                    <Card 
+                        key={index} 
+                        image={event.image}
+                        title={event.title} 
+                        desc={event.desc} 
+                        time={event.time} 
+                        skills_wanted={event.skills_wanted} 
+                        link={event.onClick} 
+                        button_desc={event.button_desc}
+                    />
+                ))}
+            </div>
+            </div>
         </div>
     );
 };
