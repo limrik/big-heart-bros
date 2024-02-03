@@ -1,8 +1,10 @@
 import React from 'react';
+import Navbar from "../components/navbar";
 
 const About: React.FC = () => {
     return (
         <div>
+            <Navbar></Navbar>
             <h1>Admin Dashboard</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
