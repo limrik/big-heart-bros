@@ -10,28 +10,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+enum GenderType {
+  Male
+  Female
 }
 
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+enum ResidentialStatusType {
+  SingaporeCitizen
+  SingaporePR
+}
+
+enum CommitmentLevelType {
+  AdHoc
+  Low
+  Medium
+  High
+}
+
+enum Skills {
+  OnGroundVolunteering
+  Photography
+  Videography
+  ArtsAndCraft
+  PerformingSkills
+  Sports
+  Teaching
+  Leadership
+  DigitalMarketing
 }
 
 model User {
   id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  name    String
+  email String @unique
+  phoneNumber String
+  gender GenderType
+  occupation String?
+  dob DateTime
+  canDrive Boolean
+  ownVehicle Boolean
+  commitmentLevel CommitmentLevelType
+  skills Skills[]
+  residentialStatus ResidentialStatusType
+}
+
+enum EventType {
+  Volunteering
+  Training
+  Workshop
+}
+
+model Event {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  type EventType
+  startDate DateTime
+  endDate DateTime
+  skills Skills[]
+  createdAt DateTime @default(now())
 }
