@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,6 +5,34 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int                   @id @default(autoincrement())
+  name              String
+  email             String                @unique
+  phoneNumber       String
+  gender            GenderType
+  occupation        String?
+  dob               DateTime
+  canDrive          Boolean
+  ownVehicle        Boolean
+  commitmentLevel   CommitmentLevelType
+  skills            Skills[]
+  residentialStatus ResidentialStatusType
+}
+
+model Event {
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  description          String
+  capacity             Int
+  type                 EventType
+  registrationDeadline DateTime
+  startDate            DateTime
+  endDate              DateTime
+  skills               Skills[]
+  createdAt            DateTime  @default(now())
 }
 
 enum GenderType {
@@ -39,36 +64,8 @@ enum Skills {
   DigitalMarketing
 }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  name    String
-  email String @unique
-  phoneNumber String
-  gender GenderType
-  occupation String?
-  dob DateTime
-  canDrive Boolean
-  ownVehicle Boolean
-  commitmentLevel CommitmentLevelType
-  skills Skills[]
-  residentialStatus ResidentialStatusType
-}
-
 enum EventType {
   Volunteering
   Training
   Workshop
-}
-
-model Event {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  capacity Int
-  type EventType
-  registrationDeadline DateTime
-  startDate DateTime
-  endDate DateTime
-  skills Skills[]
-  createdAt DateTime @default(now())
 }
