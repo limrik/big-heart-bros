@@ -64,7 +64,9 @@ model Event {
   id Int @id @default(autoincrement())
   name String
   description String
+  capacity Int
   type EventType
+  registrationDeadline DateTime
   startDate DateTime
   endDate DateTime
   skills Skills[]

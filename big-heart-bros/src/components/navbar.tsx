@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "@/app/components/navigation-menu";
+} from "@/components/navigation-menu";
 
 export default function Navbar() {
   return (
