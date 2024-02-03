@@ -8,7 +8,7 @@ import Link from "next/link"
 import Image, { StaticImageData } from "next/image"
 
 type CardComponentProps = {
-    image?: StaticImageData; // local path to image for now
+    image: StaticImageData; // local path to image for now
     title: string;
     desc: string;
     time: string;
@@ -49,7 +49,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time,
             </div>
         </CardFooter>
         <CardFooter className="flex justify-center">
-            <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-800">
+            <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00">
                 <Link href={link}>{button_desc}</Link>
             </Button>
         </CardFooter>
