@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "./ui/form";
+import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { RadioGroupItem, RadioGroup } from "./ui/radio-group";
 import { Calendar } from "./ui/calendar";
@@ -25,7 +25,7 @@ import {
   PopoverContent,
 } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import { Checkbox } from "./ui/checkbox";
 
 const skills = [
