@@ -1,15 +1,8 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "./ui/button"
 
 import Link from "next/link"
 
