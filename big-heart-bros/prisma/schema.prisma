@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                Int                   @id @default(autoincrement())
+  id                String                @id @default(uuid())
   name              String
   email             String                @unique
   phoneNumber       String
@@ -20,10 +20,27 @@ model User {
   commitmentLevel   CommitmentLevelType
   skills            Skills[]
   residentialStatus ResidentialStatusType
+  events UsersInEvents[]
+}
+
+model UsersInEvents {
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  event Event @relation(fields: [eventId], references: [id])
+  eventId String
+  @@id([userId, eventId])
+}
+
+model Organisation {
+  id          String  @id @default(uuid())
+  name        String
+  email       String
+  phoneNumber String
+  events      Event[]
 }
 
 model Event {
-  id                   Int       @id @default(autoincrement())
+  id                   String       @id @default(uuid())
   name                 String
   description          String
   capacity             Int
@@ -32,7 +49,11 @@ model Event {
   startDate            DateTime
   endDate              DateTime
   skills               Skills[]
-  createdAt            DateTime  @default(now())
+  createdAt            DateTime     @default(now())
+  poster               Organisation @relation(fields: [posterId], references: [id])
+  posterId             String
+  users UsersInEvents[]
+  approved Boolean @default(false)
 }
 
 enum GenderType {

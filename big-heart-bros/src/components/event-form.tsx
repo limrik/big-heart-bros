@@ -92,24 +92,9 @@ const formSchema = z
     path: ["endDate"],
   });
 
+const organizationId = "DEFAULT_ID";
+
 export function EventForm() {
-  const [events, setEvents] = useState<Event[]>([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("/api/event");
-        const data = await response.json();
-        console.log(data);
-
-        setEvents(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -125,29 +110,35 @@ export function EventForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    
 
-    await fetch("/api/event", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("API response:", data);
-        // Handle the API response as needed
-      })
-      .catch((error) => {
-        console.error("Error making API request:", error);
-        // Handle errors
+    const eventData = { ...values, posterId: organizationId };
+  
+    console.log(eventData);
+  
+    try {
+      const response = await fetch(`/api/events/${organizationId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
       });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API response:", data);
+      } else {
+        console.error("Error making API request:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error making API request:", error);
+    }
   }
 
   return (
     <>
-      <div className="w-full px-28 py-6 bg-white rounded-md shadow-md">
+      <div className="w-full px-6 py-6 bg-white rounded-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
