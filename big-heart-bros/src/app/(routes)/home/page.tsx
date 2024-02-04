@@ -3,6 +3,7 @@ import Navbar from "../../../components/navbar";
 import AboutUs from "../../../components/about-us";
 import WaysToGive from "../../../components/ways-to-give";
 import backgroundImage from "../../assets/bigathearts1.png";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -15,21 +16,27 @@ export default function Home() {
           <Navbar />
           <div className="absolute top-[145px] w-full h-2/3 flex flex-col justify-center text-white">
             <div>
-            <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center gradient-text">
+              <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center gradient-text">
                 When volunteering starts changing lives,
                 <br /> including yours.
-            </h1>
-            <p className="font-poppins text-base sm:text-xl text-center mx-4 mt-8 mb-12 animate-bounce">
+              </h1>
+              <p className="font-poppins text-base sm:text-xl text-center mx-4 mt-8 mb-12 animate-bounce">
                 Start your giving journey with us!
-            </p>
+              </p>
 
               <div className="justify-center flex">
-                <div className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8">
+                <Link
+                  className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8"
+                  href="/user-dashboard"
+                >
                   Volunteering Opportunities
-                </div>
-                <div className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8">
-                  Sign Up
-                </div>
+                </Link>
+                <Link
+                  className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8"
+                  href="/sign-in"
+                >
+                  Sign In
+                </Link>
               </div>
             </div>
           </div>
