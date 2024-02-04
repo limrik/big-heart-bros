@@ -77,7 +77,7 @@ const UserDashboard: React.FC = () => {
                 endDate={event.endDate}
                 skills={event.skills}
                 link="/home"
-                button_desc="Join Event"
+                button_desc="Approve Event"
                 approved={event.approved}
               />
             ))}
