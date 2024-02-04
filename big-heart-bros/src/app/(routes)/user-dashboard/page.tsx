@@ -176,7 +176,7 @@ const UserDashboard: React.FC = () => {
                 <TabsContent value="my-events">
                     <div className="flex justify-center">
                         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-                            {listOfCurrentEvents.map((event, index) => (
+                            {/* {listOfCurrentEvents.map((event, index) => (
                                 <Card 
                                     key={index} 
                                     image={event.image}
@@ -187,14 +187,14 @@ const UserDashboard: React.FC = () => {
                                     link={event.onClick} 
                                     button_desc={event.button_desc}
                                 />
-                            ))}
+                            ))} */}
                         </div>
                     </div>
                 </TabsContent>
                 <TabsContent value="for-you">
                 <div className="flex justify-center">
                     <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-                        {listOfEvents.map((event, index) => (
+                        {/* {listOfEvents.map((event, index) => (
                             <Card 
                                 key={index} 
                                 image={event.image}
@@ -205,7 +205,7 @@ const UserDashboard: React.FC = () => {
                                 link={event.onClick} 
                                 button_desc={event.button_desc}
                             />
-                        ))}
+                        ))} */}
                     </div>
                 </div>
                 </TabsContent>

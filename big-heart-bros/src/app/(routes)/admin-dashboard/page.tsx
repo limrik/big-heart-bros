@@ -6,7 +6,8 @@ import Image from 'next/image';
 import ProfilePhoto from '../../assets/profile-photo.png'
 import { useState, useEffect } from "react";
 import { EventType, Skills } from "@prisma/client";
-
+import Card from '../../../components/card';
+import Event1Photo from "../../assets/volunteer-1.jpg";
 
 interface Event {
   id: string;
@@ -66,18 +67,20 @@ const UserDashboard: React.FC = () => {
             </div>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-                    {/* {listOfEvents.map((event, index) => (
-                        <Card 
-                            key={index} 
-                            image={event.image}
-                            title={event.title} 
-                            desc={event.desc} 
-                            time={event.time} 
-                            skills_wanted={event.skills_wanted} 
-                            link={event.onClick} 
-                            button_desc={event.button_desc}
-                        />
-                    ))} */}
+                {events.map((event, index) => (
+              <Card
+                key={index}
+                image={Event1Photo}
+                name={event.name}
+                description={event.description}
+                startDate={event.startDate}
+                endDate={event.endDate}
+                skills={event.skills}
+                link="/home"
+                button_desc="Join Event"
+                approved={event.approved}
+              />
+            ))}
                 </div>
             </div>
             </div>
