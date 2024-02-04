@@ -33,6 +33,7 @@ export default async function handler(
     if (req.method === "GET" && organizationId) {
       const events = await prisma.event.findMany({
         where: {
+          approved: true,
           posterId: organizationId.toString(),
         },
       });

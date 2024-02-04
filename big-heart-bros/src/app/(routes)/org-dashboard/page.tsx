@@ -38,6 +38,7 @@ interface Event {
 }
 
 const UserDashboard: React.FC = () => {
+  const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
 
   const organizationId = "DEFAULT_ID";
@@ -45,11 +46,14 @@ const UserDashboard: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/api/events/${organizationId}`);
+        const response = await fetch(`/api/approvedEvents/${organizationId}`);
         const data = await response.json();
-        console.log(data.events);
 
-        setEvents(data.events);
+        const res2 = await fetch(`/api/unapprovedEvents/${organizationId}`);
+        const data2 = await res2.json();
+
+        setApprovedEvents(data.events);
+        setEvents(data2.events);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -96,6 +100,30 @@ const UserDashboard: React.FC = () => {
           </div>
         </div>
         <p className="text-xl font-semibold">Approved Events</p>
+        <div className="flex justify-center">
+          {approvedEvents.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+              {approvedEvents.map((event, index) => (
+                <Card
+                  key={index}
+                  image={Event1Photo}
+                  name={event.name}
+                  description={event.description}
+                  startDate={event.startDate}
+                  endDate={event.endDate}
+                  skills={event.skills}
+                  link="/home"
+                  button_desc="Join Event"
+                  approved={event.approved}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="py-8">No approved events</p>
+          )}
+        </div>
+
+        <p className="text-xl font-semibold">Events (To be approved)</p>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (

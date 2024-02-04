@@ -27,7 +27,6 @@ import {
 import { format } from "date-fns";
 import { cn } from "../lib/utils";
 import { Checkbox } from "./ui/checkbox";
-import { useEffect, useState } from "react";
 
 const skills = [
   {
@@ -110,8 +109,6 @@ export function EventForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    
-
     const eventData = { ...values, posterId: organizationId };
   
     console.log(eventData);
@@ -128,6 +125,7 @@ export function EventForm() {
       if (response.ok) {
         const data = await response.json();
         console.log("API response:", data);
+        window.location.reload();
       } else {
         console.error("Error making API request:", response.statusText);
       }
