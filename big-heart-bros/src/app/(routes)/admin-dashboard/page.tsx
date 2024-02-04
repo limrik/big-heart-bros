@@ -1,69 +1,47 @@
+"use client"
+
 import React from 'react';
 import Navbar from '../../../components/navbar';
-import Card from '../../../components/card';
 import Image from 'next/image';
 import ProfilePhoto from '../../assets/profile-photo.png'
-import Event1Photo from '../../assets/volunteer-1.jpg'
-import Event2Photo from '../../assets/volunteer-2.jpg'
+import { useState, useEffect } from "react";
+import { EventType, Skills } from "@prisma/client";
 
-const listOfEvents = [
-    {
-        image: Event2Photo,
-        title: "ECP Beach Cleanup",
-        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-02-01",
-        skills_wanted: ["Teamwork", "Persistence", "Nature"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-    {
-        image: Event2Photo,
-        title: "WCP Beach Cleanup",
-        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-03-01",
-        skills_wanted: ["Teamwork", "Persistence", "Nature"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-    {
-        image: Event2Photo,
-        title: "Pasir Ris Beach Cleanup",
-        desc: "Join us for a day of fun and cleaning up the beach! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-03-24",
-        skills_wanted: ["Teamwork", "Persistence", "Nature"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-    {
-        image: Event1Photo,
-        title: "Tembusu Senior Home Visit",
-        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-04-01",
-        skills_wanted: ["Patience", "Dialect", "Chatting"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-    {
-        image: Event1Photo,
-        title: "Bishan Senior Home Visit",
-        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-05-03",
-        skills_wanted: ["Patience", "Dialect", "Chatting"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-    {
-        image: Event1Photo,
-        title: "Clementi Senior Home Visit",
-        desc: "Join us to interact with seniors! We will be providing lunch for all volunteers. We hope to see you there!",
-        time: "2024-12-13",
-        skills_wanted: ["Patience", "Dialect", "Chatting"],
-        onClick: "/home",
-        button_desc: "Approve Event",
-    },
-];
+
+interface Event {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  type: EventType;
+  registrationDeadline: Date;
+  startDate: Date;
+  endDate: Date;
+  skills: Skills[];
+  createdAt: Date;
+  posterId: string;
+  approved: boolean;
+}
 
 const UserDashboard: React.FC = () => {
+    const [events, setEvents] = useState<Event[]>([]);
+    
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const response = await fetch("/api/event");
+            const data = await response.json();
+            console.log(data.events);
+    
+            setEvents(data.events);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }
+    
+        fetchData();
+      }, []);
+
     return (
         <div className="bg-[#f7d9d9]">
             <Navbar></Navbar>
@@ -88,7 +66,7 @@ const UserDashboard: React.FC = () => {
             </div>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-                    {listOfEvents.map((event, index) => (
+                    {/* {listOfEvents.map((event, index) => (
                         <Card 
                             key={index} 
                             image={event.image}
@@ -99,7 +77,7 @@ const UserDashboard: React.FC = () => {
                             link={event.onClick} 
                             button_desc={event.button_desc}
                         />
-                    ))}
+                    ))} */}
                 </div>
             </div>
             </div>

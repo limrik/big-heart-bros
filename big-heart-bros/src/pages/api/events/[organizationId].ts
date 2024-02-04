@@ -13,6 +13,7 @@ interface Event {
   skills: Skills[];
   createdAt: Date;
   posterId: string;
+  approved: boolean;
 }
 
 type ResponseData = {
