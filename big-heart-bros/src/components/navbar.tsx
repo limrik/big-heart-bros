@@ -27,7 +27,20 @@ export default function Navbar() {
           className="font-poppins cursor-pointer hover:text-blue-300"
           href="/user-dashboard"
         >
-          Dashboard
+          Dashboard (user)
+        </Link>
+        
+        <Link
+          className="font-poppins cursor-pointer hover:text-blue-300"
+          href="/org-dashboard"
+        >
+          Dashboard (org)
+        </Link>
+        <Link
+          className="font-poppins cursor-pointer hover:text-blue-300"
+          href="/admin-dashboard"
+        >
+          Dashboard (admin)
         </Link>
         <Button className="bg-[#ff5656] rounded-2xl hover:bg-[#ff8585]">
           <PersonIcon className="w-4 h-4 mr-2" />
