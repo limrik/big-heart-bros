@@ -98,18 +98,20 @@ const UserDashboard: React.FC = () => {
         <p className="text-xl font-semibold">Approved Events</p>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-            {/* {events.map((event, index) => (
+            {events.map((event, index) => (
               <Card
                 key={index}
                 image={Event1Photo}
-                title={event.name}
-                desc={event.description}
-                time={event.startDate}
-                skills_wanted={event[0].skills_wanted}
-                link={event.onClick}
-                button_desc={event.button_desc}
+                name={event.name}
+                description={event.description}
+                startDate={event.startDate}
+                endDate={event.endDate}
+                skills={event.skills}
+                link="/home"
+                button_desc="Join Event"
+                approved={event.approved}
               />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
