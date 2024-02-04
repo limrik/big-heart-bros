@@ -7,34 +7,46 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 import Image, { StaticImageData } from "next/image"
 
+import { EventType, Skills } from "@prisma/client";
+
 type CardComponentProps = {
     image: StaticImageData; // local path to image for now
-    title: string;
-    desc: string;
-    time: string;
-    skills_wanted: string[];
     link: string;
     button_desc: string;
+
+    // From database
+    id: string;
+    name: string;
+    description: string;
+    capacity?: number;
+    type?: EventType;
+    registrationDeadline?: Date;
+    startDate: Date;
+    endDate: Date;
+    skills: Skills[];
+    createdAt: Date;
+    posterId: String;
+    approved: boolean;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time, skills_wanted, link, button_desc }) => {
+const CardComponent: React.FC<CardComponentProps> = (props) => {
     return (
     <Card className={cn("w-[380px] bg-[#ffffff] rounded-3xl my-4")}>
         <CardHeader>
             <div className="flex justify-center">
                 <Image
                     className="pb-4"
-                    src={image}
+                    src={props.image}
                     alt="Event Image"
                     width={300}
                     height={150}
                 />
             </div>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription className="text-justify">{desc}</CardDescription>
+            <CardTitle>{props.name}</CardTitle>
+            <CardDescription className="text-justify">{props.description}</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-            <p>Time: {time}</p>
+            <p>Time: {props.startDate.toLocaleString()} to: {props.endDate.toLocaleString()}</p>
         </CardContent>
         <CardFooter>
             <div className="grid grid-cols-auto-1fr gap-2">
@@ -42,7 +54,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time,
                     <h3>Skills Wanted:</h3>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
-                    {skills_wanted.map((skill, index) => (
+                    {props.skills.map((skill, index) => (
                         <div key={index} className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]">{skill}</div>
                     ))}
                 </div>
@@ -50,7 +62,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ image, title, desc, time,
         </CardFooter>
         <CardFooter className="flex justify-center">
             <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00">
-                <Link href={link}>{button_desc}</Link>
+                <Link href={props.link}>{props.button_desc}</Link>
             </Button>
         </CardFooter>
 
