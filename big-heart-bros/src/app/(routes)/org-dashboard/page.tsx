@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import Navbar from "../../../components/navbar";
@@ -22,7 +22,6 @@ import { EventForm } from "../../../components/event-form";
 import { useState, useEffect } from "react";
 import { EventType, Skills } from "@prisma/client";
 
-
 interface Event {
   id: string;
   name: string;
@@ -35,14 +34,15 @@ interface Event {
   skills: Skills[];
   createdAt: Date;
   posterId: string;
+  approved: boolean;
 }
 
 const UserDashboard: React.FC = () => {
-    const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
 
-const organizationId = "DEFAULT_ID";
+  const organizationId = "DEFAULT_ID";
 
-useEffect(() => {
+  useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(`/api/events/${organizationId}`);
@@ -57,7 +57,6 @@ useEffect(() => {
 
     fetchData();
   }, []);
-
 
   return (
     <div className="bg-[#f7d9d9]">
@@ -99,7 +98,6 @@ useEffect(() => {
         <p className="text-xl font-semibold">Approved Events</p>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-            
             {/* {events.map((event, index) => (
               <Card
                 key={index}
