@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react';
 import Navbar from '../../../components/navbar';
 import Image from 'next/image';
@@ -8,6 +6,7 @@ import { useState, useEffect } from "react";
 import { EventType, Skills } from "@prisma/client";
 import Card from '../../../components/card';
 import Event1Photo from "../../assets/volunteer-1.jpg";
+import AdminTable from '../../../components/admin-table/page';
 
 interface Event {
   id: string;
@@ -25,23 +24,6 @@ interface Event {
 }
 
 const UserDashboard: React.FC = () => {
-    const [events, setEvents] = useState<Event[]>([]);
-    
-    useEffect(() => {
-        async function fetchData() {
-          try {
-            const response = await fetch("/api/event");
-            const data = await response.json();
-            console.log(data.events);
-    
-            setEvents(data.events);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        }
-    
-        fetchData();
-      }, []);
 
     return (
         <div className="bg-[#f7d9d9]">
@@ -67,7 +49,7 @@ const UserDashboard: React.FC = () => {
             </div>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-                {events.map((event, index) => (
+                {/* {events.map((event, index) => (
               <Card
                 key={index}
                 image={Event1Photo}
@@ -80,10 +62,11 @@ const UserDashboard: React.FC = () => {
                 button_desc="Approve Event"
                 approved={event.approved}
               />
-            ))}
+            ))} */}
                 </div>
             </div>
             </div>
+            <AdminTable/>
         </div>
     );
 };
