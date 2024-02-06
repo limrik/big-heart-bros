@@ -88,7 +88,7 @@ export default function SignIn() {
                   <Form {...form}>
                     <form
                       onSubmit={form.handleSubmit(onSubmit)}
-                      className="space-y-4"
+                      className="space-y-6"
                     >
                       <div className="font-semibold font-poppins text-2xl">
                         Log in
@@ -103,9 +103,6 @@ export default function SignIn() {
                             <FormControl>
                               <Input placeholder="Email" {...field} />
                             </FormControl>
-                            <FormDescription>
-                              Your email address.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -123,9 +120,6 @@ export default function SignIn() {
                                 {...field}
                               />
                             </FormControl>
-                            <FormDescription>
-                              Please input a secure password.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
