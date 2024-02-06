@@ -29,11 +29,26 @@ export type Event = {
   approved: boolean;
 };
 
-export const columns: ColumnDef<Event>[] = [
+const handleApprove = async (id: String) => {
+  try {
+    console.log(id)
+    const data = await fetch(`/api/approve/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    window.location.reload()
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const draftColumns: ColumnDef<Event>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const event = row.original;
 
       return (
         <DropdownMenu>
@@ -46,9 +61,12 @@ export const columns: ColumnDef<Event>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(event.id)}
             >
               View
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleApprove(event.id)}>
+              Approve
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </DropdownMenuContent>
@@ -85,26 +103,6 @@ export const columns: ColumnDef<Event>[] = [
     },
   },
   {
-    accessorKey: "registrationDeadline",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Registration Deadline
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const registrationDeadline = new Date(
-        row.getValue("registrationDeadline")
-      ).toLocaleDateString();
-      return <div suppressHydrationWarning>{registrationDeadline}</div>;
-    },
-  },
-  {
     accessorKey: "startDate",
     header: ({ column }) => {
       return (
@@ -122,6 +120,24 @@ export const columns: ColumnDef<Event>[] = [
         row.getValue("startDate")
       ).toLocaleDateString();
       return <div suppressHydrationWarning>{startDate}</div>;
+    },
+  },
+  {
+    accessorKey: "endDate",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          End Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const endDate = new Date(row.getValue("endDate")).toLocaleDateString();
+      return <div suppressHydrationWarning>{endDate}</div>;
     },
   },
 ];
