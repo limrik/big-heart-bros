@@ -1,4 +1,4 @@
-import { PrismaClient, EventType, Skills } from "@prisma/client";
+import { PrismaClient, EventType, Skills, EventStatus } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface Event {
@@ -13,7 +13,7 @@ interface Event {
   skills: Skills[];
   createdAt: Date;
   posterId: string;
-  approved: boolean;
+  status: EventStatus;
 }
 
 type ResponseData = {
@@ -30,7 +30,7 @@ export default async function handler(
   try {
     if (req.method === "GET") {
       const events = await prisma.event.findMany({where: {
-        approved: false
+        status: EventStatus.Pending
       }});
       console.log("Fetched events:", events);
       res.status(200).json({ events, message: "Data fetched successfully" });

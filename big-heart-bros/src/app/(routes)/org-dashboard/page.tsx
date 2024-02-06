@@ -20,7 +20,7 @@ import {
 import { Button } from "../../../components/ui/button";
 import { EventForm } from "../../../components/event-form";
 import { useState, useEffect } from "react";
-import { EventType, Skills } from "@prisma/client";
+import { EventType, Skills, EventStatus } from "@prisma/client";
 
 interface Event {
   id: string;
@@ -34,7 +34,7 @@ interface Event {
   skills: Skills[];
   createdAt: Date;
   posterId: string;
-  approved: boolean;
+  status: EventStatus;
 }
 
 const UserDashboard: React.FC = () => {
@@ -49,7 +49,7 @@ const UserDashboard: React.FC = () => {
         const response = await fetch(`/api/approvedEvents/${organizationId}`);
         const data = await response.json();
 
-        const res2 = await fetch(`/api/unapprovedEvents/${organizationId}`);
+        const res2 = await fetch(`/api/pendingEvents/${organizationId}`);
         const data2 = await res2.json();
 
         setApprovedEvents(data.events);
@@ -114,7 +114,7 @@ const UserDashboard: React.FC = () => {
                   skills={event.skills}
                   link="/home"
                   button_desc="Join Event"
-                  approved={event.approved}
+                  status={event.status}
                 />
               ))}
             </div>
@@ -123,7 +123,7 @@ const UserDashboard: React.FC = () => {
           )}
         </div>
 
-        <p className="text-xl font-semibold">Events (To be approved)</p>
+        <p className="text-xl font-semibold">Pending Events</p>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (
@@ -137,7 +137,7 @@ const UserDashboard: React.FC = () => {
                 skills={event.skills}
                 link="/home"
                 button_desc="Join Event"
-                approved={event.approved}
+                status={event.status}
               />
             ))}
           </div>

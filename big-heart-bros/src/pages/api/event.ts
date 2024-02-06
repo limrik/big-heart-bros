@@ -1,4 +1,4 @@
-import { PrismaClient, EventType, Skills } from "@prisma/client";
+import { PrismaClient, EventType, Skills, EventStatus } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface Event {
@@ -13,7 +13,7 @@ interface Event {
   skills: Skills[];
   createdAt: Date;
   posterId: string;
-  approved: boolean;
+  status: EventStatus;
 }
 
 type ResponseData = {

@@ -30,7 +30,7 @@ export default function AdminTable() {
       
     // Fetch data from your API here.
     try {
-      const response = await fetch("http://localhost:3000/api/unapprovedEvent");
+      const response = await fetch("http://localhost:3000/api/pendingEvent");
       const data = await response.json();
       setDraftData(data.events)
       return data.events
@@ -50,14 +50,14 @@ export default function AdminTable() {
         <Tabs defaultValue="approved" className="bg-white">
           <TabsList>
             <TabsTrigger value="approved">Approved</TabsTrigger>
-            <TabsTrigger value="draft">Draft</TabsTrigger>
+            <TabsTrigger value="pending">Pending</TabsTrigger>
           </TabsList>
           <TabsContent value="approved">
             <h1 className="font-bold text-xl">Approved</h1>
             <DataTable columns={columns} data={data} />
           </TabsContent>
-          <TabsContent value="draft">
-            <h1 className="font-bold text-xl">Draft</h1>
+          <TabsContent value="pending">
+            <h1 className="font-bold text-xl">Pending</h1>
             <DataTable columns={draftColumns} data={draftData} />
           </TabsContent>
         </Tabs>

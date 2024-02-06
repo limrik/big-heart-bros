@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 
-import { EventType, Skills } from "@prisma/client";
+import { EventType, Skills, EventStatus} from "@prisma/client";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -31,7 +31,7 @@ type CardComponentProps = {
   skills: Skills[];
   createdAt?: Date;
   posterId?: String;
-  approved: boolean;
+  status: EventStatus;
 };
 
 const CardComponent: React.FC<CardComponentProps> = (props) => {

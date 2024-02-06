@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, EventStatus } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -16,7 +16,7 @@ export default async function handler(
       }
       const updatedEvent = await prisma.event.update({
         where: { id: String(eventId) },
-        data: { approved: true },
+        data: { status: EventStatus.Approved},
       });
 
       res.status(200).json({

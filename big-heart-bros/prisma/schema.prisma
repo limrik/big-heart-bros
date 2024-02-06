@@ -19,28 +19,41 @@ model User {
   ownVehicle        Boolean
   commitmentLevel   CommitmentLevelType
   skills            Skills[]
+  feedback          Feedback[]
   residentialStatus ResidentialStatusType
-  events UsersInEvents[]
+  events            UsersInEvents[]
 }
 
 model UsersInEvents {
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  event Event @relation(fields: [eventId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  event   Event  @relation(fields: [eventId], references: [id])
   eventId String
+
   @@id([userId, eventId])
 }
 
+model Feedback {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String
+  message        String
+  createdAt      DateTime     @default(now())
+}
+
 model Organisation {
-  id          String  @id @default(uuid())
-  name        String
-  email       String
-  phoneNumber String
-  events      Event[]
+  id            String     @id @default(uuid())
+  name          String
+  email         String
+  phoneNumber   String
+  events        Event[]
+  feedbackGiven Feedback[]
 }
 
 model Event {
-  id                   String       @id @default(uuid())
+  id                   String          @id @default(uuid())
   name                 String
   description          String
   capacity             Int
@@ -49,11 +62,11 @@ model Event {
   startDate            DateTime
   endDate              DateTime
   skills               Skills[]
-  createdAt            DateTime     @default(now())
-  poster               Organisation @relation(fields: [posterId], references: [id])
+  createdAt            DateTime        @default(now())
+  poster               Organisation    @relation(fields: [posterId], references: [id])
   posterId             String
-  users UsersInEvents[]
-  approved Boolean @default(false)
+  users                UsersInEvents[]
+  status               EventStatus     @default(Pending)
 }
 
 enum GenderType {
@@ -89,4 +102,10 @@ enum EventType {
   Volunteering
   Training
   Workshop
+}
+
+enum EventStatus {
+  Pending
+  Approved
+  Completed
 }
