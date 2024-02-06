@@ -6,7 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui
 import { Input } from "../../../components/ui/input"
 
 import Navbar from '../../../components/navbar';
-import Card from '../../../components/card';
 import UserCard from "../../../components/user-card"
 
 import ProfilePhoto from '../../assets/profile-photo.png'
