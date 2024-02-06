@@ -1,11 +1,9 @@
-import {
-  Card,
+import { Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
-} from "./ui/card";
+  CardFooter, } from "./ui/card";
 
 import { cn } from "../lib/utils";
 
