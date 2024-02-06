@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { PersonIcon } from "@radix-ui/react-icons"
+import SigninButton from "./SignInButton";
 
 export default function Navbar() {
   return (
@@ -42,15 +43,7 @@ export default function Navbar() {
         >
           Dashboard (admin)
         </Link>
-        <Button className="bg-[#ff5656] rounded-2xl hover:bg-[#ff8585]">
-          <PersonIcon className="w-4 h-4 mr-2" />
-          <Link
-            className="font-poppins cursor-pointer"
-            href="/profile"
-          >
-            Sign In
-          </Link>
-        </Button>
+        <SigninButton/>
       </div>
       </div>
     </div>
