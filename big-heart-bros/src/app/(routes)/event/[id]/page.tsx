@@ -5,6 +5,7 @@ import { EventType, Skills, EventStatus } from "@prisma/client";
 import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
+import EventAttendance from "../../../../components/event-attendance";
 
 interface Event {
   id: string;
@@ -77,9 +78,15 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
-      <div className="pt-28 mx-20">
-        <p className="font-semibold text-xl underline py-4">Event Details </p>
-        <p>{event?.description}</p>
+      <div className="pt-28 mx-20 grid grid-cols-2 flex">
+        <div>
+          <p className="font-semibold text-xl underline py-4">Event Details </p>
+          <p>{event?.description}</p>
+        </div>
+        <div className="text-center">
+          <p className="font-medium text-xl py-4">Attendance</p>
+          <EventAttendance users={users} />
+        </div>
       </div>
     </div>
   );
