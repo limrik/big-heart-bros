@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Input } from "./ui/input";
 
-import Card from "./card";
+import Card from "./user-card";
 import Event2Photo from "../app/assets/volunteer-2.jpg";
 import { EventType, Skills, EventStatus } from "@prisma/client";
 

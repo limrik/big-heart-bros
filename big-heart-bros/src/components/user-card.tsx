@@ -1,39 +1,120 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./ui/card"
+import { Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter, } from "./ui/card";
 
-import { cn } from "../lib/utils"
+import { cn } from "../lib/utils";
 
-import { IconProps } from "@radix-ui/react-icons/dist/types"
+import { Button } from "./ui/button";
 
-import { Button } from "./ui/button"
+import Link from "next/link";
+import Image, { StaticImageData } from "next/image";
 
-type UserCardProps = {
-    title: string,
-    number?: number,
-    icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>>,
-    desc?: string,
-    hasButton?: boolean,
+import { EventType, Skills, EventStatus} from "@prisma/client";
+
+type CardComponentProps = {
+  image: StaticImageData; // local path to image for now
+  link: string;
+  button_desc: string;
+
+  // From database
+  id: string;
+  name: string;
+  description: string;
+  capacity?: number;
+  type?: EventType;
+  registrationDeadline?: Date;
+  startDate: Date;
+  endDate: Date;
+  skills: Skills[];
+  createdAt?: Date;
+  posterId: String;
+  status: EventStatus;
+};
+
+const handleClick = async (userId, eventId) => {
+  try {
+    const response = await fetch('/api/userEvent/addUserToEvent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, eventId}),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add user to event');
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error adding user to event:', error.message);
+  }
 }
 
-const UserCard: React.FC<UserCardProps> = ({ title, number, icon: IconComponent, desc, hasButton }) => {
-    return (
-    <Card className={cn("w-full bg-[#ffffff] rounded-3xl my-4")}>
-        <CardHeader>
-            <div className="flex justify-between items-center">
-                <CardTitle>{title}</CardTitle>
-                <div className="bg-[#f7d9d9] p-2 rounded-xl">
-                    <IconComponent className="w-6 h-6" />
-                </div>
-            </div>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-            <p className="text-3xl font-bold">{number}</p>
-        </CardContent>
-        <CardFooter>
-            <p className="text-gray-500">{desc}</p>
-            { hasButton && <Button className="bg-[#fcb6b6] py-8 rounded-2xl w-full">Recommendation</Button>}
-        </CardFooter>
+const CardComponent: React.FC<CardComponentProps> = (props) => {
+  console.log(props);
+  return (
+    <Card className={cn("w-[380px] bg-[#ffffff] rounded-3xl my-4")}>
+      <CardHeader>
+        <div className="flex justify-center">
+          <Image
+            className="pb-4"
+            src={props.image}
+            alt="Event Image"
+            width={300}
+            height={150}
+          />
+        </div>
+        <CardTitle>{props.name}</CardTitle>
+        <CardDescription className="text-justify">
+          {props.description}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <p>
+          From:{" "}
+          {new Date(props.startDate).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
+          <br></br>
+          To:{" "}
+          {new Date(props.endDate).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
+        </p>
+      </CardContent>
+      <CardFooter>
+        <div className="grid grid-cols-auto-1fr gap-2">
+          <div className="col-span-full">
+            <h3>Skills Wanted:</h3>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {props.skills.map((skill, index) => (
+              <div
+                key={index}
+                className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
+              >
+                {skill}
+              </div>
+            ))}
+          </div>
+        </div>
+      </CardFooter>
+      <CardFooter className="flex justify-center">
+        <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00" onClick={() => handleClick("DEFAULT_ID", props.id)}>
+          Join Event
+        </Button>
+      </CardFooter>
     </Card>
-    )
-}
+  );
+};
 
-export default UserCard;
+export default CardComponent;

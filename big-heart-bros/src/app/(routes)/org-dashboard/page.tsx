@@ -2,7 +2,7 @@
 
 import React from "react";
 import Navbar from "../../../components/navbar";
-import Card from "../../../components/card";
+import OrgCard from "../../../components/org-card";
 import Image from "next/image";
 import ProfilePhoto from "../../assets/profile-photo.png";
 import Event1Photo from "../../assets/volunteer-1.jpg";
@@ -104,7 +104,7 @@ const UserDashboard: React.FC = () => {
           {approvedEvents.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
               {approvedEvents.map((event, index) => (
-                <Card
+                <OrgCard
                   key={index}
                   id={event.id}
                   image={Event1Photo}
@@ -129,7 +129,7 @@ const UserDashboard: React.FC = () => {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (
-              <Card
+              <OrgCard
                 key={index}
                 id={event.id}
                 image={Event1Photo}
@@ -139,7 +139,7 @@ const UserDashboard: React.FC = () => {
                 endDate={event.endDate}
                 skills={event.skills}
                 link="/home"
-                button_desc="Join Event"
+                button_desc="View Event"
                 posterId={event.posterId}
                 status={event.status}
               />
