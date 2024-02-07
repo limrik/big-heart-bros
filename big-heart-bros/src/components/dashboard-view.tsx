@@ -1,14 +1,34 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import ProfilePhoto from "../app/assets/profile-photo.png";
 import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Input } from "./ui/input";
 
+import Card from "./card";
+import Event2Photo from "../app/assets/volunteer-2.jpg";
+import { EventType, Skills, EventStatus } from "@prisma/client";
+
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
+
+interface Event {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  type: EventType;
+  registrationDeadline: Date;
+  startDate: Date;
+  endDate: Date;
+  skills: Skills[];
+  createdAt: Date;
+  posterId: string;
+  status: EventStatus;
+}
 
 const currentDate = new Date();
 const sixMonthsAgo = new Date(currentDate);
@@ -51,6 +71,31 @@ const data = {
 };
 
 export default function DashboardView() {
+
+  const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
+  const [completedEvents, setCompletedEvents] = useState<Event[]>([]);
+
+  const organizationId = "DEFAULT_ID";
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/approvedEvent");
+        const data = await response.json();
+
+        const res2 = await fetch("/api/completedEvent");
+        const data2 = await res2.json();
+
+        setApprovedEvents(data.events);
+        setCompletedEvents(data2.events);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="p-2 px-4 bg-white relative justify-center w-[880px] h-[600px]">
       <Tabs defaultValue="stats" className="w-full">
@@ -86,9 +131,56 @@ export default function DashboardView() {
         </TabsContent>
         <TabsContent value="next-events">
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto"></div>
+          {approvedEvents.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+              {approvedEvents.map((event, index) => (
+                <Card
+                  key={index}
+                  id={event.id}
+                  image={Event2Photo}
+                  name={event.name}
+                  description={event.description}
+                  startDate={event.startDate}
+                  endDate={event.endDate}
+                  skills={event.skills}
+                  link="/home"
+                  button_desc="Join Event"
+                  posterId={event.posterId}
+                  status={event.status}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="py-8">No approved events</p>
+          )}
           </div>
         </TabsContent>
+        <TabsContent value="history">
+          <div className="flex justify-center">
+          {completedEvents.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+              {completedEvents.map((event, index) => (
+                <Card
+                  key={index}
+                  id={event.id}
+                  image={Event2Photo}
+                  name={event.name}
+                  description={event.description}
+                  startDate={event.startDate}
+                  endDate={event.endDate}
+                  skills={event.skills}
+                  link="/home"
+                  button_desc="Join Event"
+                  posterId={event.posterId}
+                  status={event.status}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="py-8">No approved events</p>
+          )}
+          </div>
+          </TabsContent>
       </Tabs>
     </div>
   );
