@@ -13,7 +13,7 @@ model User {
   email             String                @unique
   phoneNumber       String
   gender            GenderType
-  occupation        String?
+  occupation        String
   dob               DateTime
   canDrive          Boolean
   ownVehicle        Boolean
@@ -22,6 +22,7 @@ model User {
   feedback          Feedback[]
   residentialStatus ResidentialStatusType
   events            UsersInEvents[]
+  totalHours        Int                   @default(0)
 }
 
 model UsersInEvents {
@@ -57,10 +58,13 @@ model Event {
   name                 String
   description          String
   capacity             Int
+  location             String
   type                 EventType
   registrationDeadline DateTime
   startDate            DateTime
   endDate              DateTime
+  startTime            DateTime
+  endTime              DateTime
   skills               Skills[]
   createdAt            DateTime        @default(now())
   poster               Organisation    @relation(fields: [posterId], references: [id])
