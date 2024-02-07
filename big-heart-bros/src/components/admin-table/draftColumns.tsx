@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import Link from "next/link";
 
 export type Event = {
   id: string;
@@ -31,14 +32,14 @@ export type Event = {
 
 const handleApprove = async (id: String) => {
   try {
-    console.log(id)
+    console.log(id);
     const data = await fetch(`/api/approve/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    window.location.reload()
+    window.location.reload();
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -60,10 +61,8 @@ export const draftColumns: ColumnDef<Event>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(event.id)}
-            >
-              View
+            <DropdownMenuItem>
+              <Link href={`/event/${event.id}`} className="w-full h-full">View</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleApprove(event.id)}>
               Approve

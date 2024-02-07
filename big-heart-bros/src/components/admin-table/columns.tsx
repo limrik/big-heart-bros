@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import Link from "next/link";
 
 export type Event = {
   id: string;
@@ -33,7 +34,7 @@ export const columns: ColumnDef<Event>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const event = row.original;
 
       return (
         <DropdownMenu>
@@ -45,10 +46,8 @@ export const columns: ColumnDef<Event>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              View
+            <DropdownMenuItem>
+              <Link href={`/event/${event.id}`} className="w-full h-full">View</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </DropdownMenuContent>
