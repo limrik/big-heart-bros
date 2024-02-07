@@ -1,8 +1,12 @@
+"use client"
 import Image from "next/image";
 import ProfilePhoto from "../app/assets/profile-photo.png";
 import { Separator } from "./ui/separator";
+import { useSession } from "next-auth/react";
+import { profile } from "console";
 
-export default function Profile() {
+const Profile = () => {
+
   return (
     <div className="p-2 px-4 flex items-center bg-white relative justify-center w-80">
       <Image
@@ -34,4 +38,6 @@ export default function Profile() {
       </div>
     </div>
   );
-}
+};
+
+export default Profile

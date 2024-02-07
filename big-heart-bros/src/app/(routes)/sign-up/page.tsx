@@ -171,16 +171,10 @@ export default function SignUp() {
               <div className="bg-[#FAA0A0] col-span-1 w-80 flex items-center justify-center">
                 <Image src={logo} alt="logo" width={700} height={700} />
               </div>
-              <div className="col-span-2 my-12 mr-20">
+              <div className="col-span-2 my-10  mr-20">
                 <p className="mb-3 text-4xl font-bold font-poppins text-[#8B0000]">
-                  Create Account
+                  You're new here!
                 </p>
-                <div className="flex flex-row font-poppins text-base mb-6">
-                  <p className="mr-2 text-gray-500">Have an account?</p>
-                  <Link href={"/sign-in"} className="underline">
-                    Sign in here.
-                  </Link>
-                </div>
                 <div className="pt-8">
                   <Form {...form}>
                     <form

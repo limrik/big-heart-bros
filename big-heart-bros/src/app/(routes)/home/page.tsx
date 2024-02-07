@@ -1,11 +1,58 @@
+"use client"
 import React from "react";
 import Navbar from "../../../components/navbar";
 import AboutUs from "../../../components/about-us";
 import WaysToGive from "../../../components/ways-to-give";
 import backgroundImage from "../../assets/bigathearts1.png";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
+interface User {
+  id: string;
+  name: string;
+}
+
+const Home = () => {
+
+const { data: session } = useSession();
+const router = useRouter();
+const [user, setUser] = useState<User>();
+
+useEffect(() => {
+  if (session) {
+    const param = session.user?.email;
+
+    const fetchData = async () => {
+      try {
+        console.log(param)
+        const res = await fetch(
+          `http://localhost:3000/api/checkUserByEmail/${param}`
+        );
+        const data = await res.json();
+        setUser(data.name);
+        if (data.message == "User not found") {
+          router.push("/sign-up");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }
+}, [session]);
+
+
+
+
+  const handleSignIn = async () => {
+    await signIn();
+  };
+
+
   return (
     <div>
       <div
@@ -31,12 +78,12 @@ export default function Home() {
                 >
                   Volunteering Opportunities
                 </Link>
-                <Link
+                <button
                   className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8"
-                  href="/sign-in"
+                  onClick={handleSignIn}
                 >
                   Sign In
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -52,3 +99,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
