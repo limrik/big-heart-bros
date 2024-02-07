@@ -106,6 +106,7 @@ const UserDashboard: React.FC = () => {
               {approvedEvents.map((event, index) => (
                 <Card
                   key={index}
+                  id={event.id}
                   image={Event1Photo}
                   name={event.name}
                   description={event.description}
@@ -114,6 +115,7 @@ const UserDashboard: React.FC = () => {
                   skills={event.skills}
                   link="/home"
                   button_desc="Join Event"
+                  posterId={event.posterId}
                   status={event.status}
                 />
               ))}
@@ -129,6 +131,7 @@ const UserDashboard: React.FC = () => {
             {events.map((event, index) => (
               <Card
                 key={index}
+                id={event.id}
                 image={Event1Photo}
                 name={event.name}
                 description={event.description}
@@ -137,6 +140,7 @@ const UserDashboard: React.FC = () => {
                 skills={event.skills}
                 link="/home"
                 button_desc="Join Event"
+                posterId={event.posterId}
                 status={event.status}
               />
             ))}

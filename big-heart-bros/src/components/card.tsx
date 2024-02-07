@@ -20,7 +20,7 @@ type CardComponentProps = {
   button_desc: string;
 
   // From database
-  id?: string;
+  id: string;
   name: string;
   description: string;
   capacity?: number;
@@ -30,9 +30,30 @@ type CardComponentProps = {
   endDate: Date;
   skills: Skills[];
   createdAt?: Date;
-  posterId?: String;
+  posterId: String;
   status: EventStatus;
 };
+
+const handleClick = async (userId, eventId) => {
+  try {
+    const response = await fetch('/api/userEvent/addUserToEvent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId, eventId}),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add user to event');
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error adding user to event:', error.message);
+  }
+}
 
 const CardComponent: React.FC<CardComponentProps> = (props) => {
   console.log(props);
@@ -88,8 +109,8 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
         </div>
       </CardFooter>
       <CardFooter className="flex justify-center">
-        <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00">
-          <Link href={props.link}>{props.button_desc}</Link>
+        <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00" onClick={() => handleClick("DEFAULT_ID", props.id)}>
+          Join Event
         </Button>
       </CardFooter>
     </Card>
