@@ -23,7 +23,9 @@ export type Event = {
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
+  startTime: Date;
   endDate: Date;
+  endTime: Date;
   skills: Skills[];
   createdAt: Date;
   posterId: string;
