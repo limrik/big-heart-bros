@@ -27,7 +27,7 @@ export default function Home() {
               <div className="justify-center flex">
                 <Link
                   className="cursor-pointer border-2 border-white rounded-3xl w-[400px] text-center text-lg sm:text-2xl sm:h-16 h-12 flex justify-center items-center transition hover:bg-[#ff5656] bg-gray-600/70 font-poppins font-semibold mx-8"
-                  href="/user-dashboard"
+                  href="/opportunities"
                 >
                   Volunteering Opportunities
                 </Link>
