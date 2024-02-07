@@ -18,7 +18,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { RadioGroupItem, RadioGroup } from "./ui/radio-group";
 import { Calendar } from "./ui/calendar";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
 import {
   Popover,
   PopoverTrigger,
@@ -77,16 +77,21 @@ const formSchema = z
     description: z.string().min(1, {
       message: "Description cannot be empty",
     }),
+    location: z.string().min(1, {
+      message: "Location must be specified",
+    }),
     capacity: z.number(),
     type: EventType,
     registrationDeadline: z.date(),
     startDate: z.date(),
     endDate: z.date(),
+    startTime: z.date(),
+    endTime: z.date(),
     skills: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: "You have to select at least one item.",
     }),
   })
-  .refine((data) => data.endDate > data.startDate, {
+  .refine((data) => data.endDate >= data.startDate, {
     message: "End date must be greater than start date",
     path: ["endDate"],
   });
@@ -94,7 +99,6 @@ const formSchema = z
 const organizationId = "DEFAULT_ID";
 
 export function EventForm() {
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -110,9 +114,10 @@ export function EventForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const eventData = { ...values, posterId: organizationId };
-  
+
+    console.log("Hello");
     console.log(eventData);
-  
+
     try {
       const response = await fetch(`/api/events/${organizationId}`, {
         method: "POST",
@@ -121,7 +126,7 @@ export function EventForm() {
         },
         body: JSON.stringify(eventData),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("API response:", data);
@@ -167,6 +172,23 @@ export function EventForm() {
                   </FormControl>
                   <FormDescription>
                     Fill in your event requirements.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Location</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Fill in your event location.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -326,6 +348,66 @@ export function EventForm() {
 
             <FormField
               control={form.control}
+              name="startTime"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event Start Time</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "p")
+                          ) : (
+                            <span>Pick a time</span>
+                          )}
+                          <ClockIcon className="ml-auto h-4 w-4" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="py-2 px-4 bg-white">
+                        <input
+                          type="time"
+                          className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 sm:text-sm border-gray-300 rounded-md"
+                          value={
+                            field.value instanceof Date
+                              ? format(field.value, "HH:mm")
+                              : ""
+                          } // Format time as "HH:mm" if field.value is a valid Date object
+                          onChange={(e) => {
+                            const timeValue = e.target.value;
+                            // Check if the entered time is in the correct format (HH:mm)
+                            if (
+                              /^(?:[01]\d|2[0-3]):(?:[0-5]\d)$/.test(timeValue)
+                            ) {
+                              // If the entered time is in the correct format, update the field value
+                              field.onChange(
+                                new Date(`2000-01-01T${timeValue}:00`)
+                              );
+                            } else {
+                              // If the entered time is not in the correct format, do nothing or provide appropriate feedback to the user
+                              // You can choose to clear the field value or display an error message
+                              // field.onChange(null); // Clear the field value
+                            }
+                          }}
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="endDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
@@ -359,6 +441,66 @@ export function EventForm() {
                           onSelect={field.onChange}
                           disabled={(date) => date < new Date()}
                           initialFocus
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="endTime"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event End Time</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "p")
+                          ) : (
+                            <span>Pick a time</span>
+                          )}
+                          <ClockIcon className="ml-auto h-4 w-4" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <div className="py-2 px-4 bg-white">
+                        <input
+                          type="time"
+                          className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 sm:text-sm border-gray-300 rounded-md"
+                          value={
+                            field.value instanceof Date
+                              ? format(field.value, "HH:mm")
+                              : ""
+                          } // Format time as "HH:mm" if field.value is a valid Date object
+                          onChange={(e) => {
+                            const timeValue = e.target.value;
+                            // Check if the entered time is in the correct format (HH:mm)
+                            if (
+                              /^(?:[01]\d|2[0-3]):(?:[0-5]\d)$/.test(timeValue)
+                            ) {
+                              // If the entered time is in the correct format, update the field value
+                              field.onChange(
+                                new Date(`2000-01-01T${timeValue}:00`)
+                              );
+                            } else {
+                              // If the entered time is not in the correct format, do nothing or provide appropriate feedback to the user
+                              // You can choose to clear the field value or display an error message
+                              // field.onChange(null); // Clear the field value
+                            }
+                          }}
                         />
                       </div>
                     </PopoverContent>
