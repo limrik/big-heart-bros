@@ -25,8 +25,14 @@ const SigninButton = () => {
       {/* Placeholder for Sign In button on the server side */}
       <button style={{ visibility: 'hidden' }}></button>
       {/* Actual Sign In button on the client side */}
-      <Button className="test" onClick={handleSignIn}>
-        Sign In
+      <Button className="bg-[#ff5656] rounded-2xl hover:bg-[#ff8585]" onClick={handleSignIn}>
+        <PersonIcon className="w-4 h-4 mr-2" />
+        <Link
+          className="font-poppins cursor-pointer"
+          href="/profile"
+        >
+          Sign In
+        </Link>
       </Button>
     </>
   )}
