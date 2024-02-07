@@ -19,11 +19,14 @@ export type Event = {
   id: string;
   name: string;
   description: string;
+  location: string;
   capacity: number;
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
+  startTime: Date;
   endDate: Date;
+  endTime: Date;
   skills: Skills[];
   createdAt: Date;
   posterId: string;

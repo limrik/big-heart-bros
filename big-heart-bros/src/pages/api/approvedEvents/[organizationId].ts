@@ -6,16 +6,18 @@ interface Event {
   name: string;
   description: string;
   capacity: number;
+  location: string;
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
+  startTime: Date;
   endDate: Date;
+  endTime: Date;
   skills: Skills[];
   createdAt: Date;
   posterId: string;
   status: EventStatus;
 }
-
 type ResponseData = {
   events: Event[];
   message: string;
