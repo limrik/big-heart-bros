@@ -14,8 +14,9 @@ export default async function handler(req, res) {
         },
       });
 
-      if (existingUser) {
-        console.error("User with this email already exists");
+      console.log(existingUser)
+      if (existingUser != null) {
+        console.log("here")
         res.status(400).json({ message: 'User with this email already exists' });
       } else {
         const createdUser = await prisma.user.create({
@@ -28,6 +29,7 @@ export default async function handler(req, res) {
       }
     } catch (error) {
       if (error.code === 'P2002' && error.meta.target.includes('email')) {
+        console.log("p2002 error")
         console.error("User with this email already exists");
         res.status(400).json({ message: 'User with this email already exists' });
       } else {

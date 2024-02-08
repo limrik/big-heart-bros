@@ -33,6 +33,7 @@ interface User {
     skills: Skills[];
     feedback?: Feedback[];
     residentialStatus: ResidentialStatusType;
+    // events: UsersInEvents[];
   }
 
   interface UsersInEvents {

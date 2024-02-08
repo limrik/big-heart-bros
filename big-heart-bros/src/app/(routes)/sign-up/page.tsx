@@ -39,6 +39,7 @@ import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
 import Link from "next/link";
 import { ValueSetter } from "date-fns/parse/_lib/Setter";
 import { Checkbox } from "../../../components/ui/checkbox";
+import { useRouter } from 'next/navigation';
 
 const interests = [
   { id: "CommunityService", label: "Community Service" },
@@ -137,7 +138,7 @@ const formSchema = z
 
 
 export default function SignUp() {
-  const { toast } = useToast();
+  const router = useRouter();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -166,7 +167,8 @@ export default function SignUp() {
       if (response.ok) {
         const data = await response.json();
         console.log("API response:", data);
-        window.location.reload();
+        /*window.location.reload();*/
+        router.push("/home");
       } else {
         console.error("Error making API request:", response.statusText);
       }
