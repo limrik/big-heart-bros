@@ -22,6 +22,7 @@ import { Button } from "../../../components/ui/button";
 import { EventForm } from "../../../components/event-form";
 import { useState, useEffect } from "react";
 import { EventType, Skills, EventStatus } from "@prisma/client";
+import { Skeleton } from "../../../components/ui/skeleton";
 
 interface Event {
   id: string;
@@ -41,6 +42,7 @@ interface Event {
 const OrgDashboard: React.FC = () => {
   const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const organizationId = "DEFAULT_ID";
 
@@ -55,8 +57,10 @@ const OrgDashboard: React.FC = () => {
 
         setApprovedEvents(data.events);
         setEvents(data2.events);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false);
       }
     }
 
@@ -103,57 +107,72 @@ const OrgDashboard: React.FC = () => {
           </Dialog>
         </div>
         <div className="my-4">
-          {approvedEvents.length > 0 ? (
-            <div className="">
-              {approvedEvents.map((event, index) => (
-                <OrgApprovedCard
-                  key={index}
-                  id={event.id}
-                  image={Event1Photo}
-                  name={event.name}
-                  description={event.description}
-                  startDate={event.startDate}
-                  endDate={event.endDate}
-                  skills={event.skills}
-                  link="/home"
-                  button_desc="Join Event"
-                  posterId={event.posterId}
-                  status={event.status}
-                  organisationId={organizationId}
-                />
-              ))}
-            </div>
+          {loading ? (
+            <h3>Loading events...</h3>
           ) : (
-            <p className="py-8">No approved events</p>
+            <div>
+              {approvedEvents.length > 0 ? (
+                <div>
+                  {approvedEvents.map((event, index) => (
+                    <OrgApprovedCard
+                      key={index}
+                      id={event.id}
+                      image={Event1Photo}
+                      name={event.name}
+                      description={event.description}
+                      startDate={event.startDate}
+                      endDate={event.endDate}
+                      skills={event.skills}
+                      link="/home"
+                      button_desc="Join Event"
+                      posterId={event.posterId}
+                      status={event.status}
+                      organisationId={organizationId}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="py-8">No approved events</p>
+              )}
+            </div>
           )}
         </div>
 
         <p className="text-xl font-semibold">Pending Events</p>
         <div className="my-4">
-          {events.length > 0 ? (
-            <div className="">
-              {events.map((event, index) => (
-                <OrgPendingCard
-                  key={index}
-                  id={event.id}
-                  image={Event1Photo}
-                  name={event.name}
-                  description={event.description}
-                  startDate={event.startDate}
-                  endDate={event.endDate}
-                  skills={event.skills}
-                  link="/home"
-                  button_desc="Join Event"
-                  posterId={event.posterId}
-                  status={event.status}
-                  organisationId={organizationId}
-                />
-              ))}
-            </div>
+          {loading ? (
+            <h3>Loading events...</h3>
           ) : (
-            <p className="py-8">No pending events</p>
+            <>
+              <div className="my-4">
+                {events.length > 0 ? (
+                  <div>
+                    {events.map((event, index) => (
+                      <OrgPendingCard
+                        key={index}
+                        id={event.id}
+                        image={Event1Photo}
+                        name={event.name}
+                        description={event.description}
+                        startDate={event.startDate}
+                        endDate={event.endDate}
+                        skills={event.skills}
+                        link="/home"
+                        button_desc="Join Event"
+                        posterId={event.posterId}
+                        status={event.status}
+                        organisationId={organizationId}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="py-8">No pending events</p>
+                )}
+              </div>
+            </>
           )}
-          </div>
+        </div>
+
         </div>
       </div>
   );
