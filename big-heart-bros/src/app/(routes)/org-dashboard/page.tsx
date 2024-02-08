@@ -68,22 +68,6 @@ const UserDashboard: React.FC = () => {
       <div className="w-5/6 mx-auto">
         <div className="flex justify-between my-4 items-center">
           <p className="text-2xl font-semibold">Organisation Dashboard</p>
-
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="flex bg-black rounded-md text-white hover:bg-slate-800">
-                Create new event
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="flex flex-col bg-white ">
-              <DialogHeader>
-                <DialogTitle>Create new event</DialogTitle>
-              </DialogHeader>
-              <div className="flex w-full h-[400px] overflow-y-auto bg-white">
-                <EventForm />
-              </div>
-            </DialogContent>
-          </Dialog>
           <div className="rounded-md p-2 px-4 flex items-center bg-[#fcb6b6] rounded-xl">
             <div className="text-right">
               <p className="text-xl font-semibold ">Omar Apollo</p>
@@ -99,7 +83,24 @@ const UserDashboard: React.FC = () => {
             />
           </div>
         </div>
+        <div className="flex justify-between">
         <p className="text-xl font-semibold">Approved Events</p>
+        <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex bg-black rounded-xl text-white hover:bg-slate-800">
+                Create new event
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="flex flex-col bg-white ">
+              <DialogHeader>
+                <DialogTitle>Create new event</DialogTitle>
+              </DialogHeader>
+              <div className="flex w-full h-[400px] overflow-y-auto bg-white">
+                <EventForm />
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         <div className="flex justify-center">
           {approvedEvents.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
