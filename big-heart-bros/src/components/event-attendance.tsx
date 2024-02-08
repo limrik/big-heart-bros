@@ -38,19 +38,45 @@ import {
 } from "../components/ui/table";
 import EventFeedbackModal from "../components/event-feedback-modal";
 import React, { useState } from "react";
+import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
 
-// Define the User interface
+interface Organisation {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+    events: Event[];
+    feedbackGiven: Feedback[];
+}
+
+interface Event {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  location: string;
+  type: EventType;
+  registrationDeadline: Date;
+  startDate: Date;
+  startTime: Date;
+  endDate: Date;
+  endTime: Date;
+  skills: Skills[];
+  createdAt: Date;
+  posterId: string;
+  status: EventStatus;
+}
+
 interface User {
   id: string;
   name: string;
+  eventId?: string;
+  organisationId?: string;
 }
 
 interface EventAttendanceProps {
   users: User[];
 }
-
-// import React, { useState } from "react";
-// import Modal from "./Modal"; // Import the Modal component
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -124,6 +150,8 @@ export const columns: ColumnDef<User>[] = [
             onClose={closeModal}
             userId={user.id}
             userName={user.name}
+            eventId={user.eventId}
+            organisationId={user.organisationId}
           />
         </>
       );
@@ -131,7 +159,7 @@ export const columns: ColumnDef<User>[] = [
   },
 ];
 
-export default function EventAttendance({ users }: EventAttendanceProps) {
+export default function EventAttendance({ users}: EventAttendanceProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
