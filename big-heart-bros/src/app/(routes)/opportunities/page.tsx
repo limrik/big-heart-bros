@@ -2,7 +2,7 @@
 import React from 'react'
 import Navbar from '../../../components/navbar'
 import { useState, useEffect } from "react";
-import OrgCard from "../../../components/org-card";
+import VolunteerCard from "../../../components/volunteer-card";
 import { EventType, Skills, EventStatus } from "@prisma/client";
 import Event1Photo from "../../assets/volunteer-1.jpg";
 
@@ -42,10 +42,11 @@ useEffect(() => {
   return (
     <div>
         <Navbar/>
-        <div className="flex justify-center">
+        <div className="w-5/6 mx-auto">
+          <p className="font-bold text-xl py-2">Volunteering Opportunities</p>
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (
-              <OrgCard
+              <VolunteerCard
                 key={index}
                 id={event.id}
                 image={Event1Photo}

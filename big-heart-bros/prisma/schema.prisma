@@ -41,6 +41,8 @@ model Feedback {
   userId         String
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String
+  event          Event        @relation(fields: [eventId], references: [id])
+  eventId        String
   message        String
   createdAt      DateTime     @default(now())
 }
@@ -71,6 +73,7 @@ model Event {
   poster               Organisation    @relation(fields: [posterId], references: [id])
   posterId             String
   users                UsersInEvents[]
+  feedbackGiven        Feedback[]
   status               EventStatus     @default(Pending)
 }
 
