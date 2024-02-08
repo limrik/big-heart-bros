@@ -37,6 +37,73 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
 import Link from "next/link";
+import { ValueSetter } from "date-fns/parse/_lib/Setter";
+import { Checkbox } from "../../../components/ui/checkbox";
+
+const interests = [
+  { id: "CommunityService", label: "Community Service" },
+  { id: "EnvironmentalProtection", label: "Environmental Protection" },
+  { id: "HealthcareSupport", label: "Healthcare Support" },
+  { id: "EducationSupport", label: "Education Support" },
+  { id: "YouthMentoring", label: "Youth Mentoring" },
+  { id: "ElderlySupport", label: "Elderly Support" },
+  { id: "ArtsAndCulture", label: "Arts and Culture" },
+  { id: "SportsAndRecreation", label: "Sports and Recreation" },
+  { id: "TechnologyAssistance", label: "Technology Assistance" },
+  { id: "FundraisingEvents", label: "Fundraising Events" },
+  { id: "FoodBankAssistance", label: "Food Bank Assistance" },
+  { id: "HomelessnessSupport", label: "Homelessness Support" },
+] as const;
+
+const skills = [
+  {
+    id: "OnGroundVolunteering",
+    label: "On Ground Volunteering",
+  },
+  {
+    id: "Photography",
+    label: "Photography",
+  },
+  {
+    id: "Videography",
+    label: "Videography",
+  },
+  {
+    id: "ArtsAndCraft",
+    label: "Arts and Craft",
+  },
+  {
+    id: "PerformingSkills",
+    label: "Performing Skills",
+  },
+  {
+    id: "Sports",
+    label: "Sports",
+  },
+  {
+    id: "Teaching",
+    label: "Teaching",
+  },
+  {
+    id: "Leadership",
+    label: "Leadership",
+  },
+  {
+    id: "DigitalMarketing",
+    label: "Digital Marketing",
+  },
+] as const;
+
+const GenderType = z.enum(["Male", "Female"]);
+
+const ResidentialStatusType = z.enum([
+ "SingaporeCitizen", "SingaporePR",
+  /*{ value: "DP", label: "Dependent Pass" },
+  { value: "EP", label: "EP / PEP / DP with LOC / WP / S Pass etc" },
+  { value: "LTVP", label: "Long Term Visitor Pass" },
+  { value: "SP", label: "Student Pass" },
+  { value: "VV", label: "Visitor Visa" }, -- need to change schema for this*/ 
+]);
 
 const formSchema = z
   .object({
@@ -46,41 +113,28 @@ const formSchema = z
     email: z.string().email({
       message: "Please enter a valid email address.",
     }),
-    password: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters." })
-      .refine((value) => /[A-Z]/.test(value), {
-        message: "Password must contain at least one uppercase letter.",
-      })
-      .refine((value) => /[a-z]/.test(value), {
-        message: "Password must contain at least one lowercase letter.",
-      })
-      .refine((value) => /\d/.test(value), {
-        message: "Password must contain at least one number.",
-      })
-      .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
-        message: "Password must contain at least one special character.",
-      }),
-    confirm: z.string(),
-    gender: z.string().min(2, {
-      message: "Please select one",
+    phoneNumber: z.string(),
+    gender: GenderType,
+    residentialStatus: ResidentialStatusType,
+    skills: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one item.",
     }),
-    residentType: z.string().min(2, {
-      message: "Please select one",
+    interests: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one item.",
     }),
-    interests: z.array(z.string()),
-    skills: z.array(z.string()),
     canDrive: z.boolean(),
     ownVehicle: z.boolean(),
     dob: z.date().nullable(),
-    commitment: z.enum(["Adhoc", "Low", "Medium", "High"], {
+    commitmentLevel: z.enum(["Adhoc", "Low", "Medium", "High"], {
       required_error: "You need to select a commitment level",
     }),
+    occupation: z.string()
   })
-  .refine((data) => data.password === data.confirm, {
+  /*.refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
-    path: ["confirm"], // path of error
-  });
+    path: ["confirm"], // path of error*/
+
+
 
 export default function SignUp() {
   const { toast } = useToast();
@@ -91,65 +145,45 @@ export default function SignUp() {
     defaultValues: {
       name: "",
       email: "",
-      password: "",
-      confirm: "",
       interests: [],
       skills: [],
+      occupation: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast({
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    const userData = {...data};
+
+    try {
+      const response = await fetch(`/api/createUser/${data.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API response:", data);
+        window.location.reload();
+      } else {
+        console.error("Error making API request:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error making API request:", error);
+    }
+    }
+
+
+    /*toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    });
-  }
-
-  const fixedInterests = [
-    { value: "communityService", label: "Community Service" },
-    { value: "environmentalProtection", label: "Environmental Protection" },
-    { value: "healthcare", label: "Healthcare Support" },
-    { value: "education", label: "Education Support" },
-    { value: "youthMentoring", label: "Youth Mentoring" },
-    { value: "elderlySupport", label: "Elderly Support" },
-    { value: "artsAndCulture", label: "Arts and Culture" },
-    { value: "sportsAndRecreation", label: "Sports and Recreation" },
-    { value: "technologyAssistance", label: "Technology Assistance" },
-    { value: "fundraising", label: "Fundraising Events" },
-    { value: "foodBank", label: "Food Bank Assistance" },
-    { value: "homelessnessSupport", label: "Homelessness Support" },
-  ];
-
-  const fixedSkills = [
-    { value: "OnGroundVolunteering", label: "On-Ground Volunteering" },
-    { value: "Photography", label: "Photography" },
-    { value: "Videography", label: "Videography" },
-    { value: "ArtsAndCraft", label: "Arts and Craft" },
-    { value: "PerformingSkills", label: "Performing Skills" },
-    { value: "Sports", label: "Sports" },
-    { value: "Teaching", label: "Teaching" },
-    { value: "Leadership", label: "Leadership" },
-    { value: "DigitalMarketing", label: "Digital Marketing" },
-  ];
-
-  const genderOptions = [
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-  ];
-
-  const residentialTypeOptions = [
-    { value: "SingaporeCitizen", label: "Singapore Citizen" },
-    { value: "SingaporePR", label: "Singapore PR" },
-    { value: "DP", label: "Dependent Pass" },
-    { value: "EP", label: "EP / PEP / DP with LOC / WP / S Pass etc" },
-    { value: "LTVP", label: "Long Term Visitor Pass" },
-    { value: "SP", label: "Student Pass" },
-    { value: "VV", label: "Visitor Visa" },
-  ];
+    }); -- what does this do?*/
 
   const yesNoOptions = [
     { value: true, label: "Yes" },
@@ -157,6 +191,7 @@ export default function SignUp() {
   ];
 
   const commitmentLevels = ["AdHoc", "Low", "Medium", "High"];
+
 
   return (
     <div>
@@ -216,46 +251,23 @@ export default function SignUp() {
                           </FormItem>
                         )}
                       />
-                      <FormField
+                                            <FormField
                         control={form.control}
-                        name="password"
+                        name="phoneNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Phone Number</FormLabel>
                             <FormControl>
-                              <Input
-                                type="password"
-                                placeholder="Password"
-                                {...field}
-                              />
+                              <Input placeholder="Phone Number" {...field} />
                             </FormControl>
                             <FormDescription>
-                              Please input a secure password.
+                              Your phone number.
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="confirm"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Confirm Password</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="password"
-                                placeholder="Confirm Password"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Your password must match that of above.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                     
                       <div className="pt-6 font-semibold font-poppins text-2xl">
                         Personal Information
                       </div>{" "}
@@ -310,66 +322,66 @@ export default function SignUp() {
                       <div className="flex flex-wrap">
                         <FormField
                           control={form.control}
+                          name="residentialStatus"
+                          render={({ field }) => (
+                            <FormItem className="mr-12">
+                              <FormLabel>Residential Status</FormLabel>
+                              <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="SingaporeCitizen" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                        SingaporeCitizen
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="SingaporePR" />
+                        </FormControl>
+                        <FormLabel className="font-normal">SingaporePR</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+                          )}
+                        /> 
+                        <FormField
+                          control={form.control}
                           name="gender"
                           render={({ field }) => (
                             <FormItem className="mr-12">
                               <FormLabel>Gender</FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger className="w-[280px]">
-                                    <SelectValue placeholder="Select gender" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-auto">
-                                  {genderOptions.map((gender) => (
-                                    <SelectItem
-                                      key={gender.value}
-                                      value={gender.value}
-                                      className="py-2 px-4 cursor-pointer hover:bg-gray-100"
-                                    >
-                                      {gender.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormDescription>
-                                Choose your gender.
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="residentType"
-                          render={({ field }) => (
-                            <FormItem className="mr-12 mb-6">
-                              <FormLabel>Residential Status</FormLabel>
-                              <Select onValueChange={field.onChange}>
-                                <FormControl>
-                                  <SelectTrigger className="w-[280px]">
-                                    <SelectValue placeholder="Select residential status" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-auto">
-                                  {residentialTypeOptions.map((status) => (
-                                    <SelectItem
-                                      key={status.value}
-                                      value={status.value}
-                                    >
-                                      {status.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormDescription>
-                                Choose your residential status.
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
+                              <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="Male" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Male
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="Female" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Female</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
                           )}
                         />
                         <FormField
@@ -450,7 +462,7 @@ export default function SignUp() {
                       <div className="pt-2 pb-4">
                         <FormField
                           control={form.control}
-                          name="commitment"
+                          name="commitmentLevel"
                           render={({ field }) => (
                             <FormItem className="space-y-4">
                               <FormLabel>Commitment Level</FormLabel>
@@ -482,84 +494,104 @@ export default function SignUp() {
                       </div>
                       <div className="grid-cols-2 grid">
                         <div className="w-96">
-                          <FormField
-                            control={form.control}
-                            name="interests"
-                            render={({ field }) => (
-                              <FormItem className="mr-12 mb-6">
-                                <FormLabel>Interests</FormLabel>
-                                <div className="space-y-2">
-                                  {fixedInterests.map((interest) => (
-                                    <label
-                                      key={interest.value}
-                                      className="flex items-center"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        checked={field.value.includes(
-                                          interest.value
-                                        )}
-                                        onChange={(e) => {
-                                          const updatedValues = e.target.checked
-                                            ? [...field.value, interest.value]
-                                            : field.value.filter(
-                                                (val) => val !== interest.value
-                                              );
-                                          field.onChange(updatedValues);
-                                        }}
-                                        className="mr-2"
-                                      />
-                                      {interest.label}
-                                    </label>
-                                  ))}
-                                </div>
-                                <FormDescription>
-                                  Choose your main areas of interest.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                        <FormField
+              control={form.control}
+              name="interests"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Interests</FormLabel>
+                    <FormDescription>
+                      Select your interests.
+                    </FormDescription>
+                  </div>
+                  {interests.map((interests) => (
+                    <FormField
+                      key={interests.id}
+                      control={form.control}
+                      name="interests"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={interests.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(interests.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, interests.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== interests.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {interests.label}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />  
                         </div>
                         <div>
-                          <FormField
-                            control={form.control}
-                            name="skills"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Skills</FormLabel>
-                                <div className="space-y-2">
-                                  {fixedSkills.map((skill) => (
-                                    <label
-                                      key={skill.value}
-                                      className="flex items-center"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        checked={field.value.includes(
-                                          skill.value
-                                        )}
-                                        onChange={(e) => {
-                                          const updatedValues = e.target.checked
-                                            ? [...field.value, skill.value]
-                                            : field.value.filter(
-                                                (val) => val !== skill.value
-                                              );
-                                          field.onChange(updatedValues);
-                                        }}
-                                        className="mr-2"
-                                      />
-                                      {skill.label}
-                                    </label>
-                                  ))}
-                                </div>
-                                <FormDescription>
-                                  Choose any relevant skills.
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                        <FormField
+              control={form.control}
+              name="skills"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Skills</FormLabel>
+                    <FormDescription>
+                      Select your skills.
+                    </FormDescription>
+                  </div>
+                  {skills.map((skill) => (
+                    <FormField
+                      key={skill.id}
+                      control={form.control}
+                      name="skills"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={skill.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(skill.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, skill.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== skill.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {skill.label}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
                         </div>
                       </div>
                       <Button

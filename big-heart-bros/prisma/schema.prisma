@@ -19,6 +19,7 @@ model User {
   ownVehicle        Boolean
   commitmentLevel   CommitmentLevelType
   skills            Skills[]
+  interests         Interests[]
   feedback          Feedback[]
   residentialStatus ResidentialStatusType
   events            UsersInEvents[]
@@ -112,4 +113,19 @@ enum EventStatus {
   Pending
   Approved
   Completed
+}
+
+enum Interests {
+  CommunityService
+  EnvironmentalProtection
+  HealthcareSupport
+  EducationSupport
+  YouthMentoring
+  ElderlySupport
+  ArtsAndCulture
+  SportsAndRecreation
+  TechnologyAssistance
+  FundraisingEvents
+  FoodBankAssistance
+  HomelessnessSupport
 }

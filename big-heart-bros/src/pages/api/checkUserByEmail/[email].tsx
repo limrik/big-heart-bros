@@ -1,4 +1,4 @@
-import { PrismaClient, Skills, GenderType, CommitmentLevelType, Feedback, ResidentialStatusType } from "@prisma/client";
+import { PrismaClient, Skills, GenderType, CommitmentLevelType, Feedback, ResidentialStatusType, Interests } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface User {
@@ -15,6 +15,7 @@ interface User {
   skills: Skills[];
   feedback?: Feedback[];
   residentialStatus: ResidentialStatusType;
+  interests: Interests[];
   // events: UsersInEvents[];
 }
 
