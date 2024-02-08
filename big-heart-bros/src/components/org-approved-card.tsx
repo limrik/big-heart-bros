@@ -50,7 +50,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
 
   return (
-    <Card className={cn("w-full bg-white rounded-lg shadow-md")}>
+    <Card className={cn("w-full bg-white rounded-lg shadow-md my-2")}>
       <CardHeader>
         <div className="flex justify-between">
           <div className="w-1/2">
@@ -95,6 +95,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
             <p className="text-sm">Location: </p>
           </div>
           <div>
+          <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
           </div>
           </div>
         </div>

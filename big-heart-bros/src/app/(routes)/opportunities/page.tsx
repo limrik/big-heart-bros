@@ -44,7 +44,7 @@ useEffect(() => {
     <div>
         <Navbar/>
         <div className="w-5/6 mx-auto">
-          <p className="font-bold text-xl py-2">Volunteering Opportunities</p>
+          <p className="font-bold text-2xl py-10">Volunteering Opportunities</p>
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (
               <VolunteerCard

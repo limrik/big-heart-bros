@@ -46,11 +46,17 @@ type CardComponentProps = {
   status: EventStatus;
   organisationId: string;
 };
-const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
+
+const PendingEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
 
+  // @dayn to link to event page
+  const nav = () => {
+    console.log("Go to event page")
+  }
+
   return (
-    <Card className={cn("w-full bg-white rounded-lg shadow-md")}>
+    <Card className={cn("w-full bg-white rounded-lg shadow-md my-2")}>
       <CardHeader>
         <div className="flex justify-between">
           <div className="w-1/2">
@@ -95,82 +101,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
             <p className="text-sm">Location: </p>
           </div>
           <div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
-            </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>{props.name}</DialogTitle>
-                <DialogDescription>
-                  {props.description}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex items-center space-x-2">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="link" className="sr-only">
-                    Link
-                  </Label>
-                  { props.registrationDeadline ? 
-                    <DialogDescription>
-                      Registration deadline: {props.registrationDeadline.toLocaleDateString()}
-                    </DialogDescription> : null
-                  }
-                  { props.startDate && props.endDate ?
-                  <DialogDescription>
-                    <p>
-                    Capacity: {props.capacity}
-                    </p>
-                    <p>
-                      Location:
-                    </p>
-                    <p>
-                      From:{" "}
-                      {new Date(props.startDate).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                      {" "} to {" "}
-                      {new Date(props.endDate).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </DialogDescription> : null
-                  }
-                  <DialogDescription>
-                  <div className="grid grid-cols-auto-1fr gap-2">
-                    <div className="col-span-full">
-                      <h3>Skills Wanted:</h3>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      {props.skills.map((skill, index) => (
-                        <div
-                          key={index}
-                          className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
-                        >
-                          {skill}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  </DialogDescription>
-                  <DialogDescription>
-                    Contact: 
-                  </DialogDescription>
-                </div>
-              </div>
-              <DialogFooter className="sm:justify-start">
-                <DialogClose className="flex">
-                  <Button className="w-full my-1 bg-gray-400 rounded-2xl text-white" variant="secondary">
-                    Close
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+            <Button onClick={nav} className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
           </div>
           </div>
         </div>
@@ -179,4 +110,4 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   );
 };
 
-export default CompletedEventCard;
+export default PendingEventCard;

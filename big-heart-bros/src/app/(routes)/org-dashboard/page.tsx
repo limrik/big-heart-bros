@@ -102,7 +102,7 @@ const OrgDashboard: React.FC = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <div>
+        <div className="my-4">
           {approvedEvents.length > 0 ? (
             <div className="">
               {approvedEvents.map((event, index) => (
@@ -129,7 +129,7 @@ const OrgDashboard: React.FC = () => {
         </div>
 
         <p className="text-xl font-semibold">Pending Events</p>
-        <div>
+        <div className="my-4">
           {events.length > 0 ? (
             <div className="">
               {events.map((event, index) => (
