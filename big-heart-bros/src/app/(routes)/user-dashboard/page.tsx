@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Navbar from "../../../components/navbar";
-import Card from "../../../components/user-card";
+import Card from "../../../components/user-upcoming-card";
 import UserCard from "../../../components/stat-card";
 import Profile from "../../../components/profile";
 import Achievements from "../../../components/achievements";

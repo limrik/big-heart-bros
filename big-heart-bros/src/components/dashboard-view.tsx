@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Input } from "./ui/input";
 
-import Card from "./user-card";
+import UserUpcomingCard from "./user-upcoming-card";
 import Event2Photo from "../app/assets/volunteer-2.jpg";
 import { EventType, Skills, EventStatus } from "@prisma/client";
 
@@ -137,7 +137,7 @@ export default function DashboardView() {
           {upcomingEvents?.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
               {upcomingEvents.map((event, index) => (
-                <Card
+                <UserUpcomingCard
                   key={index}
                   id={event.id}
                   image={Event2Photo}
