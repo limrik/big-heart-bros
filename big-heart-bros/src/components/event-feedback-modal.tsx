@@ -5,6 +5,8 @@ interface EventFeedbackModalProps {
   onClose: () => void;
   userId: string;
   userName: string;
+  eventId?: string;
+  organisationId?: string;
 }
 
 const EventFeedbackModal: React.FC<EventFeedbackModalProps> = ({
@@ -12,13 +14,33 @@ const EventFeedbackModal: React.FC<EventFeedbackModalProps> = ({
   onClose,
   userId,
   userName,
+  eventId,
+  organisationId
 }) => {
   const [feedback, setFeedback] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle form submission here
-    console.log("Submitting feedback:", feedback);
+    try {
+      const response = await fetch(`/api/feedback/${organisationId}/${userId}/${eventId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: feedback }),
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to submit feedback");
+      }
+
+      console.log("Feedback submitted successfully");
+    } catch (error) {
+      console.error("Error submitting feedback:", error.message);
+    }
+
+    // Reset the input field value if needed
+    setFeedback("");
     // Close the modal
     onClose();
   };

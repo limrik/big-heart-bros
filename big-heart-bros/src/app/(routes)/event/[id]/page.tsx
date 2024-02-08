@@ -1,11 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { EventType, Skills, EventStatus } from "@prisma/client";
+import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
 import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
+
+interface Organisation {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+    events: Event[];
+    feedbackGiven: Feedback[];
+}
 
 interface Event {
   id: string;
@@ -28,11 +37,14 @@ interface Event {
 interface User {
   id: string;
   name: string;
+  eventName?: string;
+  organisationName?: string;
 }
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: 	{ id: string}}) {
   const [event, setEvent] = useState<Event>();
   const [users, setUsers] = useState<User[]>([]);
+  const [organisation, setOrganisation] = useState<Organisation>();
 
   useEffect(() => {
     async function fetchData() {
@@ -43,8 +55,10 @@ export default function Page({ params }: { params: { id: string } }) {
         const res2 = await fetch(
           `http://localhost:3000/api/usersByEventId/${params.id}`
         );
+        
         const data = await res.json();
         const data2 = await res2.json();
+        
         setEvent(data.event);
         setUsers(data2.users);
       } catch (error) {
@@ -54,6 +68,39 @@ export default function Page({ params }: { params: { id: string } }) {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    async function fetchOrganisation() {
+      try {
+        if (event) {
+          const res = await fetch(
+            `http://localhost:3000/api/organisation/${event.posterId}`
+          );
+          const data = await res.json();
+          setOrganisation(data.organisation);
+        }
+      } catch (error) {
+        console.error("Error fetching organisation:", error);
+      }
+    }
+
+    fetchOrganisation();
+  }, [event]);
+
+  useEffect(() => {
+    updateUsers();
+  }, [organisation])
+
+  const updateUsers = () => {
+    const updatedUsers = users.map((user: User) => ({
+      ...user,
+      eventId: event?.id, // Assigning event name to eventName field
+      organisationId: organisation?.id, // You need to replace this with the actual organisation name
+    }));
+
+    console.log(updatedUsers)
+    setUsers(updatedUsers);
+  }
 
   return (
     <div>
@@ -91,7 +138,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
           <div className="text-center">
             <p className="font-medium text-xl py-4">Attendance</p>
-            <EventAttendance users={users} />
+            <EventAttendance users={users}/>
           </div>
         </div>
       </div>
