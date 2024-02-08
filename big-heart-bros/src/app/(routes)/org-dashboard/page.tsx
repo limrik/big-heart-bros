@@ -2,7 +2,8 @@
 
 import React from "react";
 import Navbar from "../../../components/navbar";
-import OrgCard from "../../../components/org-card";
+import OrgApprovedCard from "../../../components/org-approved-card";
+import OrgPendingCard from "../../../components/org-pending-card";
 import Image from "next/image";
 import ProfilePhoto from "../../assets/profile-photo.png";
 import Event1Photo from "../../assets/volunteer-1.jpg";
@@ -37,7 +38,7 @@ interface Event {
   status: EventStatus;
 }
 
-const UserDashboard: React.FC = () => {
+const OrgDashboard: React.FC = () => {
   const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -105,7 +106,7 @@ const UserDashboard: React.FC = () => {
           {approvedEvents.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
               {approvedEvents.map((event, index) => (
-                <OrgCard
+                <OrgApprovedCard
                   key={index}
                   id={event.id}
                   image={Event1Photo}
@@ -118,6 +119,7 @@ const UserDashboard: React.FC = () => {
                   button_desc="Join Event"
                   posterId={event.posterId}
                   status={event.status}
+                  organisationId={organizationId}
                 />
               ))}
             </div>
@@ -128,28 +130,33 @@ const UserDashboard: React.FC = () => {
 
         <p className="text-xl font-semibold">Pending Events</p>
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-            {events.map((event, index) => (
-              <OrgCard
-                key={index}
-                id={event.id}
-                image={Event1Photo}
-                name={event.name}
-                description={event.description}
-                startDate={event.startDate}
-                endDate={event.endDate}
-                skills={event.skills}
-                link="/home"
-                button_desc="View Event"
-                posterId={event.posterId}
-                status={event.status}
-              />
-            ))}
+          {events.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+              {events.map((event, index) => (
+                <OrgPendingCard
+                  key={index}
+                  id={event.id}
+                  image={Event1Photo}
+                  name={event.name}
+                  description={event.description}
+                  startDate={event.startDate}
+                  endDate={event.endDate}
+                  skills={event.skills}
+                  link="/home"
+                  button_desc="Join Event"
+                  posterId={event.posterId}
+                  status={event.status}
+                  organisationId={organizationId}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="py-8">No pending events</p>
+          )}
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
-export default UserDashboard;
+export default OrgDashboard;
