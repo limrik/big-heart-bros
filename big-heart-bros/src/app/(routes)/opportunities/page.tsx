@@ -3,7 +3,7 @@ import React from 'react'
 import Navbar from '../../../components/navbar'
 import { useState, useEffect } from "react";
 import VolunteerCard from "../../../components/volunteer-card";
-import { EventType, Skills, EventStatus } from "@prisma/client";
+import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 import Event1Photo from "../../assets/volunteer-1.jpg";
 
 interface Event {
@@ -19,6 +19,7 @@ interface Event {
     createdAt: Date;
     posterId: string;
     status: EventStatus;
+    users: UsersInEvents[];
   }
 
 function page() {
@@ -43,7 +44,7 @@ useEffect(() => {
     <div>
         <Navbar/>
         <div className="w-5/6 mx-auto">
-          <p className="font-bold text-xl py-2">Volunteering Opportunities</p>
+          <p className="font-bold text-2xl py-10">Volunteering Opportunities</p>
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
             {events.map((event, index) => (
               <VolunteerCard
@@ -59,6 +60,10 @@ useEffect(() => {
                 button_desc="View Event"
                 posterId={event.posterId}
                 status={event.status}
+                currUsersLength={event.users ? event.users.length : 0}
+                capacity={event.capacity ?? 0}
+                location={event.location}
+                registrationDeadline={event.registrationDeadline}
               />
             ))}
           </div>

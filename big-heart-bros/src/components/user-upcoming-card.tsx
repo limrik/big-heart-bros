@@ -34,7 +34,7 @@ type CardComponentProps = {
   id: string;
   name: string;
   description: string;
-  capacity?: number;
+  capacity: number;
   type?: EventType;
   registrationDeadline?: Date;
   startDate: Date;
@@ -43,6 +43,8 @@ type CardComponentProps = {
   createdAt?: Date;
   posterId: String;
   status: EventStatus;
+  currUsersLength: number;
+  location: String;
 };
 
 const handleClick = async (userId, eventId) => {
@@ -131,6 +133,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
             {props.description}
           </DialogDescription>
         </DialogHeader>
+        <hr/>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
             <Label htmlFor="link" className="sr-only">
@@ -138,19 +141,28 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
             </Label>
             { props.registrationDeadline ? 
               <DialogDescription>
-                Registration deadline: {props.registrationDeadline.toLocaleDateString()}
+                <p>
+                  <span className="font-bold">Registration Deadline:{" "}</span>
+                  {new Date(props.registrationDeadline).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
               </DialogDescription> : null
             }
             { props.startDate && props.endDate ?
             <DialogDescription>
               <p>
-              Capacity: {props.capacity}
+                <span className="font-bold">Current Capacity: </span>
+                {props.currUsersLength} / {props.capacity}
+              </p>
+              <progress className="w-1/2" value={props.currUsersLength / props.capacity} />
+              <p>
+                <span className="font-bold">Location: </span>{props.location}
               </p>
               <p>
-                Location:
-              </p>
-              <p>
-                From:{" "}
+                <span className="font-bold">From:{" "}</span>
                 {new Date(props.startDate).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -168,7 +180,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
             <DialogDescription>
             <div className="grid grid-cols-auto-1fr gap-2">
               <div className="col-span-full">
-                <h3>Skills Wanted:</h3>
+                <h3 className="font-bold">Skills Wanted:</h3>
               </div>
               <div className="grid grid-cols-3 gap-2">
                 {props.skills.map((skill, index) => (
@@ -183,13 +195,16 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
             </div>
             </DialogDescription>
             <DialogDescription>
-              Contact: 
+              <span className="font-bold">Contact: </span>
             </DialogDescription>
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose className="flex">
-            <Button className="w-full my-1 bg-gray-400 rounded-2xl text-white" variant="secondary">
+            <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400" type="button">
+              Join Event
+            </Button>
+            <Button className="w-full my-1 bg-gray-400 rounded-2xl text-white ml-4" variant="secondary">
               Close
             </Button>
           </DialogClose>

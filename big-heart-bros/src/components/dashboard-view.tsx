@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 
 import UserUpcomingCard from "./user-upcoming-card";
 import Event2Photo from "../app/assets/volunteer-2.jpg";
-import { EventType, Skills, EventStatus } from "@prisma/client";
+import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
@@ -31,6 +31,8 @@ interface Event {
   createdAt: Date;
   posterId: string;
   status: EventStatus;
+  users: UsersInEvents[];
+  location: String;
 }
 
 const currentDate = new Date();
@@ -150,6 +152,10 @@ export default function DashboardView() {
                   button_desc="View Event"
                   posterId={event.posterId}
                   status={event.status}
+                  currUsersLength={event.users ? event.users.length : 0}
+                  capacity={event.capacity ?? 0}
+                  location={event.location}
+                  registrationDeadline={event.registrationDeadline}
                 />
               ))}
             </div>
@@ -172,6 +178,10 @@ export default function DashboardView() {
                   endDate={event.endDate}
                   skills={event.skills}
                   organisationId={event.posterId}
+                  currUsersLength={event.users ? event.users.length : 0}
+                  capacity={event.capacity ?? 0}
+                  location={event.location}
+                  registrationDeadline={event.registrationDeadline}
                 />
               ))}
             </div>
