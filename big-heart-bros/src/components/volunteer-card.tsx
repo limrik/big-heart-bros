@@ -18,14 +18,14 @@ import {
   DialogTrigger,
 } from "./ui/dialog"
 
-import Link from "next/link";
+
 import Image, { StaticImageData } from "next/image";
 
 import { EventType, Skills, EventStatus} from "@prisma/client";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { CopyIcon } from "@radix-ui/react-icons";
+import { Progress } from "./ui/progress";
+import React from "react";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -36,15 +36,17 @@ type CardComponentProps = {
   id: string;
   name: string;
   description: string;
-  capacity?: number;
+  capacity: number;
   type?: EventType;
-  registrationDeadline?: Date;
+  registrationDeadline: Date;
   startDate: Date;
   endDate: Date;
   skills: Skills[];
   createdAt?: Date;
   posterId: String;
   status: EventStatus;
+  currUsersLength: number;
+  location: String;
 };
 
 const handleView = async (userId, eventId) => {
@@ -75,6 +77,7 @@ const handleClick = async (userId, eventId) => {
 
 const CardComponent: React.FC<CardComponentProps> = (props) => {
   console.log(props);
+
   return (
     <Card className={cn("w-[380px] bg-[#ffffff] rounded-3xl my-4")}>
       <CardHeader>
@@ -138,6 +141,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
             {props.description}
           </DialogDescription>
         </DialogHeader>
+        <hr/>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
             <Label htmlFor="link" className="sr-only">
@@ -145,20 +149,28 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
             </Label>
             { props.registrationDeadline ? 
               <DialogDescription>
-                Registration deadline: {props.registrationDeadline.toLocaleDateString()}
+                <p>
+                  <span className="font-bold">Registration Deadline:{" "}</span>
+                  {new Date(props.registrationDeadline).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
               </DialogDescription> : null
             }
             { props.startDate && props.endDate ?
             <DialogDescription>
               <p>
-              Capacity: {props.capacity}
+                <span className="font-bold">Current Capacity: </span>
+                {props.currUsersLength} / {props.capacity}
               </p>
-              <br></br>
+              <progress className="w-1/2" value={props.currUsersLength / props.capacity} />
               <p>
-                Location:
+                <span className="font-bold">Location: </span>{props.location}
               </p>
               <p>
-                From:{" "}
+                <span className="font-bold">From:{" "}</span>
                 {new Date(props.startDate).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -176,7 +188,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
             <DialogDescription>
             <div className="grid grid-cols-auto-1fr gap-2">
               <div className="col-span-full">
-                <h3>Skills Wanted:</h3>
+                <h3 className="font-bold">Skills Wanted:</h3>
               </div>
               <div className="grid grid-cols-3 gap-2">
                 {props.skills.map((skill, index) => (
@@ -191,7 +203,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
             </div>
             </DialogDescription>
             <DialogDescription>
-              Contact: 
+              <span className="font-bold">Contact: </span>
             </DialogDescription>
           </div>
         </div>

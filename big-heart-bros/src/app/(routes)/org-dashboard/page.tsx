@@ -102,9 +102,9 @@ const OrgDashboard: React.FC = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="flex justify-center">
+        <div>
           {approvedEvents.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+            <div className="">
               {approvedEvents.map((event, index) => (
                 <OrgApprovedCard
                   key={index}
@@ -129,9 +129,9 @@ const OrgDashboard: React.FC = () => {
         </div>
 
         <p className="text-xl font-semibold">Pending Events</p>
-        <div className="flex justify-center">
+        <div>
           {events.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+            <div className="">
               {events.map((event, index) => (
                 <OrgPendingCard
                   key={index}
