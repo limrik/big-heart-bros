@@ -9,7 +9,6 @@ import { cn } from "../lib/utils";
 
 import { Button } from "./ui/button";
 
-import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 
 import { EventType, Skills, EventStatus} from "@prisma/client";
@@ -110,7 +109,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
       </CardFooter>
       <CardFooter className="flex justify-center">
         <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-00" onClick={() => handleClick("DEFAULT_ID", props.id)}>
-          Join Event
+          View Event
         </Button>
       </CardFooter>
     </Card>
