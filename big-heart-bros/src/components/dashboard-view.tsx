@@ -155,7 +155,7 @@ export default function DashboardView({ userId }) {
           </TabsList>
         </div>
         <TabsContent value="stats">
-          <div className="flex justify-center h-[300px] w-full">
+          <div className="flex justify-center h-[300px] w-full mb-16">
             {" "}
             <div>
               <h2 className="text-lg font-semibold ml-6 my-2">Monthly Hours</h2>
