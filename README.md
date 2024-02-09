@@ -22,7 +22,7 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 
 ## Sign In Page
 <div style="display: flex;">
-  <img src="big-heart-bros/docs/images/sign-up" alt="Sign Up Page" width="40%"/>
+  <img src="big-heart-bros/docs/images/sign-up.jpg" alt="Sign Up Page" width="40%"/>
 </div>
 Purpose: Comprehensive user page for meaningful data collection.<br/>
 Usage: Users can fill up the input fields and sign up as a user.
@@ -39,9 +39,9 @@ and join the event, viewing other info such as capacity, and registration deadli
 ## User Dashboard
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="40%"/>
-  <img src="big-heart-bros/docs/images/upcoming-events.png" alt="Upcoming Events" width="40%"/>
-  <img src="big-heart-bros/docs/images/gen-test-1.png" alt="Generate Testimonial 1" width="40%"/>
-  <img src="big-heart-bros/docs/images/gen-test-2.png" alt="Generate Testimonial 2" width="40%"/>
+  <img src="big-heart-bros/docs/images/upcoming-events.jpg" alt="Upcoming Events" width="40%"/>
+  <img src="big-heart-bros/docs/images/gen-test-1.jpg" alt="Generate Testimonial 1" width="40%"/>
+  <img src="big-heart-bros/docs/images/gen-test-2.jpg" alt="Generate Testimonial 2" width="40%"/>
 </div>
 Purpose: Gamify volunteering and allowing users to get achievements and see their stats (from volunteering).<br/>
 Usage: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events" Users can also view feedback and have a GenAI testimonial under "Feedback".
