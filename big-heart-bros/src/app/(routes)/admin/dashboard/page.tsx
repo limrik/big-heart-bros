@@ -2,9 +2,7 @@ import React from "react";
 import Navbar from "../../../../components/navbar";
 import Image from "next/image";
 import ProfilePhoto from "../../../assets/profile-photo.png";
-import { EventType, Skills } from "@prisma/client";
 import AdminTable from "../../../../components/admin-table/page";
-import AdminCard from "../../../../components/admin-card";
 
 const UserDashboard: React.FC = () => {
   return (
