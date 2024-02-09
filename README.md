@@ -7,8 +7,8 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 -   Issue: Tedious process to sign and liase with volunteeers, and meaningful data collection
   
 -   Additional Features:
-1.   Recommender system to allow volunteers to have a more personalised experience
-2. AI-generated testimonial for volunteers that will consolidate their volunteering experiences
+1. Recommender system to allow volunteers to have a more personalised experience
+2. GenAI tools for testimonial for volunteers that will consolidate their volunteering experiences
 3. Personalised statistics for volunteers
 4. Sign-up and sign-in feature for volunteers (and data collection)
 
@@ -32,7 +32,7 @@ Usage: Users can fill up the input fields and sign up as a user. Users are also 
   <img src="big-heart-bros/docs/images/opportunities.png" alt="Volunteering Page" width="40%"/>
   <img src="big-heart-bros/docs/images/event-sign-up.png" alt="Volunteering Sign up" width="40%"/>
 </div>
-Purpose: Provide users with most crucial information.<br/>
+Purpose: Generates personalised events page, with a recommender system to match skills wanted by organisations with those users have.<br/>
 Usage: Users can click on "View Event", which will lead to a pop-up event-sign page, where users can view more information
 and join the event, viewing other info such as capacity, and registration deadline.
 
