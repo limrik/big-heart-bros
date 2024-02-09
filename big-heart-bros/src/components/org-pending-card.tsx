@@ -35,6 +35,7 @@ type CardComponentProps = {
   id: string;
   name: string;
   description: string;
+  location: string;
   capacity?: number;
   type?: EventType;
   registrationDeadline?: Date;
@@ -45,7 +46,6 @@ type CardComponentProps = {
   posterId: String;
   status: EventStatus;
   organisationId: string;
-  location: string;
 };
 
 const PendingEventCard: React.FC<CardComponentProps> = (props) => {

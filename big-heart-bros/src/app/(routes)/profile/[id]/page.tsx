@@ -9,6 +9,7 @@ import Achievements from "../../../../components/achievements";
 import DashboardView from "../../../../components/dashboard-view";
 import Event1Photo from "../../assets/volunteer-1.jpg";
 import Event2Photo from "../../assets/volunteer-2.jpg";
+import UserFeedback from "../../../../components/user-feedback";
 
 export default function UserDashboard({ params }: { params: { id: string } }) {
   return (

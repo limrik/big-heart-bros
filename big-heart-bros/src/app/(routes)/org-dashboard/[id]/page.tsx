@@ -28,6 +28,7 @@ interface Event {
   id: string;
   name: string;
   description: string;
+  location: string;
   capacity: number;
   location: string;
   type: EventType;
@@ -158,6 +159,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         image={Event1Photo}
                         name={event.name}
                         description={event.description}
+                        location={event.location}
                         startDate={event.startDate}
                         endDate={event.endDate}
                         skills={event.skills}

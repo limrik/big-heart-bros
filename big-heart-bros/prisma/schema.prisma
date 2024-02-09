@@ -19,7 +19,7 @@ model User {
   ownVehicle        Boolean
   commitmentLevel   CommitmentLevelType
   skills            Skills[]
-  interests         Interests[]
+  interests         Interests[]           @default([])
   feedback          Feedback[]
   residentialStatus ResidentialStatusType
   events            UsersInEvents[]
@@ -27,10 +27,11 @@ model User {
 }
 
 model UsersInEvents {
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  event    Event   @relation(fields: [eventId], references: [id])
+  eventId  String
+  attended Boolean
 
   @@id([userId, eventId])
 }
@@ -51,6 +52,7 @@ model Organisation {
   id            String     @id @default(uuid())
   name          String
   email         String
+  description   String     @default("")
   phoneNumber   String
   events        Event[]
   feedbackGiven Feedback[]
@@ -69,6 +71,7 @@ model Event {
   startTime            DateTime
   endTime              DateTime
   skills               Skills[]
+  interests            Interests[]     @default([])
   createdAt            DateTime        @default(now())
   poster               Organisation    @relation(fields: [posterId], references: [id])
   posterId             String
@@ -85,6 +88,11 @@ enum GenderType {
 enum ResidentialStatusType {
   SingaporeCitizen
   SingaporePR
+  DP
+  EP
+  LTVP
+  SP
+  VV
 }
 
 enum CommitmentLevelType {
