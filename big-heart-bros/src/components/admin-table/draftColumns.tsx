@@ -65,10 +65,20 @@ export const draftColumns: ColumnDef<Event>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`/event/${event.id}`} className="w-full h-full">View</Link>
+              <Link
+                href={`/admin/event/${event.id}/`}
+                className="w-full h-full"
+              >
+                View
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleApprove(event.id)}>
-              Approve
+            <DropdownMenuItem>
+              <div
+                className="cursor-pointer"
+                onClick={() => handleApprove(event.id)}
+              >
+                Approve
+              </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </DropdownMenuContent>
