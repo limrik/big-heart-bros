@@ -1,7 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
+import {
+  EventType,
+  EventStatus,
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
 import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
@@ -37,8 +47,20 @@ interface Event {
 interface User {
   id: string;
   name: string;
-  eventName?: string;
-  organisationName?: string;
+  email: string;
+  phoneNumber: string;
+  gender: GenderType;
+  occupation?: string | null;
+  dob: Date;
+  canDrive: boolean;
+  ownVehicle: boolean;
+  commitmentLevel: CommitmentLevelType;
+  skills: Skills[];
+  feedback?: Feedback[];
+  residentialStatus: ResidentialStatusType;
+  interests: Interests[];
+  eventId?: string;
+  organisationId?: string;
 }
 
 export default function Page({ params }: { params: { id: string } }) {

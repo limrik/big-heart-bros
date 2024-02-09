@@ -38,6 +38,7 @@ export default async function handler(
       data: {
         userId: userId,
         eventId: eventId,
+        attended: false
       },
     });
 
