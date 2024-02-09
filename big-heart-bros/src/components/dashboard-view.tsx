@@ -97,12 +97,12 @@ const data = {
   ],
 };
 
-export default function DashboardView() {
+export default function DashboardView({ userId }) {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [completedEvents, setCompletedEvents] = useState<Event[]>([]);
   const [feedback, setFeedback] = useState<Feedback[]>([]);
 
-  const userId = "DEFAULT_ID";
+  // const userId = "DEFAULT_ID";
 
   useEffect(() => {
     async function fetchData() {
@@ -116,8 +116,6 @@ export default function DashboardView() {
         );
         const data2 = await res2.json();
 
-        console.log(data2.feedback);
-
         const approved = data.events.filter(
           (event) => event.status === "Approved"
         );
@@ -127,6 +125,7 @@ export default function DashboardView() {
 
         setUpcomingEvents(approved);
         setCompletedEvents(completed);
+
         setFeedback(data2.feedback);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -216,6 +215,10 @@ export default function DashboardView() {
                     endDate={event.endDate}
                     skills={event.skills}
                     organisationId={event.posterId}
+                    // currUsersLength={2} // event.users ? event.users.length : 0}
+                    // capacity={event.capacity ?? 0}
+                    // location={event.location}
+                    // registrationDeadline={event.registrationDeadline}
                   />
                 ))}
               </div>

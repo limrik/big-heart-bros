@@ -25,6 +25,7 @@ import { EventType, Skills, EventStatus } from "@prisma/client";
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import Link from "next/link";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -45,6 +46,7 @@ type CardComponentProps = {
   posterId: String;
   status: EventStatus;
   organisationId: string;
+  location: string;
 };
 const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
@@ -70,33 +72,34 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
                 </CardTitle>
                 <CardDescription className="text-sm text-gray-500">
                   {organisationName}
-                  <p className="text-sm text-gray-700 mb-2">{props.description}</p>
+                  <p className="text-sm text-gray-700 mb-2">
+                    {props.description}
+                  </p>
                 </CardDescription>
               </div>
             </div>
           </div>
           <div className="flex px-4 w-1/2 justify-between">
             <div>
-            
-            <p className="text-sm text-gray-700">
-              From:{" "}
-              {new Date(props.startDate).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-              {" "} to {" "}
-              {new Date(props.endDate).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-            </p>
-            <p className="text-sm">Location: </p>
-          </div>
-          <div>
-          <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
-          </div>
+              <p className="text-sm text-gray-700">
+                From:{" "}
+                {new Date(props.startDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                to{" "}
+                {new Date(props.endDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+              <p className="text-sm">Location: {props.location} </p>
+            </div>
+            <div className="w-24 my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400 text-center items-center justify-center flex h-9">
+              <Link href={`/event/${props.id}`}>View Event</Link>
+            </div>
           </div>
         </div>
       </CardHeader>

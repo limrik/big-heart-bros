@@ -55,9 +55,31 @@ export default function EventDetails({
   endTime,
   location,
   deadline,
+  status,
 }) {
   const deadlineDate = new Date(deadline);
   deadlineDate.setHours(23, 59, 0, 0);
+
+  let statusColor = "";
+  let statusIcon = "";
+
+  switch (status) {
+    case "Pending":
+      statusColor = "bg-yellow-500";
+      statusIcon = "⏳";
+      break;
+    case "Approved":
+      statusColor = "bg-green-500";
+      statusIcon = "✅";
+      break;
+    case "Completed":
+      statusColor = "bg-blue-500";
+      statusIcon = "🎉";
+      break;
+    default:
+      statusColor = "bg-gray-500";
+      statusIcon = "❓";
+  }
 
   return (
     <div className="p-8 bg-white relative w-3/4 shadow-xl shadow-gray-4 00 text-black">
@@ -125,19 +147,25 @@ export default function EventDetails({
               <p>{location}</p>
             </div>
           </div>{" "}
-          {/* </div>{" "} */}
         </div>{" "}
         <div className="flex flex-row items-center justify-center">
-          <Separator orientation="vertical" className="mx-2 h-full" />
-          <div className="w-full text-center">
-            <p className="text-gray-600 my-1">Join our Whatsapp group here!</p>
-            <div className="mx-auto" style={{ maxWidth: "250px" }}>
-              <Image src={qrcode} alt="qr-code" width={250} />
+          <Separator orientation="vertical" className="mx-8 h-full" />
+          <div className="w-full text-center justify-center items-center">
+            <div
+              className={`rounded-xl py-2 my-4 px-4 text-white text-lg font-semibold ${statusColor} shadow-lg text-center`}
+            >
+              <span className="mr-2">{statusIcon}</span>
+              {status}
+            </div>
+            <p className="text-gray-600 my-1 text-sm">
+              Join our Whatsapp group here!
+            </p>
+            <div className="mx-auto" style={{ maxWidth: "200px" }}>
+              <Image src={qrcode} alt="qr-code" width={200} />
             </div>
           </div>
         </div>
       </div>{" "}
-      <div></div>
     </div>
   );
 }
