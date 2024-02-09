@@ -44,7 +44,7 @@ and join the event, viewing other info such as capacity, and registration deadli
   <img src="big-heart-bros/docs/images/gen-test-2.jpg" alt="Generate Testimonial 2" width="40%"/>
 </div>
 Purpose: Gamify volunteering and allowing users to get achievements and see their stats (from volunteering).<br/>
-Usage: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events" Users can also view feedback and have a GenAI testimonial under "Feedback".
+Usage: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events". We have integrated our web application with the OpenAI API allow Users to receive a testimonial put together from the feedback they have received from various organisations they have volunteered with.
 
 ## Organisation Dashboard
 <div style="display: flex;">
