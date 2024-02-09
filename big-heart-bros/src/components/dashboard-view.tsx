@@ -235,37 +235,37 @@ export default function DashboardView({ userId }) {
       console.log(prompt);
 
       try {
-        //     const response = await fetch("/api/generateTestimonial", {
-        //       method: "POST",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //       body: JSON.stringify({ prompt }),
-        //     });
+        const response = await fetch("/api/generateTestimonial", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }),
+        });
 
-        //     if (!response.ok) {
-        //       throw new Error(`Failed to fetch data: ${response.statusText}`);
-        //     }
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
 
-        //     const res = await response.json();
-        //     console.log(res);
-        //     const messageContent = res.data.choices[0].message.content;
-        //     console.log("OpenAI replied...", messageContent);
-        const messageContent =
-          "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
-          "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
-          "\n\n" +
-          // "At Children Home Pasir Ris, Ben's passion for storytelling shone brightly during the Children's Storytelling Session. His ability to engage with the children through animated expressions and dynamic delivery captivated their imaginations and fostered a love for storytelling that will undoubtedly leave a lasting impact on their lives. " +
-          // "Ben's genuine connection with the children reflects his deep empathy and compassion for vulnerable members of the community." +
-          // "\n\n" +
-          "Furthermore, Ben's involvement in Beyond Social's Youth Sports Day exemplifies his dedication to promoting positive youth development. " +
-          "Through his encouragement and support, Ben fostered a supportive and inclusive environment where youth could actively engage in sports and develop essential skills such as teamwork, leadership, and sportsmanship. His positive attitude served as a source of inspiration for the youth, empowering them to strive for excellence both on and off the field." +
-          "\n\n" +
-          "Ben's multifaceted contributions to various community initiatives highlight his versatility and adaptability as a volunteer. Whether it's promoting fair treatment for migrant workers, nurturing the imaginations of children, or empowering youth through sports, Ben consistently demonstrates a genuine desire to create meaningful change. " +
-          "His selflessness, compassion, and dedication serve as a beacon of hope for the community, inspiring others to join him in making the world a better place." +
-          "\n\n" +
-          "In recognition of Ben Tan's outstanding contributions to the community, we extend our heartfelt gratitude and appreciation. " +
-          "His tireless efforts and unwavering dedication embody the values of compassion, empathy, and social responsibility that are at the heart of volunteerism. We are proud to have Ben as a valued member of our community, and we look forward to witnessing the continued impact of his work for years to come.";
+        const res = await response.json();
+        console.log(res);
+        const messageContent = res.data.choices[0].message.content;
+        console.log("OpenAI replied...", messageContent);
+        // const messageContent =
+        //   "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
+        //   "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
+        //   "\n\n" +
+        //   // "At Children Home Pasir Ris, Ben's passion for storytelling shone brightly during the Children's Storytelling Session. His ability to engage with the children through animated expressions and dynamic delivery captivated their imaginations and fostered a love for storytelling that will undoubtedly leave a lasting impact on their lives. " +
+        //   // "Ben's genuine connection with the children reflects his deep empathy and compassion for vulnerable members of the community." +
+        //   // "\n\n" +
+        //   "Furthermore, Ben's involvement in Beyond Social's Youth Sports Day exemplifies his dedication to promoting positive youth development. " +
+        //   "Through his encouragement and support, Ben fostered a supportive and inclusive environment where youth could actively engage in sports and develop essential skills such as teamwork, leadership, and sportsmanship. His positive attitude served as a source of inspiration for the youth, empowering them to strive for excellence both on and off the field." +
+        //   "\n\n" +
+        //   "Ben's multifaceted contributions to various community initiatives highlight his versatility and adaptability as a volunteer. Whether it's promoting fair treatment for migrant workers, nurturing the imaginations of children, or empowering youth through sports, Ben consistently demonstrates a genuine desire to create meaningful change. " +
+        //   "His selflessness, compassion, and dedication serve as a beacon of hope for the community, inspiring others to join him in making the world a better place." +
+        //   "\n\n" +
+        //   "In recognition of Ben Tan's outstanding contributions to the community, we extend our heartfelt gratitude and appreciation. " +
+        //   "His tireless efforts and unwavering dedication embody the values of compassion, empathy, and social responsibility that are at the heart of volunteerism. We are proud to have Ben as a valued member of our community, and we look forward to witnessing the continued impact of his work for years to come.";
         setGeneratedText(messageContent);
       } catch (error) {
         console.error("Error:", error);
@@ -288,14 +288,14 @@ export default function DashboardView({ userId }) {
             <TabsTrigger className="bg-[#f7d1d1] ml-1 mr-2" value="stats">
               Activity
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="next-events">
+            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-2" value="next-events">
               Upcoming Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="history">
-              Past Events
+            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="history">
+              Historical Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="feedback">
-              Testimonial
+            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="feedback">
+              Feedback
             </TabsTrigger>
           </TabsList>
         </div>
@@ -319,7 +319,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="next-events">
           <div className="flex justify-center">
             {upcomingEvents?.length > 0 ? (
-              <div className="flex flex-wrap w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
                 {upcomingEvents.map((event, index) => (
                   <UserUpcomingCard
                     key={index}
@@ -349,7 +349,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="history">
           <div className="flex justify-center">
             {completedEvents?.length > 0 ? (
-              <div className="flex flex-wrap">
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
                 {completedEvents.map((event) => (
                   <CompletedEventCard
                     image={Event2Photo}
@@ -411,10 +411,7 @@ export default function DashboardView({ userId }) {
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {generatedText && (
               <div>
-                <div
-                  className="rounded border bg-white h-[11.69in]"
-                  ref={contentToPrint}
-                >
+                <div className="rounded border bg-white h-[11.69in]" ref={contentToPrint}>
                   <div className="p-4 flex justify-center items-center">
                     <div className="flex flex-col items-center">
                       <Image src={logo} alt="logo" width={200} height={200} />
