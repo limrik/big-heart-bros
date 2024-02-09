@@ -64,6 +64,25 @@ interface Event {
   status: EventStatus;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  gender: GenderType;
+  occupation?: string | null;
+  dob: Date;
+  canDrive: boolean;
+  ownVehicle: boolean;
+  commitmentLevel: CommitmentLevelType;
+  skills: Skills[];
+  feedback?: Feedback[];
+  residentialStatus: ResidentialStatusType;
+  interests: Interests[];
+  eventId?: string;
+  organisationId?: string;
+}
+        
 export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
   const [users, setUsers] = useState<User[]>([]);

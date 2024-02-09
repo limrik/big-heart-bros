@@ -30,7 +30,6 @@ interface Event {
   description: string;
   location: string;
   capacity: number;
-  location: string;
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
@@ -168,7 +167,6 @@ export default function Page({ params }: { params: { id: string } }) {
                         posterId={event.posterId}
                         status={event.status}
                         organisationId={organizationId}
-                        location={event.location}
                       />
                     ))}
                   </div>
