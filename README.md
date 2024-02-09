@@ -10,6 +10,7 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 1.   Recommender system to allow volunteers to have a more personalised experience
 2. AI-generated testimonial for volunteers that will consolidate their volunteering experiences
 3. Personalised statistics for volunteers
+4. Sign-up and sign-in feature for volunteers (and data collection)
 
 ## Current Wireframe
 ![Home Page](big-heart-bros/docs/images/home-page.png)
