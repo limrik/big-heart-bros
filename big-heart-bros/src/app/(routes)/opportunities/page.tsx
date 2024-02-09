@@ -40,12 +40,12 @@ const { data: session } = useSession();
 
 useEffect(() => {
     async function fetchData() {
-      // if (session != null) {
+      if (session != null) {
       try {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
 
-        const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
+        const userResponse = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
         const userData = await userResponse.json();
 
         console.log(userData);
@@ -65,51 +65,32 @@ useEffect(() => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-  // } else {
-  //   const response = await fetch(`/api/approvedEvent`);
-  //   const data = await response.json();
-  //   setEvents(data.events);
-  // }
+  } else {
+    const response = await fetch(`/api/approvedEvent`);
+    const data = await response.json();
+    setEvents(data.events);
+  }
 }
 
   fetchData();
 }, [session]);
 
-// Function to calculate cosine similarity between two vectors
-function cosineSimilarity(vectorA: number[], vectorB: number[]): number {
-  // Calculate dot product
-  const dotProduct = vectorA.reduce((acc, value, index) => acc + (value * vectorB[index]), 0);
-  
-  // Calculate magnitude of vectors
-  const magnitudeA = Math.sqrt(vectorA.reduce((acc, value) => acc + Math.pow(value, 2), 0));
-  const magnitudeB = Math.sqrt(vectorB.reduce((acc, value) => acc + Math.pow(value, 2), 0));
-  console.log("Dot Product:", dotProduct);
-  console.log("Magnitude A:", magnitudeA);
-  console.log("Magnitude B:", magnitudeB);
-
-
-  // Calculate cosine similarity
-  return dotProduct / (magnitudeA * magnitudeB);
-}
-
-console.log(userInfo)
 const userSkills = userInfo?.skills ?? [];
+const userInterests = userInfo?.interests ?? [];
 
 const eventsWithSkills = () => 
   events.map((event) => ({
     event: event, 
-    skills: event.skills
+    skills: event.skills,
+    interests: event.interests,
   }));
 
-// Calculate cosine similarity for each event
+const SKILLS_WEIGHTAGE = 0.6;
+const INTERESTS_WEIGHTAGE = 1 - SKILLS_WEIGHTAGE;
+
 const eventSimilarities = eventsWithSkills().map(event => {
-  console.log("Event:", event.event.name);
-  console.log("Event Skills:", event.event.skills);
-  console.log("User Skills:", userSkills);
-  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 0.9 : 0.1);
-  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 0.9 : 0.1);
-  const similarityScore = cosineSimilarity(userVector, eventVector) ?? 0;
-  const similarityScoreChecked = isNaN(similarityScore) ? 0 : similarityScore;
+  const similarityScoreChecked = SKILLS_WEIGHTAGE * userSkills.reduce((acc, skill) => acc + (event.skills.includes(skill) ? 0.9 : 0.1), 0)
+                                   + INTERESTS_WEIGHTAGE * userInterests.reduce((acc, interest) => acc + (event.interests.includes(interest) ? 0.9 : 0.1), 0);
   console.log(event.event.name + ": " + similarityScoreChecked);
   return { 
     event: event, 
