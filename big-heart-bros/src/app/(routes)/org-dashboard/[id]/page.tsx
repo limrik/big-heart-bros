@@ -5,7 +5,7 @@ import Navbar from "../../../../components/navbar";
 import OrgApprovedCard from "../../../../components/org-approved-card";
 import OrgPendingCard from "../../../../components/org-pending-card";
 import Image from "next/image";
-import ProfilePhoto from "../../../assets/profile-photo.png";
+import ProfilePhoto from "../../../assets/defaultorglogo.png";
 import Event1Photo from "../../../assets/volunteer-1.jpg";
 import Event2Photo from "../../../assets/volunteer-2.jpg";
 import {
@@ -42,10 +42,20 @@ interface Event {
   status: EventStatus;
 }
 
+interface Organisation {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  //   events: Event[];
+  //   feedbackGiven: Feedback[];
+}
+
 export default function Page({ params }: { params: { id: string } }) {
   const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [organisation, setOrganisation] = useState<Organisation>();
 
   const organizationId = "DEFAULT_ID";
 
@@ -70,6 +80,24 @@ export default function Page({ params }: { params: { id: string } }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(`/api/organisation/${params.id}`);
+        const data = await response.json();
+
+        // Now you can access the organisation data from 'data.organisation'
+        console.log("Organisation data:", data.organisation);
+        // Do something with the data, such as setting it in state
+        setOrganisation(data.organisation);
+      } catch (error) {
+        console.error("Error fetching organisation data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
       <Navbar />
@@ -78,8 +106,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <p className="text-2xl font-semibold">Organisation Dashboard</p>
           <div className="rounded-md p-2 px-4 flex items-center bg-[#fcb6b6] rounded-xl">
             <div className="text-right">
-              <p className="text-xl font-semibold ">Omar Apollo</p>
-              <p className="text-sm">+65 9300 2100</p>
+              <p className="text-xl font-semibold ">{organisation?.name}</p>
               <p className="text-md">Beneficiary</p>
             </div>
             <Image

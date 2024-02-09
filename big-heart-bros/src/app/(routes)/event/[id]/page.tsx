@@ -16,6 +16,7 @@ import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
+import { Button } from "../../../../components/ui/button";
 
 interface Organisation {
   id: string;
@@ -24,6 +25,24 @@ interface Organisation {
   phoneNumber: string;
   events: Event[];
   feedbackGiven: Feedback[];
+}
+
+interface Event {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  location: string;
+  type: EventType;
+  registrationDeadline: Date;
+  startDate: Date;
+  startTime: Date;
+  endDate: Date;
+  endTime: Date;
+  skills: Skills[];
+  createdAt: Date;
+  posterId: string;
+  status: EventStatus;
 }
 
 interface User {
@@ -45,24 +64,6 @@ interface User {
   organisationId?: string;
   attended: boolean;
 }
-
-interface Event {
-  id: string;
-  name: string;
-  description: string;
-  capacity: number;
-  location: string;
-  type: EventType;
-  registrationDeadline: Date;
-  startDate: Date;
-  startTime: Date;
-  endDate: Date;
-  endTime: Date;
-  skills: Skills[];
-  createdAt: Date;
-  posterId: string;
-  status: EventStatus;
-}
         
 export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
@@ -81,7 +82,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
         const data = await res.json();
         const data2 = await res2.json();
-
+        console.log(data2);
         setEvent(data.event);
         setUsers(data2.users);
       } catch (error) {
@@ -184,40 +185,42 @@ export default function Page({ params }: { params: { id: string } }) {
                 Sign-up Rate: {users.length} / {event?.capacity}
               </p>
             </div>
-            <EventAttendance
-              users={users.map((user) => ({
-                ...user,
-                startDate: new Date(
-                  new Date(event?.startDate).getFullYear(),
-                  new Date(event?.startDate).getMonth(),
-                  new Date(event?.startDate).getDate(),
-                  new Date(event?.startTime).getHours(),
-                  new Date(event?.startTime).getMinutes(),
-                  new Date(event?.startDate).getSeconds()
-                ),
-              }))}
-              startDate={
-                new Date(
-                  new Date(event?.startDate).getFullYear(),
-                  new Date(event?.startDate).getMonth(),
-                  new Date(event?.startDate).getDate(),
-                  new Date(event?.startTime).getHours(),
-                  new Date(event?.startTime).getMinutes(),
-                  new Date(event?.startTime).getSeconds()
-                )
-              }
-              endDate={
-                new Date(
-                  new Date(event?.endDate).getFullYear(),
-                  new Date(event?.endDate).getMonth(),
-                  new Date(event?.endDate).getDate(),
-                  new Date(event?.endTime).getHours(),
-                  new Date(event?.endTime).getMinutes(),
-                  new Date(event?.endTime).getSeconds()
-                )
-              }
-              status={event?.status}
-            />
+            {event && (
+              <EventAttendance
+                users={users.map((user) => ({
+                  ...user,
+                  startDate: new Date(
+                    new Date(event?.startDate).getFullYear(),
+                    new Date(event?.startDate).getMonth(),
+                    new Date(event?.startDate).getDate(),
+                    new Date(event?.startTime).getHours(),
+                    new Date(event?.startTime).getMinutes(),
+                    new Date(event?.startDate).getSeconds()
+                  ),
+                }))}
+                startDate={
+                  new Date(
+                    new Date(event?.startDate).getFullYear(),
+                    new Date(event?.startDate).getMonth(),
+                    new Date(event?.startDate).getDate(),
+                    new Date(event?.startTime).getHours(),
+                    new Date(event?.startTime).getMinutes(),
+                    new Date(event?.startTime).getSeconds()
+                  )
+                }
+                endDate={
+                  new Date(
+                    new Date(event?.endDate).getFullYear(),
+                    new Date(event?.endDate).getMonth(),
+                    new Date(event?.endDate).getDate(),
+                    new Date(event?.endTime).getHours(),
+                    new Date(event?.endTime).getMinutes(),
+                    new Date(event?.endTime).getSeconds()
+                  )
+                }
+                status={event?.status}
+              />
+            )}
           </div>
         </div>
       </div>
