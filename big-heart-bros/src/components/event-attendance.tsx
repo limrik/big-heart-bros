@@ -77,6 +77,7 @@ interface EventAttendanceProps {
   users: User[];
   startDate: Date;
   endDate: Date;
+  status: EventStatus;
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -212,6 +213,7 @@ export default function EventAttendance({
   users,
   startDate,
   endDate,
+  status,
 }: EventAttendanceProps) {
   console.log("hi", users);
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -250,6 +252,32 @@ export default function EventAttendance({
 
     // Round the result to two decimal places
     return Math.round(hoursDifference * 100) / 100;
+  };
+
+  const handleCompleteEvent = (eventId: string) => {
+    const requestData = { eventId };
+
+    fetch("/api/updateEventStatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Event status updated successfully:", data.message);
+        // Optionally, you can perform any action after updating the event status
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating event status:", error);
+      });
   };
 
   const handleAttendance = (selectedRows: User[]) => {
@@ -430,34 +458,53 @@ export default function EventAttendance({
         </div>
       </div>{" "}
       <div>
-        {startDate.getTime() > new Date().getTime() ? (
+        <div className="flex justify-between items-center">
           <div>
             <p className="text-sm text-gray-600 py-2 pl-2">
               Total of{" "}
               {calculateHoursDifference(new Date(startDate), new Date(endDate))}{" "}
               hours given
             </p>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-md text-sm"
-              onClick={() =>
-                handleAttendance(
-                  table
-                    .getFilteredSelectedRowModel()
-                    .rows.map((row) => row.original)
-                )
-              }
-            >
-              Submit Attendance
-            </button>{" "}
+            {startDate.getTime() < new Date().getTime() ? (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-md text-sm mr-2"
+                onClick={() =>
+                  handleAttendance(
+                    table
+                      .getFilteredSelectedRowModel()
+                      .rows.map((row) => row.original)
+                  )
+                }
+              >
+                Submit Attendance
+              </button>
+            ) : (
+              <button
+                className="bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full cursor-not-allowed text-sm"
+                disabled
+              >
+                Attendance Available on {startDate.toLocaleDateString()}
+              </button>
+            )}
           </div>
-        ) : (
-          <button
-            className="bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full cursor-not-allowed text-sm"
-            disabled
-          >
-            Attendance Available on {startDate.toLocaleDateString()}
-          </button>
-        )}
+          <div>
+            {status === "Approved" && new Date() > new Date(endDate) ? (
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full shadow-md text-sm"
+                onClick={() => handleCompleteEvent(users[0].eventId ?? "")}
+              >
+                Complete Event
+              </button>
+            ) : (
+              <button
+                className="bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full cursor-not-allowed text-sm"
+                disabled
+              >
+                Event not complete yet
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

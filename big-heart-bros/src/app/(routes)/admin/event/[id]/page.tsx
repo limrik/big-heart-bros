@@ -246,6 +246,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.endTime).getSeconds()
                   )
                 }
+                status={event?.status}
               />
             </div>
           )}

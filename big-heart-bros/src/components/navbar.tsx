@@ -26,7 +26,7 @@ export default function Navbar() {
           </Link>
           <Link
             className="font-poppins cursor-pointer hover:text-blue-300"
-            href="/user-dashboard"
+            href="/profile/DEFAULT_ID"
           >
             Dashboard (user)
           </Link>
