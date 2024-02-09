@@ -25,8 +25,8 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
   <img src="big-heart-bros/docs/images/opportunities.png" alt="Volunteering Page" width="40%"/>
   <img src="big-heart-bros/docs/images/event-sign-up.png" alt="Volunteering Sign up" width="40%"/>
 </div>
-Purpose: Provide users with most crucial information.
-Usage: Users can click on "View Event", which will lead to a pop-up event-sign page, where users can view more information
+**Purpose**: Provide users with most crucial information.<br/>
+**Usage**: Users can click on "View Event", which will lead to a pop-up event-sign page, where users can view more information
 and join the event, viewing other info such as capacity, and registration deadline.
 
 ## User Dashboard
@@ -34,16 +34,16 @@ and join the event, viewing other info such as capacity, and registration deadli
   <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="40%"/>
   <!-- <img src="big-heart-bros/docs/images/event-sign-up.png" alt="Organisation Dashboard" width="40%"/> -->
 </div>
-Purpose: Gamify volunteering and allowing users to get achievements and see their stats (from volunteering).
-Usage: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events" Users can also view feedback and have a GenAI testimonial under "Feedback".
+**Purpose**: Gamify volunteering and allowing users to get achievements and see their stats (from volunteering).<br/>
+**Usage**: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events" Users can also view feedback and have a GenAI testimonial under "Feedback".
 
 ## Organisation Dashboard
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="40%"/>
   <img src="big-heart-bros/docs/images/create-event.png" alt="Organisation Dashboard" width="40%"/>
 </div>
-Purpose: Allow beneficiaries to track their events and apply for new events to Big At Heart.
-Usage: Beneficiaries can press "View Event" at the right of each event to view their event information. They can also create new events under the "Create Event" button.
+**Purpose**: Allow beneficiaries to track their events and apply for new events to Big At Heart.<br/>
+**Usage**: Beneficiaries can press "View Event" at the right of each event to view their event information. They can also create new events under the "Create Event" button.
 
 ## Admin Dashboard
 <div style="display: flex;">
@@ -52,8 +52,8 @@ Usage: Beneficiaries can press "View Event" at the right of each event to view t
   <img src="big-heart-bros/docs/images/admin-dashboard-3.png" alt="Organisation Dashboard" width="40%"/>
   <img src="big-heart-bros/docs/images/approve-req.png" alt="Organisation Dashboard" width="40%"/>
 </div>
-Purpose: Allow Big At Heart to view all pending and approved events.
-Usage: Admin can press "Pending" to view events awaiting approval and press the ":" button on the left to view/approve the events. After pressing "View", users will be brought to another page with event information and approval button below.
+**Purpose**: Allow Big At Heart to view all pending and approved events.<br/>
+**Usage**: Admin can press "Pending" to view events awaiting approval and press the ":" button on the left to view/approve the events. After pressing "View", users will be brought to another page with event information and approval button below.
 
 
 ## Tech Stack and Configuration
