@@ -21,7 +21,7 @@ This app uses:
 -   Next.js
 -   Nativewind CSS (Tailwind)
 -   NextAuth.js
--   Typescript
+-   TypeScript
 -   Prettier (Auto formatting)
 -   Prisma
 -   Supabase
