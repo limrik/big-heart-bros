@@ -42,6 +42,7 @@ This app uses:
 │   ├── screen2-route.tsx  
 │   └── screen3-route.tsx  
 └── prisma
+```
 
 ## Get Started
 Ensure that you have the following installed:
