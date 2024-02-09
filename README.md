@@ -34,13 +34,6 @@ This app uses:
 │   ├── constants  
 │   ├── lib  
 │   ├── pages/api  
-│   ├── screens/  
-│   │   ├── screen1  
-│   │   ├── screen2  
-│   │   └── screen3  
-│   ├── screen1-route.tsx  
-│   ├── screen2-route.tsx  
-│   └── screen3-route.tsx  
 └── prisma
 ```
 
