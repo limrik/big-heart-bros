@@ -235,22 +235,22 @@ export default function DashboardView({ userId }) {
       console.log(prompt);
 
       try {
-    //     const response = await fetch("/api/generateTestimonial", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ prompt }),
-    //     });
+        //     const response = await fetch("/api/generateTestimonial", {
+        //       method: "POST",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //       body: JSON.stringify({ prompt }),
+        //     });
 
-    //     if (!response.ok) {
-    //       throw new Error(`Failed to fetch data: ${response.statusText}`);
-    //     }
+        //     if (!response.ok) {
+        //       throw new Error(`Failed to fetch data: ${response.statusText}`);
+        //     }
 
-    //     const res = await response.json();
-    //     console.log(res);
-    //     const messageContent = res.data.choices[0].message.content;
-    //     console.log("OpenAI replied...", messageContent);
+        //     const res = await response.json();
+        //     console.log(res);
+        //     const messageContent = res.data.choices[0].message.content;
+        //     console.log("OpenAI replied...", messageContent);
         const messageContent =
           "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
           "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
@@ -288,14 +288,14 @@ export default function DashboardView({ userId }) {
             <TabsTrigger className="bg-[#f7d1d1] ml-1 mr-2" value="stats">
               Activity
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-2" value="next-events">
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="next-events">
               Upcoming Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="history">
-              Historical Events
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="history">
+              Past Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="feedback">
-              Feedback
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="feedback">
+              Testimonial
             </TabsTrigger>
           </TabsList>
         </div>
@@ -319,7 +319,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="next-events">
           <div className="flex justify-center">
             {upcomingEvents?.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
+              <div className="flex flex-wrap w-full">
                 {upcomingEvents.map((event, index) => (
                   <UserUpcomingCard
                     key={index}
@@ -349,7 +349,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="history">
           <div className="flex justify-center">
             {completedEvents?.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
+              <div className="flex flex-wrap">
                 {completedEvents.map((event) => (
                   <CompletedEventCard
                     image={Event2Photo}
@@ -411,7 +411,10 @@ export default function DashboardView({ userId }) {
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {generatedText && (
               <div>
-                <div className="rounded border bg-white h-[11.69in]" ref={contentToPrint}>
+                <div
+                  className="rounded border bg-white h-[11.69in]"
+                  ref={contentToPrint}
+                >
                   <div className="p-4 flex justify-center items-center">
                     <div className="flex flex-col items-center">
                       <Image src={logo} alt="logo" width={200} height={200} />

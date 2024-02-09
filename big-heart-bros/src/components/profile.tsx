@@ -4,6 +4,7 @@ import ProfilePhoto from "../app/assets/profile-photo.png";
 import { Separator } from "./ui/separator";
 import { useSession } from "next-auth/react";
 import { profile } from "console";
+import { User } from "@prisma/client";
 
 const Profile = ({ user }) => {
   return (
@@ -17,7 +18,7 @@ const Profile = ({ user }) => {
       />
       <div className="mt-20 items-center text-center">
         {" "}
-        <p className="text-xl font-semibold mb-2">Omar Apollo</p>
+        <p className="text-xl font-semibold mb-2">{user?.name}</p>
         <div className="text-center w-60 flex flex-row items-center justify-center">
           <div>
             <p className="text-sm text-gray-600">Total Events</p>
@@ -26,7 +27,7 @@ const Profile = ({ user }) => {
           <Separator orientation="vertical" className="mx-2" />
           <div>
             <p className="text-sm text-gray-600">Total Hours</p>
-            <p className="text-lg">100</p>
+            <p className="text-lg">{user?.totalHours}</p>
           </div>
         </div>{" "}
         <Separator className="my-2" />

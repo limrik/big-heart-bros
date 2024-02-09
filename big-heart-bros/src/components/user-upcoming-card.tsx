@@ -1,20 +1,22 @@
-import { Card,
+import {
+  Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter, } from "./ui/card";
+  CardFooter,
+} from "./ui/card";
 
-  import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "./ui/dialog"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 import { cn } from "../lib/utils";
 
@@ -22,8 +24,9 @@ import { Button } from "./ui/button";
 
 import Image, { StaticImageData } from "next/image";
 
-import { EventType, Skills, EventStatus} from "@prisma/client";
+import { EventType, Skills, EventStatus } from "@prisma/client";
 import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -49,66 +52,77 @@ type CardComponentProps = {
 
 const handleClick = async (userId, eventId) => {
   try {
-    const response = await fetch('/api/userEvent/addUserToEvent', {
-      method: 'POST',
+    const response = await fetch("/api/userEvent/addUserToEvent", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId, eventId}),
+      body: JSON.stringify({ userId, eventId }),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to add user to event');
+      throw new Error("Failed to add user to event");
     }
 
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    console.error('Error adding user to event:', error.message);
+    console.error("Error adding user to event:", error.message);
   }
-}
+};
 
 const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
   console.log(props);
   return (
-    <Card className={cn("bg-[#ffffff] rounded-3xl my-4")}>
+    <Card
+      className={cn("bg-[#ffffff] my-4 w-full shadow-xl rounded-none mx-6")}
+    >
       <CardHeader>
-        <div className="flex justify-center">
+        <div className="grid grid-cols-6">
+          <div className="col-span-5">
+            <CardTitle className="text-xl">{props.name}</CardTitle>
+            <CardDescription className="text-justify">
+              {props.description}
+            </CardDescription>{" "}
+          </div>
+          <div>
+            <div className="text-center flex flex-col items-end justify-center">
+              <div>
+                <p className="text-xs text-left text-gray-600">Start</p>
+                <p className="text-sm">
+                  {" "}
+                  {new Date(props.startDate).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+              <Separator orientation="vertical" className="my-1 mr-9" />
+              <div>
+                <p className="text-xs text-left text-gray-600">End</p>
+                <p className="text-sm">
+                  {" "}
+                  {new Date(props.endDate).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center h-64">
           <Image
-            className="pb-4"
+            className="py-4  object-cover w-full"
             src={props.image}
             alt="Event Image"
-            width={300}
-            height={150}
           />
         </div>
-        <CardTitle>{props.name}</CardTitle>
-        <CardDescription className="text-justify">
-          {props.description}
-        </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        <p>
-          From:{" "}
-          {new Date(props.startDate).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          })}
-          <br></br>
-          To:{" "}
-          {new Date(props.endDate).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          })}
-        </p>
-      </CardContent>
       <CardFooter>
         <div className="grid grid-cols-auto-1fr gap-2">
-          <div className="col-span-full">
-            <h3>Skills Wanted:</h3>
-          </div>
           <div className="grid grid-cols-3 gap-2">
             {props.skills.map((skill, index) => (
               <div
@@ -122,95 +136,99 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
         </div>
       </CardFooter>
       <CardFooter className="flex justify-center">
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
-      </DialogTrigger>
-      <DialogContent className="bg-white sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{props.name}</DialogTitle>
-          <DialogDescription>
-            {props.description}
-          </DialogDescription>
-        </DialogHeader>
-        <hr/>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            { props.registrationDeadline ? 
-              <DialogDescription>
-                <p>
-                  <span className="font-bold">Registration Deadline:{" "}</span>
-                  {new Date(props.registrationDeadline).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </p>
-              </DialogDescription> : null
-            }
-            { props.startDate && props.endDate ?
-            <DialogDescription>
-              <p>
-                <span className="font-bold">Current Capacity: </span>
-                {props.currUsersLength} / {props.capacity}
-              </p>
-              <progress className="w-1/2" value={props.currUsersLength / props.capacity} />
-              <p>
-                <span className="font-bold">Location: </span>{props.location}
-              </p>
-              <p>
-                <span className="font-bold">From:{" "}</span>
-                {new Date(props.startDate).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-                {" "} to {" "}
-                {new Date(props.endDate).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </p>
-            </DialogDescription> : null
-            }
-            <DialogDescription>
-            <div className="grid grid-cols-auto-1fr gap-2">
-              <div className="col-span-full">
-                <h3 className="font-bold">Skills Wanted:</h3>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {props.skills.map((skill, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
-                  >
-                    {skill}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full bg-red-400 rounded-2xl text-white hover:bg-gray-400 duration-300">
+              View Event
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-white sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>{props.name}</DialogTitle>
+              <DialogDescription>{props.description}</DialogDescription>
+            </DialogHeader>
+            <hr />
+            <div className="flex items-center space-x-2">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="link" className="sr-only">
+                  Link
+                </Label>
+                {props.registrationDeadline ? (
+                  <DialogDescription>
+                    <p>
+                      <span className="font-bold">Registration Deadline: </span>
+                      {new Date(props.registrationDeadline).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )}
+                    </p>
+                  </DialogDescription>
+                ) : null}
+                {props.startDate && props.endDate ? (
+                  <DialogDescription>
+                    <p>
+                      <span className="font-bold">Current Capacity: </span>
+                      {props.currUsersLength} / {props.capacity}
+                    </p>
+                    <progress
+                      className="w-1/2"
+                      value={props.currUsersLength / props.capacity}
+                    />
+                    <p>
+                      <span className="font-bold">Location: </span>
+                      {props.location}
+                    </p>
+                    <p>
+                      <span className="font-bold">From: </span>
+                      {new Date(props.startDate).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}{" "}
+                      to{" "}
+                      {new Date(props.endDate).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </DialogDescription>
+                ) : null}
+                <DialogDescription>
+                  <div className="grid grid-cols-auto-1fr gap-2">
+                    <div className="col-span-full">
+                      <h3 className="font-bold">Skills Wanted:</h3>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      {props.skills.map((skill, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
+                        >
+                          {skill}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                </DialogDescription>
+                <DialogDescription>
+                  <span className="font-bold">Contact: </span>
+                </DialogDescription>
               </div>
             </div>
-            </DialogDescription>
-            <DialogDescription>
-              <span className="font-bold">Contact: </span>
-            </DialogDescription>
-          </div>
-        </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose className="flex">
-            <Button className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400" type="button">
-              Join Event
-            </Button>
-            <Button className="w-full my-1 bg-gray-400 rounded-2xl text-white ml-4" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            <DialogFooter className="sm:justify-start">
+              <DialogClose className="flex">
+                <Button className="w-full my-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full shadow-md duration-300">
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     </Card>
   );
