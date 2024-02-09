@@ -35,6 +35,7 @@ type CardComponentProps = {
   id: string;
   name: string;
   description: string;
+  location: string
   capacity?: number;
   type?: EventType;
   registrationDeadline?: Date;
@@ -98,7 +99,7 @@ const PendingEventCard: React.FC<CardComponentProps> = (props) => {
                 year: "numeric",
               })}
             </p>
-            <p className="text-sm">Location: </p>
+            <p className="text-sm">Location: {props.location}</p>
           </div>
           <div>
             <Button onClick={nav} className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>

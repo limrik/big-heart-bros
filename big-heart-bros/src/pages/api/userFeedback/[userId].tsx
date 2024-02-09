@@ -21,7 +21,8 @@ export default async function handler(
     },
     include: {
         organisation: true,
-        event: true
+        event: true,
+        user: true,
     },
   });
 

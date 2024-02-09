@@ -28,6 +28,7 @@ interface Event {
   id: string;
   name: string;
   description: string;
+  location: string;
   capacity: number;
   type: EventType;
   registrationDeadline: Date;
@@ -154,6 +155,7 @@ const OrgDashboard: React.FC = () => {
                         image={Event1Photo}
                         name={event.name}
                         description={event.description}
+                        location={event.location}
                         startDate={event.startDate}
                         endDate={event.endDate}
                         skills={event.skills}

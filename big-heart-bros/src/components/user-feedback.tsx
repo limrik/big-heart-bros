@@ -24,6 +24,7 @@ interface Organisation {
   id: string;
   name: string;
   email: string;
+  description: string;
   phoneNumber: string;
 }
 
@@ -45,14 +46,15 @@ interface UserFeedbackProps {
 const UserFeedback: React.FC<UserFeedbackProps> = ({ feedback }) => {
   return (
     <div>
-      {feedback.map((item) => (
+      {/* {feedback.map((item) => (
         <div key={item.id} className="border rounded-lg p-4 mb-4">
           <p>User: {item.event.name}</p>
           <p>Organisation: {item.organisation.name}</p>
+          <p>Organisation Desc: {item.organisation.description}</p>
           <p>Message: {item.message}</p>
           <p>Date: {new Date(item.createdAt).toLocaleDateString()}</p>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
