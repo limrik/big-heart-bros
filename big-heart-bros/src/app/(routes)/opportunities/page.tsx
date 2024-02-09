@@ -45,20 +45,20 @@ useEffect(() => {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
 
-        const response1 = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
-        const data1 = await response1.json();
+        const userResponse = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
+        const userData = await userResponse.json();
 
-        console.log(data1);
+        console.log(userData);
 
         setEvents(data.events);
         // Check if data1 is not null before setting userInfo
-        if (data1 !== null) {
-            setUserInfo(data1);
+        if (userData !== null) {
+            setUserInfo(userData.user);
         } else {
             // If data1 is null, fetch default user data from the database
-            const response1 = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
-            const data1 = await response1.json();
-            setUserInfo(data1);
+            const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
+            const userData = await userResponse.json();
+            setUserInfo(userData.user);
         }
 
         console.log("reached")
@@ -75,36 +75,26 @@ useEffect(() => {
   fetchData();
 }, [session]);
 
-// Function to calculate cosine similarity between two vectors
-function cosineSimilarity(vectorA: number[], vectorB: number[]): number {
-  // Calculate dot product
-  const dotProduct = vectorA.reduce((acc, value, index) => acc + (value * vectorB[index]), 0);
-  
-  // Calculate magnitude of vectors
-  const magnitudeA = Math.sqrt(vectorA.reduce((acc, value) => acc + Math.pow(value, 2), 0));
-  const magnitudeB = Math.sqrt(vectorB.reduce((acc, value) => acc + Math.pow(value, 2), 0));
-
-  // Calculate cosine similarity
-  return dotProduct / (magnitudeA * magnitudeB);
-}
-
 const userSkills = userInfo?.skills ?? [];
-console.log(userSkills);
+const userInterests = userInfo?.interests ?? [];
 
 const eventsWithSkills = () => 
   events.map((event) => ({
     event: event, 
-    skills: event.skills
+    skills: event.skills,
+    interests: event.interests,
   }));
 
-// Calculate cosine similarity for each event
+const SKILLS_WEIGHTAGE = 0.6;
+const INTERESTS_WEIGHTAGE = 1 - SKILLS_WEIGHTAGE;
+
 const eventSimilarities = eventsWithSkills().map(event => {
-  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 1 : 0);
-  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 1 : 0);
-  const similarityScore = cosineSimilarity(userVector, eventVector);
+  const similarityScoreChecked = SKILLS_WEIGHTAGE * userSkills.reduce((acc, skill) => acc + (event.skills.includes(skill) ? 0.9 : 0.1), 0)
+                                   + INTERESTS_WEIGHTAGE * userInterests.reduce((acc, interest) => acc + (event.interests.includes(interest) ? 0.9 : 0.1), 0);
+  console.log(event.event.name + ": " + similarityScoreChecked);
   return { 
     event: event, 
-    similarity: similarityScore
+    similarity: similarityScoreChecked
   };
 });
 
@@ -112,7 +102,7 @@ const eventSimilarities = eventsWithSkills().map(event => {
 eventSimilarities.sort((a, b) => b.similarity - a.similarity);
 
 // Get top 5 events with highest similarity scores
-const topEvents = eventSimilarities.slice(0, 5).map(item => item.event);
+const topEvents = eventSimilarities.slice(0, 6).map(item => item.event);
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">

@@ -18,9 +18,9 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 ## Current Wireframe
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/home-page.png" alt="Home Page" width="100%"/>
-  <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="33%"/>
-  <img src="big-heart-bros/docs/images/admin-dashboard.png" alt="Admin Dashboard" width="33%"/>
-  <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="33%"/>
+  <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/admin-dashboard.png" alt="Admin Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="40%"/>
 </div>
 
 
@@ -54,8 +54,6 @@ This app uses:
 │   └── pages/api  
 └── prisma
 └── docs
-└── utils
-    └── machineLearning
 ```
 
 ## Get Started
