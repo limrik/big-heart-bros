@@ -45,7 +45,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   }, []);
 
   return (
-    <Card className={cn("w-full bg-white rounded-lg shadow-md mb-4")}>
+    <Card className={cn("w-full bg-white rounded-none shadow-xl m-6")}>
       <CardHeader>
         <div className="flex items-center px-4 py-3">
           <div className="flex-shrink-0 mr-3">
@@ -68,12 +68,12 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
         </div>
       </CardHeader>
       <CardContent>
-      <Image
-            src={props.image}
-            alt="Event Image"
-            className="rounded-lg"
-            sizes="(max-width: 30px), (max-width: 30px)"
-          />
+        <Image
+          src={props.image}
+          alt="Event Image"
+          className="rounded-lg object-cover h-80"
+          // sizes="(max-width: 30px), (max-width: 30px)"
+        />
         <div className="px-4 py-2">
           <p className="text-sm text-gray-700 mb-2">{props.description}</p>
           <p className="text-sm text-gray-700">
@@ -94,8 +94,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="px-4 py-2">
-          <h3 className="text-sm font-semibold mb-2">Skills Wanted:</h3>
+        <div className="px-4">
           <div className="flex flex-wrap gap-2">
             {props.skills.map((skill, index) => (
               <div
