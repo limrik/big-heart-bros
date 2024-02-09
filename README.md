@@ -16,9 +16,11 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 ![User Flow Diagram](big-heart-bros/docs/images/user-flow.png)
 
 ## Current Wireframe
-<img src="big-heart-bros/docs/images/home-page.png" alt="Home Page" width="33%"/>
-<img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="33%"/>
-<img src="big-heart-bros/docs/images/admin-dashboard.png" alt="Admin Dashboard" width="33%"/>
+<div style="display: flex;">
+  <img src="big-heart-bros/docs/images/home-page.png" alt="Home Page" width="33%"/>
+  <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="33%"/>
+  <img src="big-heart-bros/docs/images/admin-dashboard.png" alt="Admin Dashboard" width="33%"/>
+</div>
 
 
 ## Tech Stack and Configuration
