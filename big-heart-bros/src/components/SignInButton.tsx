@@ -17,6 +17,7 @@ const SigninButton = () => {
   {session && session.user ? (
     <>
       <Button className="bg-[#ff5656] rounded-2xl hover:bg-[#ff8585]" onClick={() => signOut()}>
+        <PersonIcon className="w-4 h-4 mr-2" />
         Sign Out
       </Button>
     </>

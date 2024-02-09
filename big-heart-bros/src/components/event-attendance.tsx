@@ -38,15 +38,26 @@ import {
 } from "../components/ui/table";
 import EventFeedbackModal from "../components/event-feedback-modal";
 import React, { useState } from "react";
-import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
+import {
+  EventType,
+  EventStatus,
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
+import Link from "next/link";
 
 interface Organisation {
   id: string;
   name: string;
   email: string;
   phoneNumber: string;
-    events: Event[];
-    feedbackGiven: Feedback[];
+  events: Event[];
+  feedbackGiven: Feedback[];
 }
 
 interface Event {
@@ -70,6 +81,18 @@ interface Event {
 interface User {
   id: string;
   name: string;
+  email: string;
+  phoneNumber: string;
+  gender: GenderType;
+  occupation?: string | null;
+  dob: Date;
+  canDrive: boolean;
+  ownVehicle: boolean;
+  commitmentLevel: CommitmentLevelType;
+  skills: Skills[];
+  feedback?: Feedback[];
+  residentialStatus: ResidentialStatusType;
+  interests: Interests[];
   eventId?: string;
   organisationId?: string;
 }
@@ -101,15 +124,45 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "id",
-    header: "User ID",
-    cell: ({ row }) => row.getValue("id"),
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "User ID",
+  //   cell: ({ row }) => row.getValue("id"),
+  // },
   {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => row.getValue("name"),
+  },
+  {
+    accessorKey: "gender",
+    header: "Gender",
+    cell: ({ row }) => row.getValue("gender"),
+  },
+  {
+    accessorKey: "phoneNumber",
+    header: "Phone No.",
+    cell: ({ row }) => row.getValue("phoneNumber"),
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => row.getValue("email"),
+  },
+  {
+    accessorKey: "skills",
+    header: "Skills",
+    cell: ({ row }) => row.getValue("skills"),
+  },
+  {
+    accessorKey: "canDrive",
+    header: "Can Drive?",
+    cell: ({ row }) => (row.getValue("canDrive") ? "Yes" : "No"),
+  },
+  {
+    accessorKey: "ownVehicle",
+    header: "Owns Vehicle?",
+    cell: ({ row }) => (row.getValue("ownVehicle") ? "Yes" : "No"),
   },
   {
     id: "actions",
@@ -141,6 +194,14 @@ export const columns: ColumnDef<User>[] = [
               <DropdownMenuItem onClick={openModal}>
                 Give Feedback
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  className="pt-2 cursor-default"
+                  href={`/profile/${user.id}`}
+                >
+                  View Profile
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -159,7 +220,7 @@ export const columns: ColumnDef<User>[] = [
   },
 ];
 
-export default function EventAttendance({ users}: EventAttendanceProps) {
+export default function EventAttendance({ users }: EventAttendanceProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -298,7 +359,10 @@ export default function EventAttendance({ users}: EventAttendanceProps) {
             Next
           </Button>
         </div>
-      </div>
+      </div>{" "}
+      <Button variant="outline" size="sm" className="w-1/2">
+        hi
+      </Button>
     </div>
   );
 }

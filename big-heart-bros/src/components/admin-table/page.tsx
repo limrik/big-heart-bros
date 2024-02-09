@@ -48,12 +48,12 @@ export default function AdminTable() {
     return (
       <div className="container mx-auto pt-4 pb-20">
         <Tabs defaultValue="approved" className="bg-white">
-          <TabsList>
+          <TabsList className="mt-2">
             <TabsTrigger value="approved">Approved</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
           </TabsList>
           <TabsContent value="approved">
-            <h1 className="font-bold text-xl">Approved</h1>
+            <h1 className="font-bold text-xl ml-1 mb-2">Approved</h1>
             <DataTable columns={columns} data={data} />
           </TabsContent>
           <TabsContent value="pending">
