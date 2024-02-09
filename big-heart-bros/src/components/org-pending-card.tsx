@@ -45,6 +45,7 @@ type CardComponentProps = {
   posterId: String;
   status: EventStatus;
   organisationId: string;
+  location: string;
 };
 
 const PendingEventCard: React.FC<CardComponentProps> = (props) => {
@@ -52,8 +53,8 @@ const PendingEventCard: React.FC<CardComponentProps> = (props) => {
 
   // @dayn to link to event page
   const nav = () => {
-    console.log("Go to event page")
-  }
+    console.log("Go to event page");
+  };
 
   return (
     <Card className={cn("w-full bg-white rounded-lg shadow-md my-2")}>
@@ -76,33 +77,39 @@ const PendingEventCard: React.FC<CardComponentProps> = (props) => {
                 </CardTitle>
                 <CardDescription className="text-sm text-gray-500">
                   {organisationName}
-                  <p className="text-sm text-gray-700 mb-2">{props.description}</p>
+                  <p className="text-sm text-gray-700 mb-2">
+                    {props.description}
+                  </p>
                 </CardDescription>
               </div>
             </div>
           </div>
           <div className="flex px-4 w-1/2 justify-between">
             <div>
-            
-            <p className="text-sm text-gray-700">
-              From:{" "}
-              {new Date(props.startDate).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-              {" "} to {" "}
-              {new Date(props.endDate).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-            </p>
-            <p className="text-sm">Location: </p>
-          </div>
-          <div>
-            <Button onClick={nav} className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400">View Event</Button>
-          </div>
+              <p className="text-sm text-gray-700">
+                From:{" "}
+                {new Date(props.startDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                to{" "}
+                {new Date(props.endDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+              <p className="text-sm">Location: {props.location} </p>
+            </div>
+            <div>
+              <Button
+                onClick={nav}
+                className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400"
+              >
+                View Event
+              </Button>
+            </div>
           </div>
         </div>
       </CardHeader>

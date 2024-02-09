@@ -49,7 +49,12 @@ export const columns: ColumnDef<Event>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`/event/${event.id}/${event.posterId}`} className="w-full h-full">View</Link>
+              <Link
+                href={`/admin/event/${event.id}/`}
+                className="w-full h-full"
+              >
+                View
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </DropdownMenuContent>

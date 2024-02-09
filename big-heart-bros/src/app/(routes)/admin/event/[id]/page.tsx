@@ -1,11 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
-import Navbar from "../../../../components/navbar";
-import backgroundImage from "../../../assets/bigathearts2.png";
-import EventDetails from "../../../../components/event-details";
-import EventAttendance from "../../../../components/event-attendance";
+import {
+  EventType,
+  EventStatus,
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
+import Navbar from "../../../../../components/navbar";
+import backgroundImage from "../../../../assets/bigathearts2.png";
+import EventDetails from "../../../../../components/event-details";
+import EventAttendance from "../../../../../components/event-attendance";
+import { Button } from "../../../../../components/ui/button";
 
 interface Organisation {
   id: string;
@@ -37,9 +48,36 @@ interface Event {
 interface User {
   id: string;
   name: string;
-  eventName?: string;
-  organisationName?: string;
+  email: string;
+  phoneNumber: string;
+  gender: GenderType;
+  occupation?: string | null;
+  dob: Date;
+  canDrive: boolean;
+  ownVehicle: boolean;
+  commitmentLevel: CommitmentLevelType;
+  skills: Skills[];
+  feedback?: Feedback[];
+  residentialStatus: ResidentialStatusType;
+  interests: Interests[];
+  eventId?: string;
+  organisationId?: string;
 }
+
+const handleApprove = async (id: String) => {
+  try {
+    console.log(id);
+    const data = await fetch(`/api/approve/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    window.location.reload();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
 export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
@@ -58,7 +96,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
         const data = await res.json();
         const data2 = await res2.json();
-
+        console.log(data2);
         setEvent(data.event);
         setUsers(data2.users);
       } catch (error) {
@@ -138,8 +176,8 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="border-b border-gray-200 mb-6"></div>
             <p className="text-gray-600 mb-8">{event?.description}</p>
           </div>
-          <div className="items-center justify-center flex-cols">
-            <div className="bg-gradient-to-r from-[#fcb6b6] to-[#8B0000] p-8 rounded-xl shadow-lg w-3/4">
+          <div className="items-center justify-center flex-col flex">
+            <div className="bg-gradient-to-r from-[#fcb6b6] to-[#8B0000] p-4 rounded-xl shadow-lg w-3/4 mb-8">
               <h2 className="text-xl font-semibold mb-4 text-white">Skills</h2>
               <div className="grid grid-cols-2 gap-4">
                 {event?.skills.map((skill, index) => (
@@ -152,20 +190,44 @@ export default function Page({ params }: { params: { id: string } }) {
                 ))}
               </div>
             </div>
+            {event?.status === "Pending" && (
+              <div className="bg-gradient-to-r from-[#fcb6b6] to-[#8B0000] p-4 rounded-xl shadow-lg w-3/4">
+                <h2 className="text-xl font-semibold mb-2 text-white">
+                  Capacity Required
+                </h2>
+                <div className="bg-white rounded-xl shadow-md p-4 flex items-center justify-center">
+                  <span className="text-gray-800 font-semibold text-2xl">
+                    {event?.capacity}
+                  </span>
+                  <span className="text-gray-500 ml-2">people</span>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="bg-white shadow-lg shadow-[#fcb6b6] p-8 col-span-2">
-            <div className="grid grid-cols-2 items-center">
-              <p className="font-medium text-xl py-2 text-left">Attendance</p>
-              <p className="text-gray-700 text-right pr-8">
-                {" "}
-                Sign-up Rate: {users.length} / {event?.capacity}
-              </p>
+          {event?.status === "Approved" && (
+            <div className="bg-white shadow-lg shadow-[#fcb6b6] p-8 col-span-2">
+              <div className="grid grid-cols-2 items-center">
+                <p className="font-medium text-xl py-2 text-left">Attendance</p>
+                <p className="text-gray-700 text-right pr-8">
+                  {" "}
+                  Sign-up Rate: {users.length} / {event?.capacity}
+                </p>
+              </div>
+              <EventAttendance users={users} />
             </div>
-            <EventAttendance users={users} />
-          </div>
+          )}
         </div>
       </div>
-      <div className="bg-gray-200 h-36"></div>
+      <div className="bg-gray-200 h-36 items-center flex justify-center">
+        {event?.status === "Pending" && (
+          <Button
+            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl shadow-md transition-colors duration-300 text-xl w-1/3 h-12"
+            onClick={() => handleApprove(event?.id)}
+          >
+            Approve Request
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

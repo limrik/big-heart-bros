@@ -1,15 +1,15 @@
 import React from "react";
-import Navbar from "../../../components/navbar";
+import Navbar from "../../../../components/navbar";
 import Image from "next/image";
-import ProfilePhoto from "../../assets/profile-photo.png";
+import ProfilePhoto from "../../../assets/profile-photo.png";
 import { EventType, Skills } from "@prisma/client";
-import AdminTable from "../../../components/admin-table/page";
-import AdminCard from "../../../components/admin-card";
+import AdminTable from "../../../../components/admin-table/page";
+import AdminCard from "../../../../components/admin-card";
 
 const UserDashboard: React.FC = () => {
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
-      <Navbar></Navbar>
+      <Navbar />
       <div className="w-5/6 mx-auto">
         <div className="flex justify-between my-4 items-center">
           <p className="text-2xl font-semibold">Admin Dashboard</p>
@@ -28,7 +28,7 @@ const UserDashboard: React.FC = () => {
             />
           </div>
         </div>
-          <AdminTable/>
+        <AdminTable />
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import Navbar from "../../../components/navbar";
-import OrgApprovedCard from "../../../components/org-approved-card";
-import OrgPendingCard from "../../../components/org-pending-card";
+import Navbar from "../../../../components/navbar";
+import OrgApprovedCard from "../../../../components/org-approved-card";
+import OrgPendingCard from "../../../../components/org-pending-card";
 import Image from "next/image";
-import ProfilePhoto from "../../assets/profile-photo.png";
-import Event1Photo from "../../assets/volunteer-1.jpg";
-import Event2Photo from "../../assets/volunteer-2.jpg";
+import ProfilePhoto from "../../../assets/profile-photo.png";
+import Event1Photo from "../../../assets/volunteer-1.jpg";
+import Event2Photo from "../../../assets/volunteer-2.jpg";
 import {
   Dialog,
   DialogTrigger,
@@ -17,29 +17,32 @@ import {
   DialogClose,
   DialogHeader,
   DialogFooter,
-} from "../../../components/ui/dialog";
-import { Button } from "../../../components/ui/button";
-import { EventForm } from "../../../components/event-form";
+} from "../../../../components/ui/dialog";
+import { Button } from "../../../../components/ui/button";
+import { EventForm } from "../../../../components/event-form";
 import { useState, useEffect } from "react";
 import { EventType, Skills, EventStatus } from "@prisma/client";
-import { Skeleton } from "../../../components/ui/skeleton";
+import { Skeleton } from "../../../../components/ui/skeleton";
 
 interface Event {
   id: string;
   name: string;
   description: string;
   capacity: number;
+  location: string;
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
+  startTime: Date;
   endDate: Date;
+  endTime: Date;
   skills: Skills[];
   createdAt: Date;
   posterId: string;
   status: EventStatus;
 }
 
-const OrgDashboard: React.FC = () => {
+export default function Page({ params }: { params: { id: string } }) {
   const [approvedEvents, setApprovedEvents] = useState<Event[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,10 +52,10 @@ const OrgDashboard: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/api/approvedEvents/${organizationId}`);
+        const response = await fetch(`/api/approvedEvents/${params.id}`);
         const data = await response.json();
 
-        const res2 = await fetch(`/api/pendingEvents/${organizationId}`);
+        const res2 = await fetch(`/api/pendingEvents/${params.id}`);
         const data2 = await res2.json();
 
         setApprovedEvents(data.events);
@@ -69,7 +72,7 @@ const OrgDashboard: React.FC = () => {
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
-      <Navbar></Navbar>
+      <Navbar />
       <div className="w-5/6 mx-auto">
         <div className="flex justify-between my-4 items-center">
           <p className="text-2xl font-semibold">Organisation Dashboard</p>
@@ -89,8 +92,8 @@ const OrgDashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex justify-between">
-        <p className="text-xl font-semibold">Approved Events</p>
-        <Dialog>
+          <p className="text-xl font-semibold">Approved Events</p>
+          <Dialog>
             <DialogTrigger asChild>
               <Button className="flex bg-black rounded-xl text-white hover:bg-slate-800">
                 Create new event
@@ -128,6 +131,7 @@ const OrgDashboard: React.FC = () => {
                       posterId={event.posterId}
                       status={event.status}
                       organisationId={organizationId}
+                      location={event.location}
                     />
                   ))}
                 </div>
@@ -162,6 +166,7 @@ const OrgDashboard: React.FC = () => {
                         posterId={event.posterId}
                         status={event.status}
                         organisationId={organizationId}
+                        location={event.location}
                       />
                     ))}
                   </div>
@@ -172,10 +177,7 @@ const OrgDashboard: React.FC = () => {
             </>
           )}
         </div>
-
-        </div>
       </div>
+    </div>
   );
-};
-
-export default OrgDashboard;
+}

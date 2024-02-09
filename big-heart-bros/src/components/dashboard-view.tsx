@@ -75,24 +75,29 @@ const data = {
   ],
 };
 
-export default function DashboardView() {
+export default function DashboardView({ userId }) {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [completedEvents, setCompletedEvents] = useState<Event[]>([]);
 
-  const userId = "DEFAULT_ID";
+  // const userId = "DEFAULT_ID";
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:3000/api/eventsByUserId/${userId}`);
+        const response = await fetch(
+          `http://localhost:3000/api/eventsByUserId/${userId}`
+        );
         const data = await response.json();
 
-        const approved = data.events.filter(event => event.status === "Approved");
-        const completed = data.events.filter(event => event.status === "Completed");
+        const approved = data.events.filter(
+          (event) => event.status === "Approved"
+        );
+        const completed = data.events.filter(
+          (event) => event.status === "Completed"
+        );
 
         setUpcomingEvents(approved);
         setCompletedEvents(completed);
-        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -136,60 +141,60 @@ export default function DashboardView() {
         </TabsContent>
         <TabsContent value="next-events">
           <div className="flex justify-center">
-          {upcomingEvents?.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-              {upcomingEvents.map((event, index) => (
-                <UserUpcomingCard
-                  key={index}
-                  id={event.id}
-                  image={Event2Photo}
-                  name={event.name}
-                  description={event.description}
-                  startDate={event.startDate}
-                  endDate={event.endDate}
-                  skills={event.skills}
-                  link="/home"
-                  button_desc="View Event"
-                  posterId={event.posterId}
-                  status={event.status}
-                  currUsersLength={event.users ? event.users.length : 0}
-                  capacity={event.capacity ?? 0}
-                  location={event.location}
-                  registrationDeadline={event.registrationDeadline}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="py-8">You have no upcoming volunteering events!</p>
-          )}
+            {upcomingEvents?.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+                {upcomingEvents.map((event, index) => (
+                  <UserUpcomingCard
+                    key={index}
+                    id={event.id}
+                    image={Event2Photo}
+                    name={event.name}
+                    description={event.description}
+                    startDate={event.startDate}
+                    endDate={event.endDate}
+                    skills={event.skills}
+                    link="/home"
+                    button_desc="View Event"
+                    posterId={event.posterId}
+                    status={event.status}
+                    currUsersLength={event.users ? event.users.length : 0}
+                    capacity={event.capacity ?? 0}
+                    location={event.location}
+                    registrationDeadline={event.registrationDeadline}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="py-8">You have no upcoming volunteering events!</p>
+            )}
           </div>
         </TabsContent>
         <TabsContent value="history">
           <div className="flex justify-center">
-          {completedEvents?.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
-              {completedEvents.map((event) => (
-                <CompletedEventCard
-                  image={Event2Photo}
-                  name={event.name}
-                  description={event.description}
-                  type={event.type}
-                  startDate={event.startDate}
-                  endDate={event.endDate}
-                  skills={event.skills}
-                  organisationId={event.posterId}
-                  currUsersLength={event.users ? event.users.length : 0}
-                  capacity={event.capacity ?? 0}
-                  location={event.location}
-                  registrationDeadline={event.registrationDeadline}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="py-8">No completed events</p>
-          )}
+            {completedEvents?.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
+                {completedEvents.map((event) => (
+                  <CompletedEventCard
+                    image={Event2Photo}
+                    name={event.name}
+                    description={event.description}
+                    type={event.type}
+                    startDate={event.startDate}
+                    endDate={event.endDate}
+                    skills={event.skills}
+                    organisationId={event.posterId}
+                    // currUsersLength={2} // event.users ? event.users.length : 0}
+                    // capacity={event.capacity ?? 0}
+                    // location={event.location}
+                    // registrationDeadline={event.registrationDeadline}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="py-8">No completed events</p>
+            )}
           </div>
-          </TabsContent>
+        </TabsContent>
       </Tabs>
     </div>
   );
