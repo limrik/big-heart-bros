@@ -11,6 +11,7 @@ interface Event {
     name: string;
     description: string;
     capacity: number;
+    location: string,
     type: EventType;
     registrationDeadline: Date;
     startDate: Date;

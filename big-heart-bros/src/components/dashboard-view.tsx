@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import ProfilePhoto from "../app/assets/profile-photo.png";
-import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Input } from "./ui/input";
 
 import UserUpcomingCard from "./user-upcoming-card";
 import Event2Photo from "../app/assets/volunteer-2.jpg";
@@ -14,6 +10,7 @@ import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import CompletedEventCard from "./completedEventCard";
+import UserFeedback from "./user-feedback";
 Chart.register(...registerables);
 
 interface Event {
@@ -21,18 +18,36 @@ interface Event {
   name: string;
   description: string;
   capacity: number;
+  location: string;
   type: EventType;
   registrationDeadline: Date;
   startDate: Date;
-  startTime: Date;
   endDate: Date;
+  startTime: Date;
   endTime: Date;
-  skills: Skills[];
+  skills: Skills[]; 
   createdAt: Date;
   posterId: string;
   status: EventStatus;
   users: UsersInEvents[];
-  location: String;
+}
+
+interface Organisation {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+}
+
+interface Feedback {
+  id: string;
+  userId: string;
+  organisationId: string;
+  eventId: string;
+  message: string;
+  createdAt: Date; 
+  organisation: Organisation;
+  event: Event;
 }
 
 const currentDate = new Date();
@@ -78,6 +93,7 @@ const data = {
 export default function DashboardView() {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [completedEvents, setCompletedEvents] = useState<Event[]>([]);
+  const [feedback, setFeedback] = useState<Feedback[]>([])
 
   const userId = "DEFAULT_ID";
 
@@ -86,12 +102,17 @@ export default function DashboardView() {
       try {
         const response = await fetch(`http://localhost:3000/api/eventsByUserId/${userId}`);
         const data = await response.json();
+        const res2 = await fetch(`http://localhost:3000/api/userFeedback/${userId}`);
+        const data2 = await res2.json();
+
+        console.log(data2.feedback)
 
         const approved = data.events.filter(event => event.status === "Approved");
         const completed = data.events.filter(event => event.status === "Completed");
 
         setUpcomingEvents(approved);
         setCompletedEvents(completed);
+        setFeedback(data2.feedback)
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -114,6 +135,9 @@ export default function DashboardView() {
             </TabsTrigger>
             <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="history">
               Historical Events
+            </TabsTrigger>
+            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="feedback">
+              Feedback
             </TabsTrigger>
           </TabsList>
         </div>
@@ -178,10 +202,6 @@ export default function DashboardView() {
                   endDate={event.endDate}
                   skills={event.skills}
                   organisationId={event.posterId}
-                  currUsersLength={event.users ? event.users.length : 0}
-                  capacity={event.capacity ?? 0}
-                  location={event.location}
-                  registrationDeadline={event.registrationDeadline}
                 />
               ))}
             </div>
@@ -190,6 +210,17 @@ export default function DashboardView() {
           )}
           </div>
           </TabsContent>
+          <TabsContent value="feedback">
+          <div className="flex justify-center">
+            {feedback?.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
+                <UserFeedback feedback={feedback} />
+              </div>
+            ) : (
+              <p className="py-8">No feedback received</p>
+            )}
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
