@@ -174,7 +174,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="next-events">
           <div className="flex justify-center">
             {upcomingEvents?.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
                 {upcomingEvents.map((event, index) => (
                   <UserUpcomingCard
                     key={index}
