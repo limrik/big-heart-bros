@@ -49,28 +49,19 @@ interface Event {
 
 
 function page() {
-<<<<<<< HEAD
-const { data: session } = useSession();
 const [events, setEvents] = useState<Event[]>([]);
-const [intPref, setIntPref] = useState<(String | EventType | Skills[])[][]>([]);
-const [userInfo, setUserInfo] = useState<User>();
+const [userInfo, setUserInfo] = useState();
+const { data: session } = useSession();
+const [intPref, setIntPref] = useState<(string | EventType | Skills[])[][]>([]);
+
+
 
 useEffect(() => {
-  async function fetchData() {
-    console.log(session?.user?.email + "Testing")
-    if (session != null) {
-    try {
-      const response = await fetch(`/api/approvedEvent`);
-      const data = await response.json();
-=======
-  const [events, setEvents] = useState<Event[]>([]);
-
-  useEffect(() => {
     async function fetchData() {
+      if (session != null) {
       try {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
->>>>>>> fbffe6a4ee0d73d1b5e9f0d495bbf6668b379745
 
       const response1 = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
       const data1 = await response1.json();
