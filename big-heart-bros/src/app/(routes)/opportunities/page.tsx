@@ -53,12 +53,12 @@ useEffect(() => {
         setEvents(data.events);
         // Check if data1 is not null before setting userInfo
         if (data1 !== null) {
-            setUserInfo(data1);
+            setUserInfo(data1.user);
         } else {
             // If data1 is null, fetch default user data from the database
             const response1 = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
             const data1 = await response1.json();
-            setUserInfo(data1);
+            setUserInfo(data1.user);
         }
 
         console.log("reached")
@@ -88,6 +88,7 @@ function cosineSimilarity(vectorA: number[], vectorB: number[]): number {
   return dotProduct / (magnitudeA * magnitudeB);
 }
 
+console.log(userInfo)
 const userSkills = userInfo?.skills ?? [];
 console.log(userSkills);
 
@@ -99,8 +100,8 @@ const eventsWithSkills = () =>
 
 // Calculate cosine similarity for each event
 const eventSimilarities = eventsWithSkills().map(event => {
-  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 1 : 0);
-  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 1 : 0);
+  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 1 : 0.1);
+  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 1 : 0.1);
   const similarityScore = cosineSimilarity(userVector, eventVector);
   return { 
     event: event, 
