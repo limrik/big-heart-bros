@@ -41,7 +41,7 @@ useEffect(() => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-[#f7d9d9] min-h-screen">
         <Navbar/>
         <div className="w-5/6 mx-auto">
           <p className="font-bold text-2xl py-10">Volunteering Opportunities</p>

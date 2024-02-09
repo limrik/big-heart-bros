@@ -20,9 +20,9 @@ export default function Navbar() {
         </Link>
         <Link
           className="font-poppins cursor-pointer hover:text-blue-300"
-          href="/about"
+          href="/opportunities"
         >
-          About Us
+          Volunteer
         </Link>
         <Link
           className="font-poppins cursor-pointer hover:text-blue-300"
