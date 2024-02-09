@@ -64,7 +64,7 @@ interface User {
   organisationId?: string;
   attended: boolean;
 }
-
+        
 export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
   const [users, setUsers] = useState<User[]>([]);

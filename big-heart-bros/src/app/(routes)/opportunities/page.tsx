@@ -3,8 +3,10 @@ import React from "react";
 import Navbar from "../../../components/navbar";
 import { useState, useEffect } from "react";
 import VolunteerCard from "../../../components/volunteer-card";
-import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
+import { EventType, Skills, EventStatus, Interests } from "@prisma/client";
 import Event1Photo from "../../assets/volunteer-1.jpg";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { set } from "date-fns";
 
 interface Event {
   id: string;
@@ -22,25 +24,85 @@ interface Event {
   createdAt: Date;
   posterId: string;
   status: EventStatus;
+  interests: Interests[];
+}
+
+interface User {
+  id: String;
+  skills: Skills[];
+  interests: Interests[];    
 }
 
 function page() {
-  const [events, setEvents] = useState<Event[]>([]);
+const [events, setEvents] = useState<Event[]>([]);
+const [userInfo, setUserInfo] = useState<User>();
+const { data: session } = useSession();
 
-  useEffect(() => {
+useEffect(() => {
     async function fetchData() {
+      if (session != null) {
       try {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
 
+        const userResponse = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
+        const userData = await userResponse.json();
+
+        console.log(userData);
+
         setEvents(data.events);
+        // Check if data1 is not null before setting userInfo
+        if (userData !== null) {
+            setUserInfo(userData.user);
+        } else {
+            // If data1 is null, fetch default user data from the database
+            const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
+            const userData = await userResponse.json();
+            setUserInfo(userData.user);
+        }
+
+        console.log("reached")
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    }
+  } else {
+    const response = await fetch(`/api/approvedEvent`);
+    const data = await response.json();
+    setEvents(data.events);
+  }
+}
 
-    fetchData();
-  }, []);
+  fetchData();
+}, [session]);
+
+const userSkills = userInfo?.skills ?? [];
+const userInterests = userInfo?.interests ?? [];
+
+const eventsWithSkills = () => 
+  events.map((event) => ({
+    event: event, 
+    skills: event.skills,
+    interests: event.interests,
+  }));
+
+const SKILLS_WEIGHTAGE = 0.6;
+const INTERESTS_WEIGHTAGE = 1 - SKILLS_WEIGHTAGE;
+
+const eventSimilarities = eventsWithSkills().map(event => {
+  const similarityScoreChecked = SKILLS_WEIGHTAGE * userSkills.reduce((acc, skill) => acc + (event.skills.includes(skill) ? 0.9 : 0.1), 0)
+                                   + INTERESTS_WEIGHTAGE * userInterests.reduce((acc, interest) => acc + (event.interests.includes(interest) ? 0.9 : 0.1), 0);
+  console.log(event.event.name + ": " + similarityScoreChecked);
+  return { 
+    event: event, 
+    similarity: similarityScoreChecked
+  };
+});
+
+// Sort events based on similarity score in descending order
+eventSimilarities.sort((a, b) => b.similarity - a.similarity);
+
+// Get top 5 events with highest similarity scores
+const topEvents = eventSimilarities.slice(0, 6).map(item => item.event);
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
@@ -48,25 +110,25 @@ function page() {
       <div className="w-5/6 mx-auto">
         <p className="font-bold text-2xl py-10">Volunteering Opportunities</p>
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto">
-          {events.map((event, index) => (
+          {topEvents.map((event, index) => (
             <VolunteerCard
               key={index}
-              id={event.id}
+              id={event.event.id}
               image={Event1Photo}
-              name={event.name}
-              description={event.description}
-              startDate={event.startDate}
-              endDate={event.endDate}
+              name={event.event.name}
+              description={event.event.description}
+              startDate={event.event.startDate}
+              endDate={event.event.endDate}
               skills={event.skills}
               link="/home"
               button_desc="View Event"
-              posterId={event.posterId}
-              status={event.status}
+              posterId={event.event.posterId}
+              status={event.event.status}
               currUsersLength={2}
               //{event.users ? event.users.length : 0}
-              capacity={event.capacity ?? 0}
-              location={event.location}
-              registrationDeadline={event.registrationDeadline}
+              capacity={event.event.capacity ?? 0}
+              location={event.event.location}
+              registrationDeadline={event.event.registrationDeadline}
             />
           ))}
         </div>

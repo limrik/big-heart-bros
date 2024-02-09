@@ -71,7 +71,7 @@ const handleClick = async (userId, eventId) => {
 const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
   console.log(props);
   return (
-    <Card className={cn("w-[380px] bg-[#ffffff] rounded-3xl my-4")}>
+    <Card className={cn("bg-[#ffffff] rounded-3xl my-4")}>
       <CardHeader>
         <div className="flex justify-center">
           <Image

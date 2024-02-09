@@ -12,8 +12,17 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 3. Personalised statistics for volunteers
 4. Sign-up and sign-in feature for volunteers (and data collection)
 
+## User Flow
+![User Flow Diagram](big-heart-bros/docs/images/user-flow.png)
+
 ## Current Wireframe
-![Home Page](big-heart-bros/docs/images/home-page.png)
+<div style="display: flex;">
+  <img src="big-heart-bros/docs/images/home-page.png" alt="Home Page" width="100%"/>
+  <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/admin-dashboard.png" alt="Admin Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="40%"/>
+</div>
+
 
 ## Tech Stack and Configuration
 This app uses:
@@ -45,8 +54,6 @@ This app uses:
 │   └── pages/api  
 └── prisma
 └── docs
-└── utils
-    └── machineLearning
 ```
 
 ## Get Started
