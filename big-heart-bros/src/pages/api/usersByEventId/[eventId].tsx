@@ -50,6 +50,7 @@ interface UsersInEvents {
   userId: string;
   event: Event;
   eventId: string;
+  attended: boolean;
 }
 
 type ResponseData = {
@@ -76,7 +77,12 @@ export default async function handler(
         },
       });
 
-      const users = usersInEvents.map((userInEvent) => userInEvent.user);
+      // console.log("hi", usersInEvents);
+
+      const users = usersInEvents.map((userInEvent) => ({
+        ...userInEvent.user,
+        attended: userInEvent.attended,
+      }));
       console.log(users);
 
       res.status(200).json({ users, message: "Users fetched successfully" });

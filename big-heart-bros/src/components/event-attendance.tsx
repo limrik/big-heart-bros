@@ -50,33 +50,7 @@ import {
   Interests,
 } from "@prisma/client";
 import Link from "next/link";
-
-interface Organisation {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  events: Event[];
-  feedbackGiven: Feedback[];
-}
-
-interface Event {
-  id: string;
-  name: string;
-  description: string;
-  capacity: number;
-  location: string;
-  type: EventType;
-  registrationDeadline: Date;
-  startDate: Date;
-  startTime: Date;
-  endDate: Date;
-  endTime: Date;
-  skills: Skills[];
-  createdAt: Date;
-  posterId: string;
-  status: EventStatus;
-}
+import { Row } from "react-day-picker";
 
 interface User {
   id: string;
@@ -95,10 +69,15 @@ interface User {
   interests: Interests[];
   eventId?: string;
   organisationId?: string;
+  attended: boolean;
+  startDate: Date;
 }
 
 interface EventAttendanceProps {
   users: User[];
+  startDate: Date;
+  endDate: Date;
+  status: EventStatus;
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -124,11 +103,6 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "id",
-  //   header: "User ID",
-  //   cell: ({ row }) => row.getValue("id"),
-  // },
   {
     accessorKey: "name",
     header: "Name",
@@ -163,6 +137,21 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "ownVehicle",
     header: "Owns Vehicle?",
     cell: ({ row }) => (row.getValue("ownVehicle") ? "Yes" : "No"),
+  },
+  {
+    accessorKey: "attended",
+    header: "Attended",
+    cell: ({ row }) => {
+      const attended = row.getValue("attended");
+      const startDate = row.original.startDate;
+      const currentDate = new Date();
+
+      return attended
+        ? "✅"
+        : startDate && startDate.getTime() < currentDate.getTime()
+        ? "❌"
+        : "Not Yet";
+    },
   },
   {
     id: "actions",
@@ -220,7 +209,13 @@ export const columns: ColumnDef<User>[] = [
   },
 ];
 
-export default function EventAttendance({ users }: EventAttendanceProps) {
+export default function EventAttendance({
+  users,
+  startDate,
+  endDate,
+  status,
+}: EventAttendanceProps) {
+  console.log("hi", users);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -247,6 +242,107 @@ export default function EventAttendance({ users }: EventAttendanceProps) {
       rowSelection,
     },
   });
+
+  const calculateHoursDifference = (startDate, endDate) => {
+    // Calculate the difference in milliseconds
+    const differenceInMs = endDate.getTime() - startDate.getTime();
+
+    // Convert milliseconds to hours
+    const hoursDifference = differenceInMs / (1000 * 60 * 60);
+
+    // Round the result to two decimal places
+    return Math.round(hoursDifference * 100) / 100;
+  };
+
+  const handleCompleteEvent = (eventId: string) => {
+    const requestData = { eventId };
+
+    fetch("/api/updateEventStatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Event status updated successfully:", data.message);
+        // Optionally, you can perform any action after updating the event status
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating event status:", error);
+      });
+  };
+
+  const handleAttendance = (selectedRows: User[]) => {
+    if (selectedRows.length == 0) return null;
+
+    const selectedRowIds = selectedRows.map((user) => user.id);
+
+    const requestData = {
+      attendedUserIds: selectedRowIds, // Array of selected user IDs
+      eventId: users[0].eventId, // ID of the event
+    };
+
+    fetch("/api/updateAttendance", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Attendance updated successfully:", data.message);
+      })
+      .catch((error) => {
+        console.error("Error updating attendance:", error);
+      });
+
+    const notAttendedUserIds = selectedRows
+      .filter((user) => !user.attended)
+      .map((user) => user.id);
+
+    const requestDataHours = {
+      hoursToAdd: calculateHoursDifference(
+        new Date(startDate),
+        new Date(endDate)
+      ),
+      userIds: notAttendedUserIds,
+    };
+
+    fetch("/api/updateHours", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestDataHours),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Hours updated successfully:", data.message);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating hours:", error);
+      });
+  };
 
   return (
     <div className="w-full">
@@ -339,7 +435,8 @@ export default function EventAttendance({ users }: EventAttendanceProps) {
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredRowModel().rows.length} person(s) selected for
+          attendance.
         </div>
         <div className="space-x-2">
           <Button
@@ -360,9 +457,55 @@ export default function EventAttendance({ users }: EventAttendanceProps) {
           </Button>
         </div>
       </div>{" "}
-      <Button variant="outline" size="sm" className="w-1/2">
-        hi
-      </Button>
+      <div>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-600 py-2 pl-2">
+              Total of{" "}
+              {calculateHoursDifference(new Date(startDate), new Date(endDate))}{" "}
+              hours given
+            </p>
+            {startDate.getTime() < new Date().getTime() ? (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-md text-sm mr-2"
+                onClick={() =>
+                  handleAttendance(
+                    table
+                      .getFilteredSelectedRowModel()
+                      .rows.map((row) => row.original)
+                  )
+                }
+              >
+                Submit Attendance
+              </button>
+            ) : (
+              <button
+                className="bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full cursor-not-allowed text-sm"
+                disabled
+              >
+                Attendance Available on {startDate.toLocaleDateString()}
+              </button>
+            )}
+          </div>
+          <div>
+            {status === "Approved" && new Date() > new Date(endDate) ? (
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full shadow-md text-sm"
+                onClick={() => handleCompleteEvent(users[0].eventId ?? "")}
+              >
+                Complete Event
+              </button>
+            ) : (
+              <button
+                className="bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full cursor-not-allowed text-sm"
+                disabled
+              >
+                Event not complete yet
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

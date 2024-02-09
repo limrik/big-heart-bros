@@ -1,7 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { EventType, Skills, EventStatus, Feedback } from "@prisma/client";
+import {
+  EventType,
+  EventStatus,
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
 import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
@@ -14,6 +24,26 @@ interface Organisation {
   phoneNumber: string;
   events: Event[];
   feedbackGiven: Feedback[];
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  gender: GenderType;
+  occupation?: string | null;
+  dob: Date;
+  canDrive: boolean;
+  ownVehicle: boolean;
+  commitmentLevel: CommitmentLevelType;
+  skills: Skills[];
+  feedback?: Feedback[];
+  residentialStatus: ResidentialStatusType;
+  interests: Interests[];
+  eventId?: string;
+  organisationId?: string;
+  attended: boolean;
 }
 
 interface Event {
@@ -32,13 +62,6 @@ interface Event {
   createdAt: Date;
   posterId: string;
   status: EventStatus;
-}
-
-interface User {
-  id: string;
-  name: string;
-  eventName?: string;
-  organisationName?: string;
 }
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -161,7 +184,40 @@ export default function Page({ params }: { params: { id: string } }) {
                 Sign-up Rate: {users.length} / {event?.capacity}
               </p>
             </div>
-            <EventAttendance users={users} />
+            <EventAttendance
+              users={users.map((user) => ({
+                ...user,
+                startDate: new Date(
+                  new Date(event?.startDate).getFullYear(),
+                  new Date(event?.startDate).getMonth(),
+                  new Date(event?.startDate).getDate(),
+                  new Date(event?.startTime).getHours(),
+                  new Date(event?.startTime).getMinutes(),
+                  new Date(event?.startDate).getSeconds()
+                ),
+              }))}
+              startDate={
+                new Date(
+                  new Date(event?.startDate).getFullYear(),
+                  new Date(event?.startDate).getMonth(),
+                  new Date(event?.startDate).getDate(),
+                  new Date(event?.startTime).getHours(),
+                  new Date(event?.startTime).getMinutes(),
+                  new Date(event?.startTime).getSeconds()
+                )
+              }
+              endDate={
+                new Date(
+                  new Date(event?.endDate).getFullYear(),
+                  new Date(event?.endDate).getMonth(),
+                  new Date(event?.endDate).getDate(),
+                  new Date(event?.endTime).getHours(),
+                  new Date(event?.endTime).getMinutes(),
+                  new Date(event?.endTime).getSeconds()
+                )
+              }
+              status={event?.status}
+            />
           </div>
         </div>
       </div>

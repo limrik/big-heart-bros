@@ -62,6 +62,7 @@ interface User {
   interests: Interests[];
   eventId?: string;
   organisationId?: string;
+  attended: boolean;
 }
 
 const handleApprove = async (id: String) => {
@@ -213,7 +214,40 @@ export default function Page({ params }: { params: { id: string } }) {
                   Sign-up Rate: {users.length} / {event?.capacity}
                 </p>
               </div>
-              <EventAttendance users={users} />
+              <EventAttendance
+                users={users.map((user) => ({
+                  ...user,
+                  startDate: new Date(
+                    new Date(event?.startDate).getFullYear(),
+                    new Date(event?.startDate).getMonth(),
+                    new Date(event?.startDate).getDate(),
+                    new Date(event?.startTime).getHours(),
+                    new Date(event?.startTime).getMinutes(),
+                    new Date(event?.startTime).getSeconds()
+                  ),
+                }))}
+                startDate={
+                  new Date(
+                    new Date(event?.startDate).getFullYear(),
+                    new Date(event?.startDate).getMonth(),
+                    new Date(event?.startDate).getDate(),
+                    new Date(event?.startTime).getHours(),
+                    new Date(event?.startTime).getMinutes(),
+                    new Date(event?.startTime).getSeconds()
+                  )
+                }
+                endDate={
+                  new Date(
+                    new Date(event?.endDate).getFullYear(),
+                    new Date(event?.endDate).getMonth(),
+                    new Date(event?.endDate).getDate(),
+                    new Date(event?.endTime).getHours(),
+                    new Date(event?.endTime).getMinutes(),
+                    new Date(event?.endTime).getSeconds()
+                  )
+                }
+                status={event?.status}
+              />
             </div>
           )}
         </div>
