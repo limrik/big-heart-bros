@@ -40,36 +40,36 @@ const { data: session } = useSession();
 
 useEffect(() => {
     async function fetchData() {
-      if (session != null) {
+      // if (session != null) {
       try {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
 
-        const userResponse = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
+        const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
         const userData = await userResponse.json();
 
         console.log(userData);
 
         setEvents(data.events);
         // Check if data1 is not null before setting userInfo
-        if (data1 !== null) {
-            setUserInfo(data1);
+        if (userData !== null) {
+            setUserInfo(userData.user);
         } else {
             // If data1 is null, fetch default user data from the database
-            const response1 = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
-            const data1 = await response1.json();
-            setUserInfo(data1);
+            const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
+            const userData = await userResponse.json();
+            setUserInfo(userData.user);
         }
 
         console.log("reached")
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-  } else {
-    const response = await fetch(`/api/approvedEvent`);
-    const data = await response.json();
-    setEvents(data.events);
-  }
+  // } else {
+  //   const response = await fetch(`/api/approvedEvent`);
+  //   const data = await response.json();
+  //   setEvents(data.events);
+  // }
 }
 
   fetchData();
@@ -103,13 +103,17 @@ const eventsWithSkills = () =>
 
 // Calculate cosine similarity for each event
 const eventSimilarities = eventsWithSkills().map(event => {
-  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 1 : 0.1);
-  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 1 : 0.1);
-  const similarityScore = cosineSimilarity(userVector, eventVector);
-  console.log(event.event.name + ": " + similarityScore);
+  console.log("Event:", event.event.name);
+  console.log("Event Skills:", event.event.skills);
+  console.log("User Skills:", userSkills);
+  const userVector = userSkills.map(skill => event.skills.includes(skill) ? 0.9 : 0.1);
+  const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 0.9 : 0.1);
+  const similarityScore = cosineSimilarity(userVector, eventVector) ?? 0;
+  const similarityScoreChecked = isNaN(similarityScore) ? 0 : similarityScore;
+  console.log(event.event.name + ": " + similarityScoreChecked);
   return { 
     event: event, 
-    similarity: similarityScore
+    similarity: similarityScoreChecked
   };
 });
 
