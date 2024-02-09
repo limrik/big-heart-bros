@@ -15,6 +15,7 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
 ## Current Wireframe
 ![Home Page](big-heart-bros/docs/images/home-page.png)
 
+## Tech Stack and Configuration
 This app uses:
 
 -   Next.js
@@ -41,8 +42,11 @@ This app uses:
 │   ├── components  
 │   ├── constants  
 │   ├── lib  
-│   ├── pages/api  
+│   └── pages/api  
 └── prisma
+└── docs
+└── utils
+    └── machineLearning
 ```
 
 ## Get Started
