@@ -45,20 +45,20 @@ useEffect(() => {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
 
-        const response1 = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
-        const data1 = await response1.json();
+        const userResponse = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
+        const userData = await userResponse.json();
 
-        console.log(data1);
+        console.log(userData);
 
         setEvents(data.events);
         // Check if data1 is not null before setting userInfo
         if (data1 !== null) {
-            setUserInfo(data1.user);
+            setUserInfo(data1);
         } else {
             // If data1 is null, fetch default user data from the database
             const response1 = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
             const data1 = await response1.json();
-            setUserInfo(data1.user);
+            setUserInfo(data1);
         }
 
         console.log("reached")
@@ -83,6 +83,10 @@ function cosineSimilarity(vectorA: number[], vectorB: number[]): number {
   // Calculate magnitude of vectors
   const magnitudeA = Math.sqrt(vectorA.reduce((acc, value) => acc + Math.pow(value, 2), 0));
   const magnitudeB = Math.sqrt(vectorB.reduce((acc, value) => acc + Math.pow(value, 2), 0));
+  console.log("Dot Product:", dotProduct);
+  console.log("Magnitude A:", magnitudeA);
+  console.log("Magnitude B:", magnitudeB);
+
 
   // Calculate cosine similarity
   return dotProduct / (magnitudeA * magnitudeB);
@@ -90,7 +94,6 @@ function cosineSimilarity(vectorA: number[], vectorB: number[]): number {
 
 console.log(userInfo)
 const userSkills = userInfo?.skills ?? [];
-console.log(userSkills);
 
 const eventsWithSkills = () => 
   events.map((event) => ({
@@ -103,6 +106,7 @@ const eventSimilarities = eventsWithSkills().map(event => {
   const userVector = userSkills.map(skill => event.skills.includes(skill) ? 1 : 0.1);
   const eventVector = event.skills.map(skill => userSkills.includes(skill) ? 1 : 0.1);
   const similarityScore = cosineSimilarity(userVector, eventVector);
+  console.log(event.event.name + ": " + similarityScore);
   return { 
     event: event, 
     similarity: similarityScore
@@ -113,7 +117,7 @@ const eventSimilarities = eventsWithSkills().map(event => {
 eventSimilarities.sort((a, b) => b.similarity - a.similarity);
 
 // Get top 5 events with highest similarity scores
-const topEvents = eventSimilarities.slice(0, 5).map(item => item.event);
+const topEvents = eventSimilarities.slice(0, 6).map(item => item.event);
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
