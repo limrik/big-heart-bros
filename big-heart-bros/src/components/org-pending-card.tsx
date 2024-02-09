@@ -25,6 +25,7 @@ import { EventType, Skills, EventStatus } from "@prisma/client";
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import Link from "next/link";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -50,11 +51,6 @@ type CardComponentProps = {
 
 const PendingEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
-
-  // @dayn to link to event page
-  const nav = () => {
-    console.log("Go to event page");
-  };
 
   return (
     <Card className={cn("w-full bg-white rounded-lg shadow-md my-2")}>
@@ -102,13 +98,8 @@ const PendingEventCard: React.FC<CardComponentProps> = (props) => {
               </p>
               <p className="text-sm">Location: {props.location} </p>
             </div>
-            <div>
-              <Button
-                onClick={nav}
-                className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400"
-              >
-                View Event
-              </Button>
+            <div className="w-24 my-1 bg-red-400 rounded-2xl text-white hover:bg-gray-400 text-center items-center justify-center flex h-9">
+              <Link href={`/event/${props.id}`}>View Event</Link>
             </div>
           </div>
         </div>
