@@ -20,12 +20,12 @@ Big Heart Bros aim to streamline the volunteering process, by allowing volunteer
   <img src="big-heart-bros/docs/images/home-page.png" alt="Home Page" width="100%"/>
 </div>
 
-## Sign In Page
+## Sign In & Up Page
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/sign-up.jpg" alt="Sign Up Page" width="40%"/>
 </div>
-Purpose: Comprehensive user page for meaningful data collection.<br/>
-Usage: Users can fill up the input fields and sign up as a user.
+Purpose: Users will be redirected to this page upon first sign in. Comprehensive user page for meaningful data collection.<br/>
+Usage: Users can fill up the input fields and sign up as a user. Users are also authenticated against a database using NextAuth.js.
 
 ## Volunteering Page
 <div style="display: flex;">
