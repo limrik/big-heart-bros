@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Navbar from "../../../components/navbar";
-import Card from "../../../components/user-upcoming-card";
-import UserCard from "../../../components/stat-card";
 import Profile from "../../../components/profile";
 import Achievements from "../../../components/achievements";
 import DashboardView from "../../../components/dashboard-view";
-import Event1Photo from "../../assets/volunteer-1.jpg";
-import Event2Photo from "../../assets/volunteer-2.jpg";
+import UserFeedback from "../../../components/user-feedback";
+
 
 
 const UserDashboard: React.FC = () => {
