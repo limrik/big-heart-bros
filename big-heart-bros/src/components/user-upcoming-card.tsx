@@ -88,7 +88,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <p>
+        <p className="text-sm font-semibold">
           From:{" "}
           {new Date(props.startDate).toLocaleDateString("en-GB", {
             day: "numeric",
@@ -109,7 +109,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
           <div className="col-span-full">
             <h3>Skills Wanted:</h3>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {props.skills.map((skill, index) => (
               <div
                 key={index}
@@ -193,9 +193,6 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                 ))}
               </div>
             </div>
-            </DialogDescription>
-            <DialogDescription>
-              <span className="font-bold">Contact: </span>
             </DialogDescription>
           </div>
         </div>

@@ -202,9 +202,6 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
               </div>
             </div>
             </DialogDescription>
-            <DialogDescription>
-              <span className="font-bold">Contact: </span>
-            </DialogDescription>
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
