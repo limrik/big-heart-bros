@@ -13,7 +13,7 @@ import Event2Photo from "../../assets/volunteer-2.jpg";
 
 const UserDashboard: React.FC = () => {
   return (
-    <div className="bg-[#f7d9d9] h-auto">
+    <div className="bg-[#f7d9d9] min-h-screen">
       <Navbar />
       <div className="w-5/6 mx-auto flex-row flex gap-12">
         <div>

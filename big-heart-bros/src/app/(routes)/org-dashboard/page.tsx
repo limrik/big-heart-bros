@@ -68,7 +68,7 @@ const OrgDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-[#f7d9d9]">
+    <div className="bg-[#f7d9d9] min-h-screen">
       <Navbar></Navbar>
       <div className="w-5/6 mx-auto">
         <div className="flex justify-between my-4 items-center">
