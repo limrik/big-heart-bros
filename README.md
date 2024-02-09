@@ -1,1 +1,56 @@
 # big-heart-bros
+
+Big Heart Bros aims to streamline the volunteering process, by allowing volunteers to sign up for events and organisations to put up requests for volunteers to join. Big At Heart simply has to approve or reject the request from the organisations.
+
+-   Target User: Volunteers
+-   Medium: Web app
+-   Issue: Tedious process to sign and liase with volunteeers, and meaningful data collection
+-   Additional Features:
+
+This app uses:
+
+-   Next.js
+-   Nativewind CSS (Tailwind)
+-   NextAuth.js
+-   Typescript
+-   Prettier (Auto formatting)
+-   Prisma
+-   Supabase
+
+<p align='center'>
+<img src='https://img.shields.io/badge/-NextJS-white?logo=nextdotjs&logoColor=black'>
+<img src='https://img.shields.io/badge/-TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white''>
+<img src='https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white''>
+<img src='https://img.shields.io/badge/-Prisma-blue?logo=prisma&logoColor=darkblue'>
+<img src='https://img.shields.io/badge/-Supabase-white?logo=supabase&logoColor=green'>
+  
+</p>
+
+## Folder structure
+```
+├── src/  
+│   ├── app  
+│   ├── components  
+│   ├── constants  
+│   ├── lib  
+│   ├── pages/api  
+│   ├── screens/  
+│   │   ├── screen1  
+│   │   ├── screen2  
+│   │   └── screen3  
+│   ├── screen1-route.tsx  
+│   ├── screen2-route.tsx  
+│   └── screen3-route.tsx  
+└── prisma
+
+## Get Started
+Ensure that you have the following installed:
+- [**Node.js**](https://nodejs.dev/en/download/)
+- [**Git**](https://git-scm.com/downloads)
+- [**Npm**](https://www.npmjs.com/package/npm)
+
+Now do the following:
+1. First git clone the repository
+2. Then `cd` into the repository and install dependencies with `npm install`
+3. Run `npm run dev` to run the application
+4. Go to localhost:3000 on your own device
