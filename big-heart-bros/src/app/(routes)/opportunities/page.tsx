@@ -69,6 +69,9 @@ useEffect(() => {
     const response = await fetch(`/api/approvedEvent`);
     const data = await response.json();
     setEvents(data.events);
+    const userResponse = await fetch(`/api/checkUserByEmail/bentan@gmail.com`);
+    const userData = await userResponse.json();
+    setUserInfo(userData.user);
   }
 }
 
