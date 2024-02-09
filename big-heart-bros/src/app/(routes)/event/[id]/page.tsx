@@ -12,8 +12,8 @@ interface Organisation {
   name: string;
   email: string;
   phoneNumber: string;
-    events: Event[];
-    feedbackGiven: Feedback[];
+  events: Event[];
+  feedbackGiven: Feedback[];
 }
 
 interface Event {
@@ -41,7 +41,7 @@ interface User {
   organisationName?: string;
 }
 
-export default function Page({ params }: { params: 	{ id: string}}) {
+export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
   const [users, setUsers] = useState<User[]>([]);
   const [organisation, setOrganisation] = useState<Organisation>();
@@ -55,10 +55,10 @@ export default function Page({ params }: { params: 	{ id: string}}) {
         const res2 = await fetch(
           `http://localhost:3000/api/usersByEventId/${params.id}`
         );
-        
+
         const data = await res.json();
         const data2 = await res2.json();
-        
+
         setEvent(data.event);
         setUsers(data2.users);
       } catch (error) {
@@ -89,7 +89,7 @@ export default function Page({ params }: { params: 	{ id: string}}) {
 
   useEffect(() => {
     updateUsers();
-  }, [organisation])
+  }, [organisation]);
 
   const updateUsers = () => {
     const updatedUsers = users.map((user: User) => ({
@@ -98,9 +98,9 @@ export default function Page({ params }: { params: 	{ id: string}}) {
       organisationId: organisation?.id, // You need to replace this with the actual organisation name
     }));
 
-    console.log(updatedUsers)
+    console.log(updatedUsers);
     setUsers(updatedUsers);
-  }
+  };
 
   return (
     <div>
@@ -110,7 +110,7 @@ export default function Page({ params }: { params: 	{ id: string}}) {
       >
         <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[450px]">
           <Navbar />
-          <div className="absolute top-[145px] w-full h-2/3 flex flex-col justify-center text-white">
+          <div>
             <div>
               {" "}
               <div className="flex justify-center my-4 items-center pt-64">
@@ -128,8 +128,8 @@ export default function Page({ params }: { params: 	{ id: string}}) {
           </div>
         </div>
       </div>
-      <div className="pt-20 bg-[#fcb6b6]">
-        <div className="pt-24 px-20 grid grid-cols-2 bg-white">
+      <div className="pt-44 bg-[#fcb6b6]">
+        <div className="pt-20 px-20 grid grid-cols-2 bg-white">
           <div>
             <p className="font-semibold text-xl underline py-4">
               Event Details{" "}
@@ -138,7 +138,7 @@ export default function Page({ params }: { params: 	{ id: string}}) {
           </div>
           <div className="text-center">
             <p className="font-medium text-xl py-4">Attendance</p>
-            <EventAttendance users={users}/>
+            <EventAttendance users={users} />
           </div>
         </div>
       </div>
