@@ -9,7 +9,7 @@ export default async function generateTestimonial(
   const url = 'https://api.openai.com/v1/chat/completions'
 
   const body = JSON.stringify({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-0125',
     messages: [{ role: 'user', content: prompt }]
   })
 
