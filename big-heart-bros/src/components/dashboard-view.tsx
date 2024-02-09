@@ -235,37 +235,37 @@ export default function DashboardView({ userId }) {
       console.log(prompt);
 
       try {
-    //     const response = await fetch("/api/generateTestimonial", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ prompt }),
-    //     });
+        const response = await fetch("/api/generateTestimonial", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }),
+        });
 
-    //     if (!response.ok) {
-    //       throw new Error(`Failed to fetch data: ${response.statusText}`);
-    //     }
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
 
-    //     const res = await response.json();
-    //     console.log(res);
-    //     const messageContent = res.data.choices[0].message.content;
-    //     console.log("OpenAI replied...", messageContent);
-        const messageContent =
-          "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
-          "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
-          "\n\n" +
-          // "At Children Home Pasir Ris, Ben's passion for storytelling shone brightly during the Children's Storytelling Session. His ability to engage with the children through animated expressions and dynamic delivery captivated their imaginations and fostered a love for storytelling that will undoubtedly leave a lasting impact on their lives. " +
-          // "Ben's genuine connection with the children reflects his deep empathy and compassion for vulnerable members of the community." +
-          // "\n\n" +
-          "Furthermore, Ben's involvement in Beyond Social's Youth Sports Day exemplifies his dedication to promoting positive youth development. " +
-          "Through his encouragement and support, Ben fostered a supportive and inclusive environment where youth could actively engage in sports and develop essential skills such as teamwork, leadership, and sportsmanship. His positive attitude served as a source of inspiration for the youth, empowering them to strive for excellence both on and off the field." +
-          "\n\n" +
-          "Ben's multifaceted contributions to various community initiatives highlight his versatility and adaptability as a volunteer. Whether it's promoting fair treatment for migrant workers, nurturing the imaginations of children, or empowering youth through sports, Ben consistently demonstrates a genuine desire to create meaningful change. " +
-          "His selflessness, compassion, and dedication serve as a beacon of hope for the community, inspiring others to join him in making the world a better place." +
-          "\n\n" +
-          "In recognition of Ben Tan's outstanding contributions to the community, we extend our heartfelt gratitude and appreciation. " +
-          "His tireless efforts and unwavering dedication embody the values of compassion, empathy, and social responsibility that are at the heart of volunteerism. We are proud to have Ben as a valued member of our community, and we look forward to witnessing the continued impact of his work for years to come.";
+        const res = await response.json();
+        console.log(res);
+        const messageContent = res.data.choices[0].message.content;
+        console.log("OpenAI replied...", messageContent);
+        // const messageContent =
+        //   "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
+        //   "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
+        //   "\n\n" +
+        //   // "At Children Home Pasir Ris, Ben's passion for storytelling shone brightly during the Children's Storytelling Session. His ability to engage with the children through animated expressions and dynamic delivery captivated their imaginations and fostered a love for storytelling that will undoubtedly leave a lasting impact on their lives. " +
+        //   // "Ben's genuine connection with the children reflects his deep empathy and compassion for vulnerable members of the community." +
+        //   // "\n\n" +
+        //   "Furthermore, Ben's involvement in Beyond Social's Youth Sports Day exemplifies his dedication to promoting positive youth development. " +
+        //   "Through his encouragement and support, Ben fostered a supportive and inclusive environment where youth could actively engage in sports and develop essential skills such as teamwork, leadership, and sportsmanship. His positive attitude served as a source of inspiration for the youth, empowering them to strive for excellence both on and off the field." +
+        //   "\n\n" +
+        //   "Ben's multifaceted contributions to various community initiatives highlight his versatility and adaptability as a volunteer. Whether it's promoting fair treatment for migrant workers, nurturing the imaginations of children, or empowering youth through sports, Ben consistently demonstrates a genuine desire to create meaningful change. " +
+        //   "His selflessness, compassion, and dedication serve as a beacon of hope for the community, inspiring others to join him in making the world a better place." +
+        //   "\n\n" +
+        //   "In recognition of Ben Tan's outstanding contributions to the community, we extend our heartfelt gratitude and appreciation. " +
+        //   "His tireless efforts and unwavering dedication embody the values of compassion, empathy, and social responsibility that are at the heart of volunteerism. We are proud to have Ben as a valued member of our community, and we look forward to witnessing the continued impact of his work for years to come.";
         setGeneratedText(messageContent);
       } catch (error) {
         console.error("Error:", error);
