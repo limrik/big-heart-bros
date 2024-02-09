@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import VolunteerCard from "../../../components/volunteer-card";
 import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 import Event1Photo from "../../assets/volunteer-1.jpg";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 
 interface Event {
     id: string;
@@ -23,23 +25,71 @@ interface Event {
     users: UsersInEvents[];
   }
 
+  interface Interests {
+    CommunityService
+    EnvironmentalProtection
+    HealthcareSupport
+    EducationSupport
+    YouthMentoring
+    ElderlySupport
+    ArtsAndCulture
+    SportsAndRecreation
+    TechnologyAssistance
+    FundraisingEvents
+    FoodBankAssistance
+    HomelessnessSupport
+  }
+
+  interface User {
+    id: String;
+    skills: Skills[];
+    interests: Interests[];    
+  }
+
+
 function page() {
+const { data: session } = useSession();
 const [events, setEvents] = useState<Event[]>([]);
+const [intPref, setIntPref] = useState<(String | EventType | Skills[])[][]>([]);
+const [userInfo, setUserInfo] = useState<User>();
 
 useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`/api/approvedEvent`);
-        const data = await response.json();
+  async function fetchData() {
+    console.log(session?.user?.email + "Testing")
+    if (session != null) {
+    try {
+      const response = await fetch(`/api/approvedEvent`);
+      const data = await response.json();
 
-        setEvents(data.events);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      const response1 = await fetch(`/api/checkUserByEmail/${session?.user?.email}`);
+      const data1 = await response1.json();
+
+      setEvents(data.events);
+      setUserInfo(data1);
+
+      console.log("reached")
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  } else {
+    const response = await fetch(`/api/approvedEvent`);
+    const data = await response.json();
+    setEvents(data.events);
+  }
+}
 
-    fetchData();
-  }, []);
+  fetchData();
+}, [session]);
+
+useEffect(() => {
+  const newArray = events.map((event) => [event.id, event.skills, event.type]);
+  setIntPref(newArray);
+
+
+  console.log(userInfo)
+}, [events, userInfo]);
+
+
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
