@@ -15,20 +15,23 @@ const EventFeedbackModal: React.FC<EventFeedbackModalProps> = ({
   userId,
   userName,
   eventId,
-  organisationId
+  organisationId,
 }) => {
   const [feedback, setFeedback] = useState("");
 
   const handleSubmit = async () => {
     // Handle form submission here
     try {
-      const response = await fetch(`/api/feedback/${organisationId}/${userId}/${eventId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: feedback }),
-      });
+      const response = await fetch(
+        `/api/feedback/${organisationId}/${userId}/${eventId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: feedback }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit feedback");
@@ -48,7 +51,7 @@ const EventFeedbackModal: React.FC<EventFeedbackModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50i flex items-center justify-center backdrop-filter backdrop-blur-sm w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-sm w-full">
       <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
         <h2 className="text-lg font-semibold mb-4">Feedback for {userName} </h2>
         <textarea
