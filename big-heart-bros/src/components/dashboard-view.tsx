@@ -288,7 +288,7 @@ export default function DashboardView({ userId }) {
               Upcoming Events
             </TabsTrigger>
             <TabsTrigger className="bg-[#f7d1d1] mr-2" value="history">
-              Historical Events
+              Past Events
             </TabsTrigger>
             <TabsTrigger className="mr-1 mr-4  bg-[#f7d1d1]" value="feedback">
               Feedback
