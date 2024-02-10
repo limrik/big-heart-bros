@@ -131,13 +131,9 @@ export default function DashboardView({ userId }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/eventsByUserId/${userId}`
-        );
+        const response = await fetch(`/api/eventsByUserId/${userId}`);
         const data = await response.json();
-        const res2 = await fetch(
-          `http://localhost:3000/api/userFeedback/${userId}`
-        );
+        const res2 = await fetch(`/api/userFeedback/${userId}`);
         const data2 = await res2.json();
 
         const approved = data.events.filter(

@@ -64,7 +64,7 @@ interface User {
   organisationId?: string;
   attended: boolean;
 }
-        
+
 export default function Page({ params }: { params: { id: string } }) {
   const [event, setEvent] = useState<Event>();
   const [users, setUsers] = useState<User[]>([]);
@@ -73,12 +73,8 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/eventById/${params.id}`
-        );
-        const res2 = await fetch(
-          `http://localhost:3000/api/usersByEventId/${params.id}`
-        );
+        const res = await fetch(`/api/eventById/${params.id}`);
+        const res2 = await fetch(`/api/usersByEventId/${params.id}`);
 
         const data = await res.json();
         const data2 = await res2.json();

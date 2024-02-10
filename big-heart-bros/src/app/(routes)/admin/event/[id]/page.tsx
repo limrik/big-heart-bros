@@ -88,12 +88,8 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/eventById/${params.id}`
-        );
-        const res2 = await fetch(
-          `http://localhost:3000/api/usersByEventId/${params.id}`
-        );
+        const res = await fetch(`/api/eventById/${params.id}`);
+        const res2 = await fetch(`/api/usersByEventId/${params.id}`);
 
         const data = await res.json();
         const data2 = await res2.json();
@@ -112,9 +108,7 @@ export default function Page({ params }: { params: { id: string } }) {
     async function fetchOrganisation() {
       try {
         if (event) {
-          const res = await fetch(
-            `http://localhost:3000/api/organisation/${event.posterId}`
-          );
+          const res = await fetch(`/api/organisation/${event.posterId}`);
           const data = await res.json();
           setOrganisation(data.organisation);
         }
