@@ -162,7 +162,7 @@ export default function DashboardView({ userId }) {
 
   useEffect(() => {
     setUniqueOrganisationNamesArray(Array.from(uniqueOrganisationNames));
-    console.log("feedback: " + feedback)
+    console.log("feedback: " + feedback);
   }, [uniqueOrganisationNames]);
 
   const handleCheckboxChange = (name: string) => {
@@ -282,16 +282,16 @@ export default function DashboardView({ userId }) {
       <Tabs defaultValue="stats" className="w-full">
         <div className="flex justify-between">
           <TabsList className="rounded-2xl">
-            <TabsTrigger className="bg-[#f7d1d1] ml-1 mr-2" value="stats">
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="stats">
               Activity
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-2" value="next-events">
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="next-events">
               Upcoming Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="history">
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="history">
               Historical Events
             </TabsTrigger>
-            <TabsTrigger className="bg-[#f7d1d1] mr-1 mr-4" value="feedback">
+            <TabsTrigger className="bg-[#f7d1d1] mr-2" value="feedback">
               Feedback
             </TabsTrigger>
           </TabsList>
@@ -314,7 +314,7 @@ export default function DashboardView({ userId }) {
           </div>
         </TabsContent>
         <TabsContent value="next-events">
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center">
             {upcomingEvents?.length > 0 ? (
               <div className="">
                 {upcomingEvents.map((event, index) => (
@@ -344,25 +344,32 @@ export default function DashboardView({ userId }) {
           </div>
         </TabsContent>
         <TabsContent value="history">
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center">
             {completedEvents?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
                 {completedEvents.map((event, index) => (
-                  <CompletedEventCard
-                    key={index}
-                    image={Event2Photo}
-                    name={event.name}
-                    description={event.description}
-                    type={event.type}
-                    startDate={event.startDate}
-                    endDate={event.endDate}
-                    skills={event.skills}
-                    organisationId={event.posterId}
-                    // currUsersLength={2} // event.users ? event.users.length : 0}
-                    // capacity={event.capacity ?? 0}
-                    // location={event.location}
-                    // registrationDeadline={event.registrationDeadline}
-                  />
+                  <div>
+                    <CompletedEventCard
+                      key={index}
+                      image={Event2Photo}
+                      name={event.name}
+                      description={event.description}
+                      type={event.type}
+                      startDate={event.startDate}
+                      endDate={event.endDate}
+                      skills={event.skills}
+                      organisationId={event.posterId}
+                      feedback={feedback.filter(
+                        (fb) =>
+                          fb.eventId === event.id &&
+                          fb.organisationId === event.posterId
+                      )}
+                      // currUsersLength={2} // event.users ? event.users.length : 0}
+                      // capacity={event.capacity ?? 0}
+                      // location={event.location}
+                      // registrationDeadline={event.registrationDeadline}
+                    />
+                  </div>
                 ))}
               </div>
             ) : (
@@ -409,7 +416,10 @@ export default function DashboardView({ userId }) {
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {generatedText && (
               <div>
-                <div className="rounded border bg-white h-[11.69in]" ref={contentToPrint}>
+                <div
+                  className="rounded border bg-white h-[11.69in]"
+                  ref={contentToPrint}
+                >
                   <div className="p-4 flex justify-center items-center">
                     <div className="flex flex-col items-center">
                       <Image src={logo} alt="logo" width={200} height={200} />

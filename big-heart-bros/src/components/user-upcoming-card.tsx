@@ -74,9 +74,7 @@ const handleClick = async (userId, eventId) => {
 const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
   console.log(props);
   return (
-    <Card
-      className={cn("bg-[#ffffff] my-4 w-full shadow-xl rounded-none mx-6")}
-    >
+    <Card className={cn("bg-[#ffffff] my-4 w-full shadow-xl rounded-none")}>
       <CardHeader>
         <div className="grid grid-cols-6">
           <div className="col-span-5">
@@ -115,7 +113,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
         </div>
         <div className="flex justify-center h-64">
           <Image
-            className="py-4  object-cover w-full"
+            className="py-4 object-cover w-full"
             src={props.image}
             alt="Event Image"
           />
