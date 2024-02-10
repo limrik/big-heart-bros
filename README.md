@@ -99,7 +99,10 @@ This app uses:
 
 ## Get Started
 
-Visit this link: [Website](big-heart-bros.vercel.app/home)
+Visit this link: big-heart-bros.vercel.app/home
+
+Known issues:
+- NextAuth not working on Vercel, can consider dropping us an issue to see video demo or for the .env file.
 
 Alternatively,
 
