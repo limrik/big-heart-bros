@@ -72,7 +72,7 @@ interface User {
 
 const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
-
+  
   useEffect(() => {
     async function fetchData() {
       try {

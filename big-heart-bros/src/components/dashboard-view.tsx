@@ -16,6 +16,7 @@ import logo from ".././app/assets/bigatheartslogo.png";
 import openAILogo from ".././app/assets/openai-logomark.png";
 import Image from "next/image";
 import { useReactToPrint } from "react-to-print";
+import { Skeleton } from "./ui/skeleton";
 
 Chart.register(...registerables);
 
@@ -431,41 +432,58 @@ export default function DashboardView({ userId }) {
             </div>
           </div>
           <div className="mt-4">
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            {generatedText && (
-              <div>
-                <div
-                  className="rounded border bg-white h-[11.69in]"
-                  ref={contentToPrint}
-                >
-                  <div className="p-4 flex justify-center items-center">
-                    <div className="flex flex-col items-center">
-                      <Image src={logo} alt="logo" width={200} height={200} />
-                      <hr className="border-t border-gray-200 w-full my-4" />
-                      <p className="whitespace-pre-wrap text-justify bg-white p-4 rounded-lg">
-                        {generatedText}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="my-4 mx-4 text-left ">
-                    <hr className="border-t border-gray-200 w-full my-4" />
-                    <p className="text-gray-600 font-serif">
-                      With sincerest regards,
-                    </p>
-                    <p className="text-lg font-semibold tracking-wide text-indigo-800 uppercase">
-                      Big At Heart
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-center items center">
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex"
-                    onClick={handlePrint}
-                  >
-                    Save as PDF
-                  </button>
+            {isLoading && prompt ? (
+              <div className="flex flex-col space-y-3 mt-6 items-center">
+                <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                  <Skeleton className="h-4 w-[200px] bg-slate-100" />
                 </div>
               </div>
+            ) : (
+              <>
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+                {generatedText && (
+                  <div>
+                    <div
+                      className="rounded border bg-white h-[11.69in]"
+                      ref={contentToPrint}
+                    >
+                      <div className="p-4 flex justify-center items-center">
+                        <div className="flex flex-col items-center">
+                          <Image
+                            src={logo}
+                            alt="logo"
+                            width={200}
+                            height={200}
+                          />
+                          <hr className="border-t border-gray-200 w-full my-4" />
+                          <p className="whitespace-pre-wrap text-justify bg-white p-4 rounded-lg">
+                            {generatedText}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="my-4 mx-4 text-left ">
+                        <hr className="border-t border-gray-200 w-full my-4" />
+                        <p className="text-gray-600 font-serif">
+                          With sincerest regards,
+                        </p>
+                        <p className="text-lg font-semibold tracking-wide text-indigo-800 uppercase">
+                          Big At Heart
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items center">
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex"
+                        onClick={handlePrint}
+                      >
+                        Save as PDF
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </TabsContent>
