@@ -14,7 +14,7 @@ export default function Navbar() {
         <div className="flex flex-row space-x-8 items-center">
           <Link
             className="font-poppins cursor-pointer hover:text-blue-300"
-            href="/home"
+            href="/"
           >
             Home
           </Link>
