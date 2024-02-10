@@ -82,6 +82,7 @@ function page() {
         );
         const userData = await userResponse.json();
         setUserInfo(userData.user);
+        setLoading(false)
       }
     }
 
