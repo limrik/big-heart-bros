@@ -28,20 +28,20 @@ export default function Navbar() {
             className="font-poppins cursor-pointer hover:text-blue-300"
             href="/profile/DEFAULT_ID"
           >
-            Dashboard (User)
+            [User] Profile
           </Link>
 
           <Link
             className="font-poppins cursor-pointer hover:text-blue-300"
             href="/org-dashboard/DEFAULT_ID"
           >
-            Dashboard (Org)
+            [Org] Dashboard
           </Link>
           <Link
             className="font-poppins cursor-pointer hover:text-blue-300"
             href="/admin/dashboard"
           >
-            Dashboard (Admin)
+            [Admin] Dashboard
           </Link>
           <SigninButton />
         </div>

@@ -27,6 +27,8 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-toggle": "^1.0.3",
+    "@radix-ui/react-toggle-group": "^1.0.4",
     "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-table": "^8.11.8",
     "chart.js": "^4.4.1",
