@@ -162,7 +162,8 @@ export default function DashboardView({ userId }) {
 
   useEffect(() => {
     setUniqueOrganisationNamesArray(Array.from(uniqueOrganisationNames));
-  }, feedback);
+    console.log("feedback: " + feedback)
+  }, [uniqueOrganisationNames]);
 
   const handleCheckboxChange = (name: string) => {
     setSelectedInputs((prevInputs) => {
@@ -346,8 +347,9 @@ export default function DashboardView({ userId }) {
           <div className="flex justify-center">
             {completedEvents?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
-                {completedEvents.map((event) => (
+                {completedEvents.map((event, index) => (
                   <CompletedEventCard
+                    key={index}
                     image={Event2Photo}
                     name={event.name}
                     description={event.description}
