@@ -40,8 +40,8 @@ and join the event, viewing other info such as capacity, and registration deadli
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/user-dashboard.png" alt="User Dashboard" width="40%"/>
   <img src="big-heart-bros/docs/images/upcoming-events.jpg" alt="Upcoming Events" width="40%"/>
-  <img src="big-heart-bros/docs/images/gen-test-1.jpg" alt="Generate Testimonial 1" width="40%"/>
-  <img src="big-heart-bros/docs/images/gen-test-2.jpg" alt="Generate Testimonial 2" width="40%"/>
+  <img src="big-heart-bros/docs/images/gen-test-1.png" alt="Generate Testimonial 1" width="40%"/>
+  <img src="big-heart-bros/docs/images/gen-test-2.png" alt="Generate Testimonial 2" width="40%"/>
 </div>
 Purpose: Gamify volunteering and allowing users to get achievements and see their stats (from volunteering).<br/>
 Usage: Under "Activity", users can view their hours clocked. Users can also view events they signed up for under "Upcoming Events" and those that are completed under "Historical Events". We have integrated our web application with the OpenAI API allow Users to receive a testimonial put together from the feedback they have received from various organisations they have volunteered with.
@@ -50,9 +50,11 @@ Usage: Under "Activity", users can view their hours clocked. Users can also view
 <div style="display: flex;">
   <img src="big-heart-bros/docs/images/org-dashboard.png" alt="Organisation Dashboard" width="40%"/>
   <img src="big-heart-bros/docs/images/create-event.png" alt="Organisation Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/org-overview.png" alt="Organisation Dashboard" width="40%"/>
+  <img src="big-heart-bros/docs/images/feedback.png" alt="Organisation Dashboard" width="40%"/>
 </div>
 Purpose: Allow beneficiaries to track their events and apply for new events to Big At Heart.<br/>
-Usage: Beneficiaries can press "View Event" at the right of each event to view their event information. They can also create new events under the "Create Event" button.
+Usage: Beneficiaries can press "View Event" at the right of each event to view their event information. They can also create new events under the "Create Event" button. Beneficiaries can also mark attendance of volunteers and give feedback to volunteers to acknowledge their contributions.
 
 ## Admin Dashboard
 <div style="display: flex;">
