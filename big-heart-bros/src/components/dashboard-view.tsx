@@ -218,7 +218,7 @@ export default function DashboardView({ userId }) {
     });
 
     formattedFeedbackString +=
-      "The testimonial generated should be 300 - 500 words long. Do not include the phrase 'testimonial' or 'verified by.'";
+      "The testimonial generated should be 300 - 400 words long. Do not include the phrase 'testimonial' or 'verified by.'";
 
     // Use the formattedFeedbackString as needed, such as displaying it in a prompt
     console.log(formattedFeedbackString);
