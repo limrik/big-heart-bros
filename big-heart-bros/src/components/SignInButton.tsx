@@ -30,7 +30,7 @@ const SigninButton = () => {
         <PersonIcon className="w-4 h-4 mr-2" />
         <Link
           className="font-poppins cursor-pointer"
-          href="/profile"
+          href="/home"
         >
           Sign In
         </Link>
