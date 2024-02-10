@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Navbar from "../../../components/navbar";
 import AboutUs from "../../../components/about-us";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
@@ -16,42 +16,35 @@ interface User {
 }
 
 const Home = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [user, setUser] = useState<User>();
 
-const { data: session } = useSession();
-const router = useRouter();
-const [user, setUser] = useState<User>();
+  useEffect(() => {
+    if (session) {
+      const param = session.user?.email;
 
-useEffect(() => {
-  if (session) {
-    const param = session.user?.email;
-
-    const fetchData = async () => {
-      try {
-        console.log(param)
-        const res = await fetch(
-          `http://localhost:3000/api/checkUserByEmail/${param}`
-        );
-        const data = await res.json();
-        setUser(data.name);
-        if (data.message == "User not found") {
-          router.push("/sign-up");
+      const fetchData = async () => {
+        try {
+          console.log(param);
+          const res = await fetch(`/api/checkUserByEmail/${param}`);
+          const data = await res.json();
+          setUser(data.name);
+          if (data.message == "User not found") {
+            router.push("/sign-up");
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+      };
 
-    fetchData();
-  }
-}, [session]);
-
-
-
+      fetchData();
+    }
+  }, [session]);
 
   const handleSignIn = async () => {
     await signIn();
   };
-
 
   return (
     <div>
@@ -98,6 +91,6 @@ useEffect(() => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

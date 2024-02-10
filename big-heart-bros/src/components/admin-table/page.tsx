@@ -14,7 +14,7 @@ export default function AdminTable() {
   async function getData(): Promise<Event[]> {
     // Fetch data from your API here.
     try {
-      const response = await fetch("http://localhost:3000/api/approvedEvent");
+      const response = await fetch("/api/approvedEvent");
       const data = await response.json();
       setData(data.events);
       return data.events;
@@ -27,7 +27,7 @@ export default function AdminTable() {
   async function getDraftData(): Promise<Event[]> {
     // Fetch data from your API here.
     try {
-      const response = await fetch("http://localhost:3000/api/pendingEvent");
+      const response = await fetch("/api/pendingEvent");
       const data = await response.json();
       setDraftData(data.events);
       return data.events;

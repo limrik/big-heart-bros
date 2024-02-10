@@ -31,7 +31,7 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/organisation/${props.organisationId}`
+          `/api/organisation/${props.organisationId}`
         );
         const data = await response.json();
 
