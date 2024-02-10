@@ -168,7 +168,7 @@ export default function SignUp() {
         const data = await response.json();
         console.log("API response:", data);
         /*window.location.reload();*/
-        router.push("/home");
+        router.push("/");
       } else {
         console.error("Error making API request:", response.statusText);
       }
