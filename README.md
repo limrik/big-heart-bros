@@ -98,6 +98,11 @@ This app uses:
 ```
 
 ## Get Started
+
+Visit this link: [Website](big-heart-bros.vercel.app/home)
+
+Alternatively,
+
 Ensure that you have the following installed:
 - [**Node.js**](https://nodejs.dev/en/download/)
 - [**Git**](https://git-scm.com/downloads)
@@ -108,3 +113,4 @@ Now do the following:
 2. Then `cd` into the repository (`cd big-heart-bros/big-heart-bros`) and install dependencies with `npm install`
 3. Run `npm run dev` to run the application
 4. Go to localhost:3000 on your own device
+5. Drop us an issue for the .env file
