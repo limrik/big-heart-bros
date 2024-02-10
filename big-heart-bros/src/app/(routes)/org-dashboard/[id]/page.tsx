@@ -138,7 +138,15 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="my-4">
           {loading ? (
-            <h3>Loading events...</h3>
+            <div className="flex flex-row space-y-3 mt-6 items-center">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+              <div className="space-y-2 ml-8">
+              <Skeleton className="h-4 w-[300px] bg-slate-100" />
+                <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                <Skeleton className="h-4 w-[200px] bg-slate-100" />
+              </div>
+            </div>
           ) : (
             <div>
               {approvedEvents.length > 0 ? (
@@ -172,7 +180,15 @@ export default function Page({ params }: { params: { id: string } }) {
         <p className="text-xl font-semibold">Pending Events</p>
         <div className="my-4">
           {loading ? (
-            <h3>Loading events...</h3>
+            <div className="flex flex-row space-y-3 mt-6 items-center">
+            <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+            <div className="space-y-2 ml-8">
+            <Skeleton className="h-4 w-[300px] bg-slate-100" />
+              <Skeleton className="h-4 w-[250px] bg-slate-100" />
+              <Skeleton className="h-4 w-[250px] bg-slate-100" />
+              <Skeleton className="h-4 w-[200px] bg-slate-100" />
+            </div>
+          </div>
           ) : (
             <>
               <div className="my-4">

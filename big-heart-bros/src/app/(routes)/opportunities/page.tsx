@@ -12,6 +12,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "../../../components/ui/toggle-group";
+import { Skeleton } from "../../../components/ui/skeleton";
 
 interface Event {
   id: string;
@@ -43,12 +44,14 @@ function page() {
   const [userInfo, setUserInfo] = useState<User>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const { data: session } = useSession();
-
   const tags = Object.values(Skills);
+
+  const { data: session } = useSession();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       if (session != null) {
         try {
           const response = await fetch(`/api/approvedEvent`);
@@ -78,6 +81,7 @@ function page() {
         } catch (error) {
           console.error("Error fetching data:", error);
         }
+        setLoading(false);
       } else {
         const response = await fetch(`/api/approvedEvent`);
         const data = await response.json();
@@ -87,6 +91,7 @@ function page() {
         );
         const userData = await userResponse.json();
         setUserInfo(userData.user);
+        setLoading(false)
       }
     }
 
@@ -129,7 +134,6 @@ function page() {
   // Sort events based on similarity score in descending order
   eventSimilarities.sort((a, b) => b.similarity - a.similarity);
 
-  // Get top 5 events with highest similarity scores
   // const topEvents = eventSimilarities.slice(0, 6).map((item) => item.event);
 
   // Get top 5 events with highest similarity scores
@@ -182,6 +186,8 @@ function page() {
     <div className="bg-[#f7d9d9] min-h-screen">
       <Navbar />
       <div className="w-5/6 mx-auto">
+        
+
         <p className="font-semibold text-3xl pt-10 pb-4">
           Volunteering Opportunities
         </p>
@@ -215,6 +221,22 @@ function page() {
           </ToggleGroup>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
+                    {loading // Check if data is loading
+            ? // If loading, display skeleton loader for each card
+              [1, 2, 3].map(
+                (
+                  index // Render 3 skeleton loaders
+                ) => (
+                  <div className="flex flex-col space-y-3 mt-6 items-center">
+                    <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                      <Skeleton className="h-4 w-[200px] bg-slate-100" />
+                    </div>
+                  </div>
+                )
+              )
+            : // If not loading, display VolunteerCard components
           {filteredEvents.map((event, index) => (
             <VolunteerCard
               key={index}
@@ -254,7 +276,7 @@ function page() {
               registrationDeadline={event.event.registrationDeadline}
               recommend={event.recommend}
             />
-          ))}
+   ))}
         </div>
       </div>
     </div>
