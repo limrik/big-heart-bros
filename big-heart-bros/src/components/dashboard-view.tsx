@@ -277,7 +277,7 @@ export default function DashboardView({ userId }) {
   }, [prompt]);
 
   return (
-    <div className="p-2 px-4 bg-white relative justify-center w-[880px] h-auto">
+    <div className="p-2 px-8 bg-white relative justify-center w-[880px] h-auto">
       <Tabs defaultValue="stats" className="w-full">
         <div className="flex justify-between">
           <TabsList className="rounded-2xl">
@@ -309,13 +309,13 @@ export default function DashboardView({ userId }) {
                 }}
               />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 mx-auto"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto"></div>
           </div>
         </TabsContent>
         <TabsContent value="next-events">
           <div className="flex justify-center">
             {upcomingEvents?.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
+              <div className="">
                 {upcomingEvents.map((event, index) => (
                   <UserUpcomingCard
                     key={index}
@@ -369,7 +369,7 @@ export default function DashboardView({ userId }) {
           </div>
         </TabsContent>
         <TabsContent value="feedback">
-          <div className="mb-4">
+          <div className="my-4">
             Feedback from organisations to include in testimonial
           </div>
           <div className="flex">
