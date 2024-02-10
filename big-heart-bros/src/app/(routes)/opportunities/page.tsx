@@ -91,7 +91,7 @@ function page() {
         );
         const userData = await userResponse.json();
         setUserInfo(userData.user);
-        setLoading(false)
+        setLoading(false);
       }
     }
 
@@ -186,8 +186,6 @@ function page() {
     <div className="bg-[#f7d9d9] min-h-screen">
       <Navbar />
       <div className="w-5/6 mx-auto">
-        
-
         <p className="font-semibold text-3xl pt-10 pb-4">
           Volunteering Opportunities
         </p>
@@ -207,7 +205,6 @@ function page() {
 
         {/* Multi-select dropdown for selecting tags */}
         <div className="flex justify-center my-4">
-          {" "}
           <ToggleGroup type="multiple">
             {tags.map((tag) => (
               <ToggleGroupItem
@@ -221,62 +218,42 @@ function page() {
           </ToggleGroup>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
-                    {loading // Check if data is loading
+          {loading // Check if data is loading
             ? // If loading, display skeleton loader for each card
-              [1, 2, 3].map(
-                (
-                  index // Render 3 skeleton loaders
-                ) => (
-                  <div className="flex flex-col space-y-3 mt-6 items-center">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px] bg-slate-100" />
-                      <Skeleton className="h-4 w-[200px] bg-slate-100" />
-                    </div>
+              [1, 2, 3].map((index) => (
+                <div
+                  key={index}
+                  className="flex flex-col space-y-3 mt-6 items-center"
+                >
+                  <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                    <Skeleton className="h-4 w-[200px] bg-slate-100" />
                   </div>
-                )
-              )
+                </div>
+              ))
             : // If not loading, display VolunteerCard components
-          {filteredEvents.map((event, index) => (
-            <VolunteerCard
-              key={index}
-              id={event.event.id}
-              image={Event1Photo}
-              name={event.event.name}
-              description={event.event.description}
-              startDate={
-                new Date(
-                  new Date(event.event.startDate).getFullYear(),
-                  new Date(event.event.startDate).getMonth(),
-                  new Date(event.event.startDate).getDate(),
-                  new Date(event.event.startTime).getHours(),
-                  new Date(event.event.startTime).getMinutes(),
-                  new Date(event.event.startTime).getSeconds()
-                )
-              }
-              endDate={
-                new Date(
-                  new Date(event.event.endDate).getFullYear(),
-                  new Date(event.event.endDate).getMonth(),
-                  new Date(event.event.endDate).getDate(),
-                  new Date(event.event.endTime).getHours(),
-                  new Date(event.event.endTime).getMinutes(),
-                  new Date(event.event.endTime).getSeconds()
-                )
-              }
-              skills={event.skills}
-              link="/home"
-              button_desc="View Event"
-              posterId={event.event.posterId}
-              status={event.event.status}
-              currUsersLength={2}
-              //{event.users ? event.users.length : 0}
-              capacity={event.event.capacity ?? 0}
-              location={event.event.location}
-              registrationDeadline={event.event.registrationDeadline}
-              recommend={event.recommend}
-            />
-   ))}
+              filteredEvents.map((event, index) => (
+                <VolunteerCard
+                  key={index}
+                  id={event.event.id}
+                  image={Event1Photo}
+                  name={event.event.name}
+                  description={event.event.description}
+                  startDate={new Date(event.event.startDate)}
+                  endDate={new Date(event.event.endDate)}
+                  skills={event.skills}
+                  link="/home"
+                  button_desc="View Event"
+                  posterId={event.event.posterId}
+                  status={event.event.status}
+                  currUsersLength={2}
+                  capacity={event.event.capacity ?? 0}
+                  location={event.event.location}
+                  registrationDeadline={event.event.registrationDeadline}
+                  recommend={event.recommend}
+                />
+              ))}
         </div>
       </div>
     </div>
