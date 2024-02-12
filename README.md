@@ -104,7 +104,7 @@ This app uses:
 Visit this link: big-heart-bros.vercel.app/home
 
 Known issues:
-- NextAuth not working on Vercel, can consider dropping us an issue to see video demo or for the .env file.
+- If NextAuth not working on Vercel, can consider dropping us an issue to see video demo or for the .env file.
 
 Alternatively,
 
