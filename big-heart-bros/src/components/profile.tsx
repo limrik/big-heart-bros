@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { profile } from "console";
 import { User } from "@prisma/client";
 
-const Profile = ({ user }) => {
+const Profile = ({ user, events }) => {
   return (
     <div className="p-2 px-4 flex items-center bg-white relative justify-center w-80">
       <Image
@@ -21,8 +21,8 @@ const Profile = ({ user }) => {
         <p className="text-xl font-semibold mb-2">{user?.name}</p>
         <div className="text-center w-60 flex flex-row items-center justify-center">
           <div>
-            <p className="text-sm text-gray-600">Total Events</p>
-            <p className="text-lg">5</p>
+            <p className="text-sm text-gray-600">Completed Events</p>
+            <p className="text-lg"> {events.length} </p>
           </div>
           <Separator orientation="vertical" className="mx-2" />
           <div>
@@ -33,7 +33,10 @@ const Profile = ({ user }) => {
         <Separator className="my-2" />
         <div className="text-left">
           <p className="text-sm text-gray-600">Latest Activity</p>
-          <p className="text-sm">Handicraft Workshop</p>
+          <p className="text-sm">
+            {" "}
+            {events.length > 0 && <p className="text-sm">{events[0].name}</p>}
+          </p>
         </div>
       </div>
     </div>
