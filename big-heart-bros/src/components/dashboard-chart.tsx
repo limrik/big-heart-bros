@@ -82,6 +82,16 @@ function getMonthData(events: Event[]) {
     hours: monthDataMap[monthYear],
   }));
 
+  // Sort monthData array by label (month/year) in ascending order
+  monthData.sort((a, b) => {
+    const [aMonth, aYear] = a.label.split("/");
+    const [bMonth, bYear] = b.label.split("/");
+    return (
+      new Date(`${aYear}-${aMonth}-01`).getTime() -
+      new Date(`${bYear}-${bMonth}-01`).getTime()
+    );
+  });
+
   const data = {
     labels: monthData.map((month) => month.label),
     datasets: [
