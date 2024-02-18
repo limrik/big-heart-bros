@@ -27,12 +27,14 @@ const Home = () => {
       const fetchData = async () => {
         try {
           console.log(param);
+          console.log("reached")
           const res = await fetch(`/api/checkUserByEmail/${param}`);
           const data = await res.json();
+          console.log("failed to reach")
           console.log(data)
-          const res1 = await fetch(`/api/organisationByEmail/${param}`);
-          const data1 = await res1.json();
-          console.log(data1)
+          //const res1 = await fetch(`/api/organisationByEmail/${param}`);
+          //const data1 = await res1.json();
+          //console.log(data1)
           setUser(data.name);
           if (data.message == "User not found") {
             router.push("/sign-up");
