@@ -51,7 +51,7 @@ model Feedback {
 model Organisation {
   id            String     @id @default(uuid())
   name          String
-  email         String
+  email         String     @unique
   description   String     @default("")
   phoneNumber   String
   events        Event[]
