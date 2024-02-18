@@ -29,6 +29,7 @@ const Home = () => {
           console.log(param);
           const res = await fetch(`/api/checkUserByEmail/${param}`);
           const data = await res.json();
+          console.log(data)
           setUser(data.name);
           if (data.message == "User not found") {
             router.push("/sign-up");
