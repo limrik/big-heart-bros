@@ -146,10 +146,10 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
           </div>
         </div>
       </CardFooter>
-      <CardFooter className="flex justify-center">
+      <CardFooter className="flex justify-centre">
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="w-full bg-red-400 rounded-2xl text-white hover:bg-gray-400">
+            <Button className="w-full bg-red-400 rounded-2xl text-white hover:bg-gray-400 duration-300">
               View Event
             </Button>
           </DialogTrigger>

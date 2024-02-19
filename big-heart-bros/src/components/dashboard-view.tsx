@@ -17,6 +17,7 @@ import openAILogo from ".././app/assets/openai-logomark.png";
 import Image from "next/image";
 import { useReactToPrint } from "react-to-print";
 import { Skeleton } from "./ui/skeleton";
+import DashboardChart from "./dashboard-chart";
 
 Chart.register(...registerables);
 
@@ -64,46 +65,6 @@ interface User {
   name: string;
 }
 
-const currentDate = new Date();
-const sixMonthsAgo = new Date(currentDate);
-sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
-
-interface MonthData {
-  label: string;
-  hours: number;
-}
-
-const monthsData: MonthData[] = [];
-
-for (let i = 5; i >= 0; i--) {
-  const monthDate = new Date(sixMonthsAgo);
-  monthDate.setMonth(sixMonthsAgo.getMonth() + i);
-
-  const hours = Math.floor(Math.random() * 10); // Mocking hours below 10
-  const monthLabel = monthDate.toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
-
-  monthsData.push({
-    label: monthLabel,
-    hours,
-  });
-}
-
-const data = {
-  labels: monthsData.map((month) => month.label),
-  datasets: [
-    {
-      label: "Number of Hours Volunteered",
-      data: monthsData.map((month) => month.hours),
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      borderColor: "rgba(54, 162, 235, 1)",
-      borderWidth: 1,
-    },
-  ],
-};
-
 export default function DashboardView({ userId }) {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [completedEvents, setCompletedEvents] = useState<Event[]>([]);
@@ -143,6 +104,11 @@ export default function DashboardView({ userId }) {
           (event) => event.status === "Completed"
         );
 
+        completed.sort(
+          (a, b) =>
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+        );
+
         setUpcomingEvents(approved);
         setCompletedEvents(completed);
 
@@ -152,6 +118,8 @@ export default function DashboardView({ userId }) {
           data2.feedback.map((item) => item.organisation.name)
         );
         setUniqueOrganisationNames(uniqueNames);
+
+        console.log("THISS", completedEvents);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -162,7 +130,7 @@ export default function DashboardView({ userId }) {
 
   useEffect(() => {
     setUniqueOrganisationNamesArray(Array.from(uniqueOrganisationNames));
-    console.log("feedback: " + feedback);
+    // console.log("feedback: " + feedback);
   }, [uniqueOrganisationNames]);
 
   const handleCheckboxChange = (name: string) => {
@@ -221,7 +189,7 @@ export default function DashboardView({ userId }) {
       "The testimonial generated should be 300 - 400 words long. Do not include the phrase 'testimonial' or 'verified by.'";
 
     // Use the formattedFeedbackString as needed, such as displaying it in a prompt
-    console.log(formattedFeedbackString);
+    // console.log(formattedFeedbackString);
     setPrompt(formattedFeedbackString);
   };
 
@@ -229,7 +197,7 @@ export default function DashboardView({ userId }) {
     setIsLoading(true);
     if (isLoading) {
       setError("");
-      console.log(prompt);
+      // console.log(prompt);
 
       try {
         const response = await fetch("/api/generateTestimonial", {
@@ -245,9 +213,9 @@ export default function DashboardView({ userId }) {
         }
 
         const res = await response.json();
-        console.log(res);
+        // console.log(res);
         const messageContent = res.data.choices[0].message.content;
-        console.log("OpenAI replied...", messageContent);
+        // console.log("OpenAI replied...", messageContent);
         // const messageContent =
         //   "Ben Tan's dedication to volunteerism is truly inspiring. His involvement in various community events reflects his unwavering commitment to making a positive difference in the lives of others. Through his participation in the Cuff Road Project organized by Transient Workers Count Too (TWC2), " +
         //   "Ben demonstrated remarkable leadership and reliability. His consistent presence and dedication to the meal program have been instrumental in ensuring its smooth execution week after week. Ben's positive attitude and enthusiasm have also contributed to creating a welcoming atmosphere at the meal stations, providing comfort to those in need." +
@@ -306,16 +274,9 @@ export default function DashboardView({ userId }) {
         <TabsContent value="stats">
           <div className="flex justify-center h-[300px] w-full mb-16">
             {" "}
-            <div>
+            <div className="h-[1000px]">
               <h2 className="text-lg font-semibold ml-6 my-2">Monthly Hours</h2>
-              <Bar
-                data={data}
-                width={800}
-                height={80}
-                options={{
-                  maintainAspectRatio: false,
-                }}
-              />
+              <DashboardChart events={completedEvents} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto"></div>
           </div>

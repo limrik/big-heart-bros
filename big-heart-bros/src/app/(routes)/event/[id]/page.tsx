@@ -93,9 +93,7 @@ export default function Page({ params }: { params: { id: string } }) {
     async function fetchOrganisation() {
       try {
         if (event) {
-          const res = await fetch(
-            `http://localhost:3000/api/organisation/${event.posterId}`
-          );
+          const res = await fetch(`/api/organisation/${event.posterId}`);
           const data = await res.json();
           setOrganisation(data.organisation);
         }
