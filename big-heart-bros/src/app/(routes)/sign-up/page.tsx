@@ -202,7 +202,6 @@ export default function SignUp() {
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[2200px]">
-          <Navbar />
           <div className="relative flex flex-col m-28 space-y-8 bg-white shadow-2xl md:flex-row md:space-y-0">
             <div className="flex-row justify-center grid-cols-3 grid">
               <div className="bg-[#FAA0A0] col-span-1 w-80 flex items-center justify-center">

@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Navbar from "../../../components/navbar";
 import AboutUs from "../../../components/about-us";
 import WaysToGive from "../../../components/ways-to-give";
 import backgroundImage from "../../assets/bigathearts1.png";
@@ -102,7 +101,6 @@ const Home = () => {
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[800px]">
-          <Navbar />
           <div className="absolute top-[145px] w-full h-2/3 flex flex-col justify-center text-white">
             <div>
               <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center gradient-text">
