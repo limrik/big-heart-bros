@@ -12,7 +12,6 @@ import {
   ResidentialStatusType,
   Interests,
 } from "@prisma/client";
-import Navbar from "../../../../components/navbar";
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
@@ -127,7 +126,6 @@ export default function Page({ params }: { params: { id: string } }) {
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[450px]">
-          <Navbar />
           <div>
             <div>
               {" "}

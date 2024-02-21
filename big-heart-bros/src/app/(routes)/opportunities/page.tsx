@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Navbar from "../../../components/navbar";
 import { useState, useEffect } from "react";
 import VolunteerCard from "../../../components/volunteer-card";
 import { EventType, Skills, EventStatus, Interests } from "@prisma/client";
@@ -184,7 +183,6 @@ function page() {
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
-      <Navbar />
       <div className="w-5/6 mx-auto">
         <p className="font-semibold text-3xl pt-10 pb-4">
           Volunteering Opportunities
