@@ -43,6 +43,7 @@ function page() {
   const [events, setEvents] = useState<Event[]>([]);
   const [userInfo, setUserInfo] = useState<User>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [usersInEvents, setUsersInEvents] = useState<Event[]>([]);
 
   const tags = Object.values(Skills);
 
@@ -97,6 +98,22 @@ function page() {
 
     fetchData();
   }, [session]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(`/api/allUsersInEvents/`);
+        const data = await response.json();
+
+        setUsersInEvents(data);
+        console.log("THISS", usersInEvents);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const userSkills = userInfo?.skills ?? [];
   const userInterests = userInfo?.interests ?? [];
@@ -247,7 +264,6 @@ function page() {
                   button_desc="View Event"
                   posterId={event.event.posterId}
                   status={event.event.status}
-                  currUsersLength={2}
                   capacity={event.event.capacity ?? 0}
                   location={event.event.location}
                   registrationDeadline={event.event.registrationDeadline}

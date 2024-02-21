@@ -19,10 +19,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-
+import { useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
-
-import { EventType, Skills, EventStatus } from "@prisma/client";
+import { EventType, Skills, EventStatus, User } from "@prisma/client";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Progress } from "./ui/progress";
@@ -47,7 +46,6 @@ type CardComponentProps = {
   createdAt?: Date;
   posterId: String;
   status: EventStatus;
-  currUsersLength: number;
   location: String;
   recommend: boolean;
 };
@@ -79,6 +77,22 @@ const handleClick = async (userId, eventId) => {
 };
 
 const CardComponent: React.FC<CardComponentProps> = (props) => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res2 = await fetch(`/api/usersByEventId/${props.id}`);
+        const data2 = await res2.json();
+        setUsers(data2.users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   console.log(props);
 
   return (
@@ -183,11 +197,11 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                   <DialogDescription>
                     <p>
                       <span className="font-bold">Current Capacity: </span>
-                      {props.currUsersLength} / {props.capacity}
+                      {users?.length} / {props.capacity}
                     </p>
                     <progress
                       className="w-1/2"
-                      value={props.currUsersLength / props.capacity}
+                      value={users?.length / props.capacity}
                     />
                     <p>
                       <span className="font-bold">Location: </span>
@@ -245,14 +259,26 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
             </div>
             <DialogFooter className="sm:justify-start">
               <DialogClose className="flex">
+                {(
+                  users ? users.some((user) => user.id === "DEFAULT_ID") : false
+                ) ? (
+                  <Button
+                    className="w-full my-1 bg-red-800 rounded-2xl text-white hover:bg-red-800 cursor-not-allowed"
+                    type="button"
+                  >
+                    Joined
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full my-1 bg-green-500 rounded-2xl text-white hover:bg-green-700 duration-200"
+                    type="button"
+                    onClick={() => handleClick("DEFAULT_ID", props.id)}
+                  >
+                    Join Event
+                  </Button>
+                )}
                 <Button
-                  className="w-full my-1 bg-red-400 rounded-2xl text-white hover:bg-red-600"
-                  type="button"
-                >
-                  Join Event
-                </Button>
-                <Button
-                  className="w-full my-1 bg-gray-400 rounded-2xl text-white ml-4 hover:bg-gray-600"
+                  className="w-full my-1 bg-gray-400 rounded-2xl text-white ml-4 hover:bg-gray-600 duration-200"
                   variant="secondary"
                 >
                   Close

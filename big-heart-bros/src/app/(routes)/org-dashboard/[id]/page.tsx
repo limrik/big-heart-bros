@@ -141,7 +141,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-row space-y-3 mt-6 items-center">
               <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
               <div className="space-y-2 ml-8">
-              <Skeleton className="h-4 w-[300px] bg-slate-100" />
+                <Skeleton className="h-4 w-[300px] bg-slate-100" />
                 <Skeleton className="h-4 w-[250px] bg-slate-100" />
                 <Skeleton className="h-4 w-[250px] bg-slate-100" />
                 <Skeleton className="h-4 w-[200px] bg-slate-100" />
@@ -181,14 +181,14 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className="my-4">
           {loading ? (
             <div className="flex flex-row space-y-3 mt-6 items-center">
-            <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
-            <div className="space-y-2 ml-8">
-            <Skeleton className="h-4 w-[300px] bg-slate-100" />
-              <Skeleton className="h-4 w-[250px] bg-slate-100" />
-              <Skeleton className="h-4 w-[250px] bg-slate-100" />
-              <Skeleton className="h-4 w-[200px] bg-slate-100" />
+              <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+              <div className="space-y-2 ml-8">
+                <Skeleton className="h-4 w-[300px] bg-slate-100" />
+                <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                <Skeleton className="h-4 w-[200px] bg-slate-100" />
+              </div>
             </div>
-          </div>
           ) : (
             <>
               <div className="my-4">
@@ -220,6 +220,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </>
           )}
         </div>
+        <br />
       </div>
     </div>
   );
