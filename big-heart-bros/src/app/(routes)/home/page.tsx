@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Navbar from "../../../components/navbar";
 import AboutUs from "../../../components/about-us";
 import WaysToGive from "../../../components/ways-to-give";
 import backgroundImage from "../../assets/bigathearts1.png";
@@ -15,26 +14,63 @@ interface User {
   name: string;
 }
 
+interface Organisation {
+  email: string;
+  description: string;
+}
+
+
 const Home = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [user, setUser] = useState<User>();
+  const [org, setOrgState] = useState<Organisation>();
+  const [isAdmin, setAdmin] = useState(false); //is admin 
+  const [isOrg, setOrg] = useState(false); //is admin 
+  const [isUsers, setUsers] = useState(false); //is admin 
+
 
   async function fetchData(param) {
     try {
-      console.log(param);
-      console.log("reached")
-      const res = await fetch(`/api/checkUserByEmail/${param}`);
-      const data = await res.json();
-      console.log("failed to reach")
-      console.log(data)
-      const res1 = await fetch(`/api/organisationByEmail/${param}`);
-      const data1 = await res1.json();
-      console.log(data1)
-      setUser(data.name);
-      if (data.message == "User not found") {
-        router.push("/sign-up");
+
+      // only email for admin
+      if (param == "bigheartbros@gmail.com") {
+        console.log("SETTING ADMIN TRUE")
+        setAdmin(true);
+        console.log(isAdmin)
+        return
       }
+
+      try {
+        const res1 = await fetch(`/api/organisationByEmail/${param}`);
+        const data1 = await res1.json();
+        console.log(data1);
+        setOrgState(data1)
+
+        if (data1.message == "Organisation not found") {
+          // nothing
+        } else {
+          console.log("SETTING ORG TRUE")
+          setOrg(true)
+          return
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
+      if (!isOrg && !isAdmin) {
+        const res = await fetch(`/api/checkUserByEmail/${param}`);
+        const data = await res.json();
+        console.log(data)
+        setUser(data.name);
+        if (data && Object.keys(data).length !== 0) {
+          setUsers(true)
+        }
+        if (data.message == "User not found") {
+          router.push("/sign-up");
+        }
+      }
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,10 +79,16 @@ const Home = () => {
   useEffect(() => {
     if (session) {
       const param = session.user?.email;
-
       fetchData(param);
     }
   }, [session]);
+
+
+  // can tell user type
+  console.log("ADMIN outside" + isAdmin);
+  console.log("ORGANISATION outside" + isOrg);
+  console.log("USER outside" + isUsers);
+
 
   const handleSignIn = async () => {
     await signIn();
@@ -59,7 +101,6 @@ const Home = () => {
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[800px]">
-          <Navbar />
           <div className="absolute top-[145px] w-full h-2/3 flex flex-col justify-center text-white">
             <div>
               <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center gradient-text">
