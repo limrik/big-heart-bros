@@ -90,7 +90,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center h-64">
+        <div className="flex justify-center h-80">
           <Image
             className="py-4 object-cover w-full"
             src={props.image}
