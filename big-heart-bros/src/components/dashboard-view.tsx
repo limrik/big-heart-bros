@@ -292,29 +292,7 @@ export default function DashboardView({ userId }) {
               <div className="">
                 {upcomingEvents.map((event, index) => {
                   const randomIndex = Math.floor(Math.random() * images.length);
-                  const randomIndex = Math.floor(Math.random() * images.length);
 
-                  return (
-                    <UserUpcomingCard
-                      key={index}
-                      id={event.id}
-                      image={images[randomIndex]}
-                      name={event.name}
-                      description={event.description}
-                      startDate={event.startDate}
-                      endDate={event.endDate}
-                      skills={event.skills}
-                      link="/home"
-                      button_desc="View Event"
-                      posterId={event.posterId}
-                      status={event.status}
-                      currUsersLength={event.users ? event.users.length : 0}
-                      capacity={event.capacity ?? 0}
-                      location={event.location}
-                      registrationDeadline={event.registrationDeadline}
-                    />
-                  );
-                })}
                   return (
                     <UserUpcomingCard
                       key={index}
@@ -347,7 +325,6 @@ export default function DashboardView({ userId }) {
             {completedEvents?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
                 {completedEvents.map((event, index) => {
-                  const randomIndex = Math.floor(Math.random() * images.length);
                   const randomIndex = Math.floor(Math.random() * images.length);
 
                   return (
