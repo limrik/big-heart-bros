@@ -244,7 +244,7 @@ function page() {
                   key={index}
                   id={event.event.id}
                   image={images[randomIndex]}
-                  name={event.event.name}
+                  name={event.event.name == "OnGroundVolunteering" ? "OnGroundVolunteer" : event.event.name}
                   description={event.event.description}
                   startDate={new Date(event.event.startDate)}
                   endDate={new Date(event.event.endDate)}
@@ -253,7 +253,6 @@ function page() {
                   button_desc="View Event"
                   posterId={event.event.posterId}
                   status={event.event.status}
-                  currUsersLength={2}
                   capacity={event.event.capacity ?? 0}
                   location={event.event.location}
                   registrationDeadline={event.event.registrationDeadline}
