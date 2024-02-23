@@ -15,6 +15,7 @@ import {
   ToggleGroupItem,
 } from "../../../components/ui/toggle-group";
 import { Skeleton } from "../../../components/ui/skeleton";
+import { useUserTypeStore, UserType } from "../../../store/zustand";
 
 interface Event {
   id: string;
@@ -45,6 +46,7 @@ function page() {
   const [events, setEvents] = useState<Event[]>([]);
   const [userInfo, setUserInfo] = useState<User>();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const { userType, setUserType } = useUserTypeStore();
 
   const tags = Object.values(Skills);
 
@@ -188,80 +190,93 @@ function page() {
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
-      <div className="w-5/6 mx-auto">
-        <p className="font-semibold text-3xl pt-10 pb-4">
-          Volunteering Opportunities
-        </p>
-        <div className="relative justify-center h-full">
-          <FaMagnifyingGlass
-            size={28}
-            className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400"
-          />
-          <input
-            type="text"
-            placeholder="Search for events..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="pl-14 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 px-3 py-2 w-full border rounded-md bg-white"
-          />
-        </div>
+      {userType === UserType.VOLUNTEER ? (
+        <>
+          <div className="w-5/6 mx-auto">
+            <p className="font-semibold text-3xl pt-10 pb-4">
+              Volunteering Opportunities
+            </p>
+            <div className="relative justify-center h-full">
+              <FaMagnifyingGlass
+                size={28}
+                className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400"
+              />
+              <input
+                type="text"
+                placeholder="Search for events..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="pl-14 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 px-3 py-2 w-full border rounded-md bg-white"
+              />
+            </div>
+            {/* Multi-select dropdown for selecting tags */}
+            <div className="flex justify-center my-4">
+              <ToggleGroup type="multiple">
+                {tags.map((tag) => (
+                  <ToggleGroupItem
+                    key={tag}
+                    value={tag}
+                    onClick={() => handleClick(tag)}
+                  >
+                    {tag}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
+              {loading // Check if data is loading
+                ? // If loading, display skeleton loader for each card
+                  [1, 2, 3].map((index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col space-y-3 mt-6 items-center"
+                    >
+                      <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-[250px] bg-slate-100" />
+                        <Skeleton className="h-4 w-[200px] bg-slate-100" />
+                      </div>
+                    </div>
+                  ))
+                : // If not loading, display VolunteerCard components
+                  filteredEvents.map((event, index) => {
+                    const randomIndex = Math.floor(
+                      Math.random() * images.length
+                    );
 
-        {/* Multi-select dropdown for selecting tags */}
-        <div className="flex my-4 justify-center">
-          <ToggleGroup type="multiple">
-            {tags.map((tag) => (
-              <ToggleGroupItem
-                key={tag}
-                value={tag}
-                onClick={() => handleClick(tag)}
-              >
-                {tag}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 mx-auto">
-          {loading // Check if data is loading
-            ? // If loading, display skeleton loader for each card
-              [1, 2, 3].map((index) => (
-                <div
-                  key={index}
-                  className="flex flex-col space-y-3 mt-6 items-center"
-                >
-                  <Skeleton className="h-[125px] w-[250px] rounded-xl bg-slate-100" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px] bg-slate-100" />
-                    <Skeleton className="h-4 w-[200px] bg-slate-100" />
-                  </div>
-                </div>
-              ))
-            : // If not loading, display VolunteerCard components
-              filteredEvents.map((event, index) => {
-                const randomIndex = Math.floor(Math.random() * images.length);
-
-                return (
-                  <VolunteerCard
-                    key={index}
-                    id={event.event.id}
-                    image={images[randomIndex]}
-                    name={event.event.name}
-                    description={event.event.description}
-                    startDate={new Date(event.event.startDate)}
-                    endDate={new Date(event.event.endDate)}
-                    skills={event.skills}
-                    link="/home"
-                    button_desc="View Event"
-                    posterId={event.event.posterId}
-                    status={event.event.status}
-                    capacity={event.event.capacity ?? 0}
-                    location={event.event.location}
-                    registrationDeadline={event.event.registrationDeadline}
-                    recommend={event.recommend}
-                  />
-                );
-              })}
-        </div>
-      </div>
+                    return (
+                      <VolunteerCard
+                        key={index}
+                        id={event.event.id}
+                        image={images[randomIndex]}
+                        name={event.event.name}
+                        description={event.event.description}
+                        startDate={new Date(event.event.startDate)}
+                        endDate={new Date(event.event.endDate)}
+                        skills={event.skills}
+                        link="/home"
+                        button_desc="View Event"
+                        posterId={event.event.posterId}
+                        status={event.event.status}
+                        capacity={event.event.capacity ?? 0}
+                        location={event.event.location}
+                        registrationDeadline={event.event.registrationDeadline}
+                        recommend={event.recommend}
+                      />
+                    );
+                  })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="w-5/6 mx-auto flex justify-center items-center h-full">
+            <div className="text-center text-3xl font-bold mt-24">
+              Error: Only accessible by volunteers
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

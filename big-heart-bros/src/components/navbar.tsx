@@ -92,13 +92,7 @@ export default function Navbar() {
             </Link>
             <Link
               className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/opportunities"
-            >
-              Volunteer
-            </Link>
-            <Link
-              className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/org-dashboard/DEFAULT_ID"
+              href="/organisation/dashboard"
             >
               Dashboard
             </Link>
@@ -113,12 +107,6 @@ export default function Navbar() {
               href="/"
             >
               Home
-            </Link>
-            <Link
-              className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/opportunities"
-            >
-              Volunteer
             </Link>
             <Link
               className="font-poppins cursor-pointer hover:text-blue-300"
