@@ -17,7 +17,7 @@ const page: React.FC = () => {
           <div>
             <OrgActivityChart />
           </div>
-          <h1 className="pt-12 text-2xl font-semibold"> Demographic </h1>
+          <h1 className="pt-12 text-2xl font-semibold"> Skills & Interests </h1>
           <div>
             <OrgStatsCards />
           </div>
