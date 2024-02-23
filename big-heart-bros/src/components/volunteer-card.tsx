@@ -100,7 +100,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
       <div className="relative">
         {/* Your card content */}
         {props.recommend && (
-          <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-md">
+          <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-xl">
             <p className="text-xs font-semibold">Recommended for you</p>
           </div>
         )}
@@ -109,7 +109,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
         <div className="flex justify-cente">
           <Image className="mb-4 w-full rounded-xl" src={props.image} alt="Event Image" />
         </div>
-        <CardTitle className="font-semibold">{props.name}</CardTitle>
+        <CardTitle className="font-semibold h-4">{props.name}</CardTitle>
         {/* <CardDescription className="text-justify">
           {props.description}
         </CardDescription> */}
@@ -148,7 +148,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
       </CardContent>
       <CardFooter>
         <div className="grid grid-cols-auto-1fr gap-2">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 h-4">
             {props.skills.map((skill, index) => (
               <div
                 key={index}
