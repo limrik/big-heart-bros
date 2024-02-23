@@ -154,7 +154,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                 key={index}
                 className="bg-gray-300 px-2 rounded-3xl text-sm text-center transition hover:bg-[#fcb6b6]"
               >
-                {skill}
+                {skill === "OnGroundVolunteering" ? "OnGroundVolunteer" : skill}
               </div>
             ))}
           </div>

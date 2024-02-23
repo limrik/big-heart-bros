@@ -244,7 +244,7 @@ function page() {
                   key={index}
                   id={event.event.id}
                   image={images[randomIndex]}
-                  name={event.event.name == "OnGroundVolunteering" ? "OnGroundVolunteer" : event.event.name}
+                  name={event.event.name}
                   description={event.event.description}
                   startDate={new Date(event.event.startDate)}
                   endDate={new Date(event.event.endDate)}
