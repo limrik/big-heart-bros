@@ -157,17 +157,32 @@ function skills(eventsData) {
 
 
 export default function stats() {
-  const [usersInEvents, setUsersInEvents] = useState([]);
-  const [doughnutData, setDoughnutData] = useState({
-    datasets: [{
-      data: [], // This can now hold numbers
-      backgroundColor: [], // This can now hold strings
-      borderColor: [], // This can now hold strings
-      borderWidth: 1
-    }],
-    labels: [] // This can now hold strings
-  });
+  interface DoughnutDataset {
+    data: number[];
+    backgroundColor: string[];
+    borderColor: string[];
+    borderWidth: number;
+  }
+  
+  interface DoughnutData {
+    labels: string[];
+    datasets: DoughnutDataset[];
+  }
 
+  const [usersInEvents, setUsersInEvents] = useState([]);
+  const initialDoughnutData: DoughnutData = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1,
+      },
+    ],
+  };
+  
+  const [doughnutData, setDoughnutData] = useState<DoughnutData>(initialDoughnutData);
 
   useEffect(() => {
     async function fetchData() {
