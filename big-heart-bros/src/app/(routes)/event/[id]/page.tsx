@@ -15,7 +15,6 @@ import {
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
-import { Button } from "../../../../components/ui/button";
 
 interface Organisation {
   id: string;
@@ -125,7 +124,7 @@ export default function Page({ params }: { params: { id: string } }) {
         className="bg-no-repeat bg-cover h-[450px] w-full"
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
-        <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[450px]">
+        <div className="bg-gray-900/40 absolute top-[65px] left-0 w-full h-[450px]">
           <div>
             <div>
               {" "}
@@ -187,7 +186,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.startDate).getDate(),
                     new Date(event?.startTime).getHours(),
                     new Date(event?.startTime).getMinutes(),
-                    new Date(event?.startDate).getSeconds()
+                    new Date(event?.startDate).getSeconds(),
                   ),
                 }))}
                 startDate={
@@ -197,7 +196,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.startDate).getDate(),
                     new Date(event?.startTime).getHours(),
                     new Date(event?.startTime).getMinutes(),
-                    new Date(event?.startTime).getSeconds()
+                    new Date(event?.startTime).getSeconds(),
                   )
                 }
                 endDate={
@@ -207,7 +206,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.endDate).getDate(),
                     new Date(event?.endTime).getHours(),
                     new Date(event?.endTime).getMinutes(),
-                    new Date(event?.endTime).getSeconds()
+                    new Date(event?.endTime).getSeconds(),
                   )
                 }
                 status={event?.status}

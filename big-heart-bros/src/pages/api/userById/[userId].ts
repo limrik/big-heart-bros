@@ -1,4 +1,12 @@
-import { PrismaClient, Skills, GenderType, CommitmentLevelType, Feedback, ResidentialStatusType, Interests } from "@prisma/client";
+import {
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface User {
@@ -28,7 +36,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     const { userId } = req.query;
@@ -36,7 +44,7 @@ export default async function handler(
     if (req.method === "GET" && userId) {
       const userWithId = await prisma.user.findUnique({
         where: {
-			id: userId.toString(),
+          id: userId.toString(),
         },
       });
 

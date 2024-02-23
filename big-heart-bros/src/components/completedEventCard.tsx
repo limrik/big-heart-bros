@@ -72,12 +72,12 @@ interface User {
 
 const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
   const [organisationName, setOrganisationName] = useState<string>("");
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `/api/organisation/${props.organisationId}`
+          `/api/organisation/${props.organisationId}`,
         );
         const data = await response.json();
 
@@ -153,9 +153,9 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
             {props.skills.map((skill, index) => (
               <div
                 key={index}
-                className="bg-gray-200 px-2 py-1 rounded-full text-sm text-gray-800"
+                className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
               >
-                {skill}
+                {skill === "OnGroundVolunteering" ? "OnGroundVolunteer" : skill}
               </div>
             ))}
           </div>

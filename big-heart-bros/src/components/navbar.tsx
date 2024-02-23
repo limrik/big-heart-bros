@@ -24,30 +24,33 @@ export default function Navbar() {
           <Tabs defaultValue={userType} className="w-[400px]">
             <TabsList>
               <TabsTrigger
+                className="rounded"
                 value="volunteer"
                 onClick={() => {
                   setUserType(UserType.VOLUNTEER);
                 }}
               >
-                <User className="mr-2"/>
+                <User className="mr-2" />
                 User
               </TabsTrigger>
               <TabsTrigger
+                className="rounded"
                 value="organisation"
                 onClick={() => {
                   setUserType(UserType.ORGANISATION);
                 }}
               >
-                <Building2 className="mr-2"/>
+                <Building2 className="mr-2" />
                 Organisation
               </TabsTrigger>
               <TabsTrigger
+                className="rounded"
                 value="admin"
                 onClick={() => {
                   setUserType(UserType.ADMIN);
                 }}
               >
-                <Heart className="mr-2"/>
+                <Heart className="mr-2" />
                 Admin
               </TabsTrigger>
             </TabsList>
@@ -89,13 +92,7 @@ export default function Navbar() {
             </Link>
             <Link
               className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/opportunities"
-            >
-              Volunteer
-            </Link>
-            <Link
-              className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/org-dashboard/DEFAULT_ID"
+              href="/organisation/dashboard"
             >
               Dashboard
             </Link>
@@ -110,12 +107,6 @@ export default function Navbar() {
               href="/"
             >
               Home
-            </Link>
-            <Link
-              className="font-poppins cursor-pointer hover:text-blue-300"
-              href="/opportunities"
-            >
-              Volunteer
             </Link>
             <Link
               className="font-poppins cursor-pointer hover:text-blue-300"

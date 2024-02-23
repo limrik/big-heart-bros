@@ -28,13 +28,15 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     if (req.method === "GET") {
-      const events = await prisma.event.findMany({where: {
-        status: EventStatus.Approved
-      }});
+      const events = await prisma.event.findMany({
+        where: {
+          status: EventStatus.Approved,
+        },
+      });
       console.log("Fetched events:", events);
       res.status(200).json({ events, message: "Data fetched successfully" });
     } else {

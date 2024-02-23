@@ -14,7 +14,7 @@ function getTotalUniqueIndividuals(userEvents: any[]): number {
 
 function getTotalUniquePosterIds(userEvents: any[]): number {
   const uniquePosterIds = new Set(
-    userEvents.map((item) => item.event.posterId)
+    userEvents.map((item) => item.event.posterId),
   );
   return uniquePosterIds.size;
 }
@@ -36,13 +36,13 @@ function getTotalHoursOfImpact(userEvents) {
 function EventsByDateChart(eventsData) {
   const uniqueEventsData = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.eventId === event.eventId)
+      index === self.findIndex((e) => e.eventId === event.eventId),
   );
 
   uniqueEventsData.sort(
     (a, b) =>
       new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
+      new Date(b.event.startDate).getTime(),
   );
   const eventMonths: { [key: string]: number } = {};
 
@@ -56,7 +56,7 @@ function EventsByDateChart(eventsData) {
 
   const startDate = new Date(uniqueEventsData[0].event.startDate);
   const endDate = new Date(
-    uniqueEventsData[uniqueEventsData.length - 1].event.startDate
+    uniqueEventsData[uniqueEventsData.length - 1].event.startDate,
   );
   const labels: string[] = [];
   const data: number[] = [];
@@ -92,7 +92,7 @@ function EventsByDateChart(eventsData) {
 function EventsInterestsChart(eventsData) {
   const uniqueEvents = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.eventId === event.eventId)
+      index === self.findIndex((e) => e.eventId === event.eventId),
   );
 
   const interestsCount = {};
@@ -103,7 +103,7 @@ function EventsInterestsChart(eventsData) {
   });
 
   const sortedInterests = Object.keys(interestsCount).sort(
-    (a, b) => interestsCount[b] - interestsCount[a]
+    (a, b) => interestsCount[b] - interestsCount[a],
   );
 
   const top3Interests =
@@ -131,7 +131,7 @@ function EventsInterestsChart(eventsData) {
 function EventsSkillsChart(eventsData) {
   const uniqueEvents = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.eventId === event.eventId)
+      index === self.findIndex((e) => e.eventId === event.eventId),
   );
 
   const skillsCount = {};
@@ -142,7 +142,7 @@ function EventsSkillsChart(eventsData) {
   });
 
   const sortedSkills = Object.keys(skillsCount).sort(
-    (a, b) => skillsCount[b] - skillsCount[a]
+    (a, b) => skillsCount[b] - skillsCount[a],
   );
 
   const top3Skills =
@@ -170,7 +170,7 @@ function EventsSkillsChart(eventsData) {
 function VolunteersInterestsChart(eventsData) {
   const uniqueVolunteers = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.userId === event.userId)
+      index === self.findIndex((e) => e.userId === event.userId),
   );
 
   const interestsCount = {};
@@ -181,7 +181,7 @@ function VolunteersInterestsChart(eventsData) {
   });
 
   const sortedInterests = Object.keys(interestsCount).sort(
-    (a, b) => interestsCount[b] - interestsCount[a]
+    (a, b) => interestsCount[b] - interestsCount[a],
   );
 
   const top3Interests =
@@ -210,7 +210,7 @@ function VolunteersByDateChart(eventsData) {
   eventsData.sort(
     (a, b) =>
       new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
+      new Date(b.event.startDate).getTime(),
   );
   const volunteerCountsByDate = {};
 
@@ -258,7 +258,7 @@ function VolunteersByDateChart(eventsData) {
 function VolunteersSkillsChart(eventsData) {
   const uniqueVolunteers = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.userId === event.userId)
+      index === self.findIndex((e) => e.userId === event.userId),
   );
 
   const skillsCount = {};
@@ -269,7 +269,7 @@ function VolunteersSkillsChart(eventsData) {
   });
 
   const sortedSkills = Object.keys(skillsCount).sort(
-    (a, b) => skillsCount[b] - skillsCount[a]
+    (a, b) => skillsCount[b] - skillsCount[a],
   );
 
   const top3Skills =

@@ -129,7 +129,7 @@ export const draftColumns: ColumnDef<Event>[] = [
     },
     cell: ({ row }) => {
       const startDate = new Date(
-        row.getValue("startDate")
+        row.getValue("startDate"),
       ).toLocaleDateString();
       return <div suppressHydrationWarning>{startDate}</div>;
     },

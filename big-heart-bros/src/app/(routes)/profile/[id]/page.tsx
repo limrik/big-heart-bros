@@ -37,12 +37,12 @@ export default function UserDashboard({ params }: { params: { id: string } }) {
         const data = await response.json();
 
         const completed = data.events.filter(
-          (event) => event.status === "Completed"
+          (event) => event.status === "Completed",
         );
 
         completed.sort(
           (a, b) =>
-            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
         );
 
         setCompletedEvents(completed);
@@ -54,7 +54,7 @@ export default function UserDashboard({ params }: { params: { id: string } }) {
   }, []);
 
   return (
-    <div className="bg-[#f7d9d9] min-h-screen">
+    <div className="bg-[#f7d9d9] min-h-screen flex-1">
       {userType === UserType.VOLUNTEER ? (
         <div className="w-5/6 mx-auto flex-row flex gap-12">
           <div>
@@ -71,7 +71,9 @@ export default function UserDashboard({ params }: { params: { id: string } }) {
         </div>
       ) : (
         <div className="w-5/6 mx-auto flex justify-center items-center h-full">
-          <div className="text-center text-3xl font-bold mt-24">Error: Only accessible by users</div>
+          <div className="text-center text-3xl font-bold mt-24">
+            Error: Only accessible by users
+          </div>
         </div>
       )}
     </div>

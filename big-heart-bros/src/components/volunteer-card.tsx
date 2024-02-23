@@ -107,7 +107,11 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
       </div>
       <CardHeader>
         <div className="flex justify-cente">
-          <Image className="mb-4 w-full rounded-xl" src={props.image} alt="Event Image" />
+          <Image
+            className="mb-4 w-full rounded-xl"
+            src={props.image}
+            alt="Event Image"
+          />
         </div>
         <CardTitle className="font-semibold h-4">{props.name}</CardTitle>
         {/* <CardDescription className="text-justify">
@@ -188,7 +192,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        }
+                        },
                       )}
                     </p>
                   </DialogDescription>
@@ -215,13 +219,13 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        }
+                        },
                       )} ${new Date(props.startDate).toLocaleTimeString(
                         "en-GB",
                         {
                           hour: "2-digit",
                           minute: "2-digit",
-                        }
+                        },
                       )}`}{" "}
                       to{" "}
                       {`${new Date(props.endDate).toLocaleDateString("en-GB", {
@@ -233,7 +237,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                         {
                           hour: "2-digit",
                           minute: "2-digit",
-                        }
+                        },
                       )}`}
                     </p>
                   </DialogDescription>

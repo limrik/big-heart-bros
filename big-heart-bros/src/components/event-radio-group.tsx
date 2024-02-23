@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import CustomRadioGroup from "./custom-radio-group"
-import { Label } from "./ui/label"
-import React, { useEffect, useState } from "react"
+import CustomRadioGroup from "./custom-radio-group";
+import { Label } from "./ui/label";
+import React, { useEffect, useState } from "react";
 
 export enum EventType {
-    Volunteering = "Volunteering",
-    Training = "Training",
-    Workshop = "Workshop"
+  Volunteering = "Volunteering",
+  Training = "Training",
+  Workshop = "Workshop",
 }
 
 interface Props {
-  type: EventType
-  setSelectedType: React.Dispatch<React.SetStateAction<EventType>>
+  type: EventType;
+  setSelectedType: React.Dispatch<React.SetStateAction<EventType>>;
 }
 function EventRadioGroup({ type, setSelectedType }: Props) {
-  const displayNames = ["Volunteering", "Training", "Workshop"]
+  const displayNames = ["Volunteering", "Training", "Workshop"];
 
   return (
     <div className="flex flex-col gap-[15px] mb-3">
@@ -33,7 +33,7 @@ function EventRadioGroup({ type, setSelectedType }: Props) {
         setSelectedOption={(value) => setSelectedType(value as EventType)}
       />
     </div>
-  )
+  );
 }
 
-export default EventRadioGroup
+export default EventRadioGroup;

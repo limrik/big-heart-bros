@@ -4,7 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 import UserUpcomingCard from "./user-upcoming-card";
+import Event1Photo from "../app/assets/volunteer-1.jpg";
 import Event2Photo from "../app/assets/volunteer-2.jpg";
+import Event3Photo from "../app/assets/volunteer-3.jpg";
+import Event4Photo from "../app/assets/volunteer-4.jpg";
 import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 
 import { Bar } from "react-chartjs-2";
@@ -81,6 +84,8 @@ export default function DashboardView({ userId }) {
   const [error, setError] = useState("");
   const contentToPrint = useRef(null);
 
+  const images = [Event1Photo, Event2Photo, Event3Photo, Event4Photo];
+
   // const userId = "DEFAULT_ID";
 
   const handlePrint = useReactToPrint({
@@ -98,15 +103,15 @@ export default function DashboardView({ userId }) {
         const data2 = await res2.json();
 
         const approved = data.events.filter(
-          (event) => event.status === "Approved"
+          (event) => event.status === "Approved",
         );
         const completed = data.events.filter(
-          (event) => event.status === "Completed"
+          (event) => event.status === "Completed",
         );
 
         completed.sort(
           (a, b) =>
-            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
         );
 
         setUpcomingEvents(approved);
@@ -115,7 +120,7 @@ export default function DashboardView({ userId }) {
         setFeedback(data2.feedback);
 
         const uniqueNames = new Set<string>(
-          data2.feedback.map((item) => item.organisation.name)
+          data2.feedback.map((item) => item.organisation.name),
         );
         setUniqueOrganisationNames(uniqueNames);
 
@@ -144,7 +149,7 @@ export default function DashboardView({ userId }) {
 
   const handleFilterFeedback = () => {
     let filteredFeedback = feedback.filter((item) =>
-      selectedInputs.includes(item.organisation.name)
+      selectedInputs.includes(item.organisation.name),
     );
 
     if (filteredFeedback.length > 5) {
@@ -274,7 +279,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="stats">
           <div className="flex justify-center h-[300px] w-full mb-16">
             {" "}
-            <div className="h-[1000px]">
+            <div>
               <h2 className="text-lg font-semibold ml-6 my-2">Monthly Hours</h2>
               <DashboardChart events={completedEvents} />
             </div>
@@ -285,26 +290,30 @@ export default function DashboardView({ userId }) {
           <div className="flex justify-center items-center">
             {upcomingEvents?.length > 0 ? (
               <div className="">
-                {upcomingEvents.map((event, index) => (
-                  <UserUpcomingCard
-                    key={index}
-                    id={event.id}
-                    image={Event2Photo}
-                    name={event.name}
-                    description={event.description}
-                    startDate={event.startDate}
-                    endDate={event.endDate}
-                    skills={event.skills}
-                    link="/home"
-                    button_desc="View Event"
-                    posterId={event.posterId}
-                    status={event.status}
-                    currUsersLength={event.users ? event.users.length : 0}
-                    capacity={event.capacity ?? 0}
-                    location={event.location}
-                    registrationDeadline={event.registrationDeadline}
-                  />
-                ))}
+                {upcomingEvents.map((event, index) => {
+                  const randomIndex = Math.floor(Math.random() * images.length);
+
+                  return (
+                    <UserUpcomingCard
+                      key={index}
+                      id={event.id}
+                      image={images[randomIndex]}
+                      name={event.name}
+                      description={event.description}
+                      startDate={event.startDate}
+                      endDate={event.endDate}
+                      skills={event.skills}
+                      link="/home"
+                      button_desc="View Event"
+                      posterId={event.posterId}
+                      status={event.status}
+                      currUsersLength={event.users ? event.users.length : 0}
+                      capacity={event.capacity ?? 0}
+                      location={event.location}
+                      registrationDeadline={event.registrationDeadline}
+                    />
+                  );
+                })}
               </div>
             ) : (
               <p className="py-8">You have no upcoming volunteering events!</p>
@@ -315,30 +324,34 @@ export default function DashboardView({ userId }) {
           <div className="flex justify-center items-center">
             {completedEvents?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-8 mx-auto">
-                {completedEvents.map((event, index) => (
-                  <div>
-                    <CompletedEventCard
-                      key={index}
-                      image={Event2Photo}
-                      name={event.name}
-                      description={event.description}
-                      type={event.type}
-                      startDate={event.startDate}
-                      endDate={event.endDate}
-                      skills={event.skills}
-                      organisationId={event.posterId}
-                      feedback={feedback.filter(
-                        (fb) =>
-                          fb.eventId === event.id &&
-                          fb.organisationId === event.posterId
-                      )}
-                      // currUsersLength={2} // event.users ? event.users.length : 0}
-                      // capacity={event.capacity ?? 0}
-                      // location={event.location}
-                      // registrationDeadline={event.registrationDeadline}
-                    />
-                  </div>
-                ))}
+                {completedEvents.map((event, index) => {
+                  const randomIndex = Math.floor(Math.random() * images.length);
+
+                  return (
+                    <div>
+                      <CompletedEventCard
+                        key={index}
+                        image={images[randomIndex]}
+                        name={event.name}
+                        description={event.description}
+                        type={event.type}
+                        startDate={event.startDate}
+                        endDate={event.endDate}
+                        skills={event.skills}
+                        organisationId={event.posterId}
+                        feedback={feedback.filter(
+                          (fb) =>
+                            fb.eventId === event.id &&
+                            fb.organisationId === event.posterId,
+                        )}
+                        // currUsersLength={2} // event.users ? event.users.length : 0}
+                        // capacity={event.capacity ?? 0}
+                        // location={event.location}
+                        // registrationDeadline={event.registrationDeadline}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <p className="py-8">No completed events</p>

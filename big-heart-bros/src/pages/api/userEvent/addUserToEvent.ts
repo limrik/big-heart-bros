@@ -22,7 +22,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     const { userId, eventId } = req.body;
@@ -38,7 +38,7 @@ export default async function handler(
       data: {
         userId: userId,
         eventId: eventId,
-        attended: false
+        attended: false,
       },
     });
 
@@ -57,21 +57,21 @@ export default async function handler(
     });
 
     const updatedEvent = await prisma.event.update({
-        where: { id: eventId },
-        data: {
-          users: {
-            connect: {
-              userId_eventId: {
-                userId: createdUsersInEvents.userId,
-                eventId: createdUsersInEvents.eventId,
-              },
+      where: { id: eventId },
+      data: {
+        users: {
+          connect: {
+            userId_eventId: {
+              userId: createdUsersInEvents.userId,
+              eventId: createdUsersInEvents.eventId,
             },
           },
         },
-      });
+      },
+    });
 
-    console.log(updatedUser)
-    console.log(updatedEvent)
+    console.log(updatedUser);
+    console.log(updatedEvent);
 
     res.status(200).json({ message: "User added to event successfully" });
   } catch (error) {

@@ -16,18 +16,18 @@ const Profile = ({ user, events }) => {
         width={100}
         height={100}
       />
-      <div className="mt-20 items-center text-center">
+      <div className="mt-20 items-center text-center flex flex-col">
         {" "}
         <p className="text-xl font-semibold mb-2">{user?.name}</p>
-        <div className="text-center w-60 flex flex-row items-center justify-center">
+        <div className="text-center w-64 flex flex-row items-center justify-center">
           <div>
-            <p className="text-sm text-gray-600">Completed Events</p>
+            <p className="text-sm text-gray-600 w-32">Completed Events</p>
             <p className="text-lg"> {events.length} </p>
           </div>
           <Separator orientation="vertical" className="mx-2" />
           <div>
-            <p className="text-sm text-gray-600">Total Hours</p>
-            <p className="text-lg">{user?.totalHours}</p>
+            <p className="text-sm text-gray-600 w-32">Total Hours</p>
+            <p className="text-lg">{user?.totalHours ? user?.totalHours : 0}</p>
           </div>
         </div>{" "}
         <Separator className="my-2" />

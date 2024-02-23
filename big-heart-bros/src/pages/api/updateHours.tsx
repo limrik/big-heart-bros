@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -41,7 +41,7 @@ export default async function handler(
             data: { totalHours: user.totalHours + hoursToAdd },
           });
         }
-      })
+      }),
     );
 
     res.status(200).json({ message: "Hours updated successfully" });

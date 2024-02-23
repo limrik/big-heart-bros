@@ -11,6 +11,7 @@ const page: React.FC = () => {
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
+      {userType === UserType.ORGANISATION ? (
         <div className="w-5/6 mx-auto">
           <h1 className="pt-12 text-2xl font-semibold"> Your Activity </h1>
           <div>
@@ -22,6 +23,13 @@ const page: React.FC = () => {
           </div>
           <br />
         </div>
+      ) : (
+        <div className="w-5/6 mx-auto flex justify-center items-center h-full">
+          <div className="text-center text-3xl font-bold mt-24">
+            Error: Only accessible by organisations
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,23 +2,23 @@ import React from "react";
 import { EventType, Skills, EventStatus, UsersInEvents } from "@prisma/client";
 
 interface Event {
-    id: string;
-    name: string;
-    description: string;
-    capacity: number;
-    location: string;
-    type: EventType;
-    registrationDeadline: Date;
-    startDate: Date;
-    endDate: Date;
-    startTime: Date;
-    endTime: Date;
-    skills: Skills[]; 
-    createdAt: Date;
-    posterId: string;
-    status: EventStatus;
-    users: UsersInEvents[];
-  }
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  location: string;
+  type: EventType;
+  registrationDeadline: Date;
+  startDate: Date;
+  endDate: Date;
+  startTime: Date;
+  endTime: Date;
+  skills: Skills[];
+  createdAt: Date;
+  posterId: string;
+  status: EventStatus;
+  users: UsersInEvents[];
+}
 
 interface Organisation {
   id: string;
