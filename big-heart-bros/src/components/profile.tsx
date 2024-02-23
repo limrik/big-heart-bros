@@ -27,7 +27,7 @@ const Profile = ({ user, events }) => {
           <Separator orientation="vertical" className="mx-2" />
           <div>
             <p className="text-sm text-gray-600 w-32">Total Hours</p>
-            <p className="text-lg">{user?.totalHours}</p>
+            <p className="text-lg">{user?.totalHours ? user?.totalHours : 0}</p>
           </div>
         </div>{" "}
         <Separator className="my-2" />
