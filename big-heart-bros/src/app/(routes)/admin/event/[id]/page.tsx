@@ -141,8 +141,7 @@ export default function Page({ params }: { params: { id: string } }) {
         className="bg-no-repeat bg-cover h-[450px] w-full"
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
-        <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[450px]">
-          <Navbar />
+        <div className="bg-gray-900/40 absolute top-[63px] left-0 w-full h-[450px]">
           <div>
             <div>
               {" "}

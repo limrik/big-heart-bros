@@ -16,6 +16,7 @@ import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
 import { Button } from "../../../../components/ui/button";
+import Navbar from "../../../../components/navbar";
 
 interface Organisation {
   id: string;
@@ -125,7 +126,7 @@ export default function Page({ params }: { params: { id: string } }) {
         className="bg-no-repeat bg-cover h-[450px] w-full"
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
-        <div className="bg-gray-900/40 absolute top-0 left-0 w-full h-[450px]">
+        <div className="bg-gray-900/40 absolute top-[65px] left-0 w-full h-[450px]">
           <div>
             <div>
               {" "}
