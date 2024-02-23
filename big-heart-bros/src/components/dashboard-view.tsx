@@ -103,15 +103,15 @@ export default function DashboardView({ userId }) {
         const data2 = await res2.json();
 
         const approved = data.events.filter(
-          (event) => event.status === "Approved"
+          (event) => event.status === "Approved",
         );
         const completed = data.events.filter(
-          (event) => event.status === "Completed"
+          (event) => event.status === "Completed",
         );
 
         completed.sort(
           (a, b) =>
-            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
         );
 
         setUpcomingEvents(approved);
@@ -120,7 +120,7 @@ export default function DashboardView({ userId }) {
         setFeedback(data2.feedback);
 
         const uniqueNames = new Set<string>(
-          data2.feedback.map((item) => item.organisation.name)
+          data2.feedback.map((item) => item.organisation.name),
         );
         setUniqueOrganisationNames(uniqueNames);
 
@@ -149,7 +149,7 @@ export default function DashboardView({ userId }) {
 
   const handleFilterFeedback = () => {
     let filteredFeedback = feedback.filter((item) =>
-      selectedInputs.includes(item.organisation.name)
+      selectedInputs.includes(item.organisation.name),
     );
 
     if (filteredFeedback.length > 5) {
@@ -342,7 +342,7 @@ export default function DashboardView({ userId }) {
                         feedback={feedback.filter(
                           (fb) =>
                             fb.eventId === event.id &&
-                            fb.organisationId === event.posterId
+                            fb.organisationId === event.posterId,
                         )}
                         // currUsersLength={2} // event.users ? event.users.length : 0}
                         // capacity={event.capacity ?? 0}

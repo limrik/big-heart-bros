@@ -20,7 +20,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     const { email } = req.query;
@@ -28,7 +28,7 @@ export default async function handler(
     if (req.method === "GET" && email) {
       const organisation = await prisma.organisation.findFirst({
         where: {
-			email: email.toString(),
+          email: email.toString(),
         },
       });
 

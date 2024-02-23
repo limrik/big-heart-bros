@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react"
+import * as React from "react";
 
 import {
   ColumnDef,
@@ -31,7 +31,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
-    }
+    },
   });
 
   return (
@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

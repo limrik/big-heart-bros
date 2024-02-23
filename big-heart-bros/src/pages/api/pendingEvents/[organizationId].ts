@@ -28,7 +28,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     const { organizationId } = req.query;
@@ -36,8 +36,8 @@ export default async function handler(
     if (req.method === "GET" && organizationId) {
       const events = await prisma.event.findMany({
         where: {
-            status: EventStatus.Pending,
-            posterId: organizationId.toString(),
+          status: EventStatus.Pending,
+          posterId: organizationId.toString(),
         },
       });
 

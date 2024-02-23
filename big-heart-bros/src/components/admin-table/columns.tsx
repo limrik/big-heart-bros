@@ -105,7 +105,7 @@ export const columns: ColumnDef<Event>[] = [
     },
     cell: ({ row }) => {
       const registrationDeadline = new Date(
-        row.getValue("registrationDeadline")
+        row.getValue("registrationDeadline"),
       ).toLocaleDateString();
       return <div suppressHydrationWarning>{registrationDeadline}</div>;
     },
@@ -125,7 +125,7 @@ export const columns: ColumnDef<Event>[] = [
     },
     cell: ({ row }) => {
       const startDate = new Date(
-        row.getValue("startDate")
+        row.getValue("startDate"),
       ).toLocaleDateString();
       return <div suppressHydrationWarning>{startDate}</div>;
     },

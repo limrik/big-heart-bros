@@ -156,7 +156,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        }
+                        },
                       )}
                     </p>
                   </DialogDescription>
@@ -202,14 +202,16 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                           key={index}
                           className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
                         >
-                          {skill === "OnGroundVolunteering" ? "OnGroundVolunteer" : skill}
+                          {skill === "OnGroundVolunteering"
+                            ? "OnGroundVolunteer"
+                            : skill}
                         </div>
                       ))}
                     </div>
                   </div>
                 </DialogDescription>
                 <DialogDescription>
-                  <span className="font-bold">Contact: </span>
+                  <span className="font-bold">Contact: <span className="font-normal">+65 6123 4567</span></span>
                 </DialogDescription>
               </div>
             </div>

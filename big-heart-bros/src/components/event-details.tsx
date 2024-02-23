@@ -102,7 +102,7 @@ export default function EventDetails({
                       {startDate
                         ? formatDateTime(
                             new Date(startDate),
-                            new Date(startTime)
+                            new Date(startTime),
                           )
                         : ""}{" "}
                     </pre>

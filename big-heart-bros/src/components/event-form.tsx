@@ -271,7 +271,7 @@ export function EventForm() {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -315,7 +315,7 @@ export function EventForm() {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -359,7 +359,7 @@ export function EventForm() {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -389,7 +389,7 @@ export function EventForm() {
                             ) {
                               // If the entered time is in the correct format, update the field value
                               field.onChange(
-                                new Date(`2000-01-01T${timeValue}:00`)
+                                new Date(`2000-01-01T${timeValue}:00`),
                               );
                             } else {
                               // If the entered time is not in the correct format, do nothing or provide appropriate feedback to the user
@@ -419,7 +419,7 @@ export function EventForm() {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -463,7 +463,7 @@ export function EventForm() {
                           variant={"outline"}
                           className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -493,7 +493,7 @@ export function EventForm() {
                             ) {
                               // If the entered time is in the correct format, update the field value
                               field.onChange(
-                                new Date(`2000-01-01T${timeValue}:00`)
+                                new Date(`2000-01-01T${timeValue}:00`),
                               );
                             } else {
                               // If the entered time is not in the correct format, do nothing or provide appropriate feedback to the user
@@ -540,8 +540,8 @@ export function EventForm() {
                                     ? field.onChange([...field.value, skill.id])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== skill.id
-                                        )
+                                          (value) => value !== skill.id,
+                                        ),
                                       );
                                 }}
                               />

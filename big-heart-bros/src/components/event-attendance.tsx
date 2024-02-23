@@ -149,8 +149,8 @@ export const columns: ColumnDef<User>[] = [
       return attended
         ? "✅"
         : startDate && startDate.getTime() < currentDate.getTime()
-        ? "❌"
-        : "Not Yet";
+          ? "❌"
+          : "Not Yet";
     },
   },
   {
@@ -218,7 +218,7 @@ export default function EventAttendance({
   console.log("hi", users);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -317,7 +317,7 @@ export default function EventAttendance({
     const requestDataHours = {
       hoursToAdd: calculateHoursDifference(
         new Date(startDate),
-        new Date(endDate)
+        new Date(endDate),
       ),
       userIds: notAttendedUserIds,
     };
@@ -394,7 +394,7 @@ export default function EventAttendance({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -413,7 +413,7 @@ export default function EventAttendance({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -472,7 +472,7 @@ export default function EventAttendance({
                   handleAttendance(
                     table
                       .getFilteredSelectedRowModel()
-                      .rows.map((row) => row.original)
+                      .rows.map((row) => row.original),
                   )
                 }
               >

@@ -1,4 +1,12 @@
-import { PrismaClient, Skills, GenderType, CommitmentLevelType, Feedback, ResidentialStatusType, Interests } from "@prisma/client";
+import {
+  PrismaClient,
+  Skills,
+  GenderType,
+  CommitmentLevelType,
+  Feedback,
+  ResidentialStatusType,
+  Interests,
+} from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface User {
@@ -28,7 +36,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   try {
     const { email } = req.query;
