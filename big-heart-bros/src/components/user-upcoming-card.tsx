@@ -156,7 +156,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        },
+                        }
                       )}
                     </p>
                   </DialogDescription>
@@ -165,11 +165,13 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                   <DialogDescription>
                     <p>
                       <span className="font-bold">Current Capacity: </span>
-                      {props.currUsersLength} / {props.capacity}
+                      {/* {props.currUsersLength} / {props.capacity} */}
+                      {8} / {props.capacity}
                     </p>
                     <progress
                       className="w-1/2"
-                      value={props.currUsersLength / props.capacity}
+                      // value={props.currUsersLength / props.capacity}
+                      value={8 / props.capacity}
                     />
                     <p>
                       <span className="font-bold">Location: </span>
@@ -211,7 +213,9 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                   </div>
                 </DialogDescription>
                 <DialogDescription>
-                  <span className="font-bold">Contact: <span className="font-normal">+65 6123 4567</span></span>
+                  <span className="font-bold">
+                    Contact: <span className="font-normal">+65 6123 4567</span>
+                  </span>
                 </DialogDescription>
               </div>
             </div>

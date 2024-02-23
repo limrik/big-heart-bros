@@ -79,21 +79,21 @@ const handleClick = async (userId, eventId) => {
 const CardComponent: React.FC<CardComponentProps> = (props) => {
   const [users, setUsers] = useState<User[]>([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res2 = await fetch(`/api/usersByEventId/${props.id}`);
-        const data2 = await res2.json();
-        setUsers(data2.users);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const res2 = await fetch(`/api/usersByEventId/${props.id}`);
+  //       const data2 = await res2.json();
+  //       setUsers(data2.users);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   }
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  console.log(props);
+  // console.log(props);
 
   return (
     <Card className={cn("w-[360px] bg-[#ffffff] rounded-xl my-4")}>
@@ -192,7 +192,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        },
+                        }
                       )}
                     </p>
                   </DialogDescription>
@@ -201,11 +201,13 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                   <DialogDescription>
                     <p>
                       <span className="font-bold">Current Capacity: </span>
-                      {users?.length} / {props.capacity}
+                      {/* {users?.length} */}
+                      {8} / {props.capacity}
                     </p>
                     <progress
                       className="w-1/2"
-                      value={users?.length / props.capacity}
+                      // value={users?.length / props.capacity}
+                      value={8 / props.capacity}
                     />
                     <p>
                       <span className="font-bold">Location: </span>
@@ -219,13 +221,13 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
-                        },
+                        }
                       )} ${new Date(props.startDate).toLocaleTimeString(
                         "en-GB",
                         {
                           hour: "2-digit",
                           minute: "2-digit",
-                        },
+                        }
                       )}`}{" "}
                       to{" "}
                       {`${new Date(props.endDate).toLocaleDateString("en-GB", {
@@ -237,7 +239,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
                         {
                           hour: "2-digit",
                           minute: "2-digit",
-                        },
+                        }
                       )}`}
                     </p>
                   </DialogDescription>
