@@ -148,18 +148,32 @@ function VolunteersByDateChart(eventsData) {
 }
 
 export default function stats() {
+  interface DoughnutDataset {
+    data: number[];
+    backgroundColor: string[];
+    borderColor: string[];
+    borderWidth: number;
+  }
+  
+  interface DoughnutData {
+    labels: string[];
+    datasets: DoughnutDataset[];
+  }
+
   const [usersInEvents, setUsersInEvents] = useState([]);
-  const [doughnutData, setDoughnutData] = useState({
+  const initialDoughnutData: DoughnutData = {
+    labels: [],
     datasets: [
       {
-        data: [], // This can now hold numbers
-        backgroundColor: [], // This can now hold strings
-        borderColor: [], // This can now hold strings
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
         borderWidth: 1,
       },
     ],
-    labels: [], // This can now hold strings
-  });
+  };
+  
+  const [doughnutData, setDoughnutData] = useState<DoughnutData>(initialDoughnutData);
 
   useEffect(() => {
     async function fetchData() {
