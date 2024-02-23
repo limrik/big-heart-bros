@@ -24,6 +24,7 @@ export default function Navbar() {
           <Tabs defaultValue={userType} className="w-[400px]">
             <TabsList>
               <TabsTrigger
+                className="rounded"
                 value="volunteer"
                 onClick={() => {
                   setUserType(UserType.VOLUNTEER);
@@ -33,6 +34,7 @@ export default function Navbar() {
                 User
               </TabsTrigger>
               <TabsTrigger
+                className="rounded"
                 value="organisation"
                 onClick={() => {
                   setUserType(UserType.ORGANISATION);
@@ -42,6 +44,7 @@ export default function Navbar() {
                 Organisation
               </TabsTrigger>
               <TabsTrigger
+                className="rounded"
                 value="admin"
                 onClick={() => {
                   setUserType(UserType.ADMIN);
