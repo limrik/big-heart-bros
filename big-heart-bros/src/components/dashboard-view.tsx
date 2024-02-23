@@ -279,7 +279,7 @@ export default function DashboardView({ userId }) {
         <TabsContent value="stats">
           <div className="flex justify-center h-[300px] w-full mb-16">
             {" "}
-            <div className="h-[1000px]">
+            <div>
               <h2 className="text-lg font-semibold ml-6 my-2">Monthly Hours</h2>
               <DashboardChart events={completedEvents} />
             </div>

@@ -54,7 +54,7 @@ export default function UserDashboard({ params }: { params: { id: string } }) {
   }, []);
 
   return (
-    <div className="bg-[#f7d9d9] min-h-screen">
+    <div className="bg-[#f7d9d9] min-h-screen flex-1">
       {userType === UserType.VOLUNTEER ? (
         <div className="w-5/6 mx-auto flex-row flex gap-12">
           <div>
