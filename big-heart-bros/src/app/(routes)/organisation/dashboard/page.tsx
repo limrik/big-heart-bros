@@ -3,8 +3,8 @@
 import React from "react";
 import { useUserTypeStore, UserType } from "../../../../store/zustand";
 import AdminApproveDoughnut from "../../../../components/admin-approve-doughnut";
-import OrgStatsCards from "../../../../components/ui/org-stats-cards";
-import OrgActivityChart from "../../../../components/ui/orgChart";
+import OrgStatsCards from "../../../../components/org-stats-cards";
+import OrgActivityChart from "../../../../components/orgChart";
 
 const page: React.FC = () => {
   const { userType, setUserType } = useUserTypeStore();
