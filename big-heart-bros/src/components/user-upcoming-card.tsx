@@ -24,9 +24,10 @@ import { Button } from "./ui/button";
 
 import Image, { StaticImageData } from "next/image";
 
-import { EventType, Skills, EventStatus } from "@prisma/client";
+import { EventType, Skills, EventStatus, User } from "@prisma/client";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
+import { useEffect, useState } from "react";
 
 type CardComponentProps = {
   image: StaticImageData; // local path to image for now
@@ -51,7 +52,22 @@ type CardComponentProps = {
 };
 
 const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
-  console.log(props);
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res2 = await fetch(`/api/usersByEventId/${props.id}`);
+        const data2 = await res2.json();
+        setUsers(data2.users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <Card className={cn("bg-[#ffffff] my-4 w-full shadow-xl rounded-none")}>
       <CardHeader>
