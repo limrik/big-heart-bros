@@ -96,7 +96,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
   console.log(props);
 
   return (
-    <Card className={cn("w-[360px] bg-[#ffffff] rounded-none my-4")}>
+    <Card className={cn("w-[360px] bg-[#ffffff] rounded-xl my-4")}>
       <div className="relative">
         {/* Your card content */}
         {props.recommend && (
@@ -106,8 +106,8 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
         )}
       </div>
       <CardHeader>
-        <div className="flex justify-center">
-          <Image className="pb-4 w-full" src={props.image} alt="Event Image" />
+        <div className="flex justify-cente">
+          <Image className="mb-4 w-full rounded-xl" src={props.image} alt="Event Image" />
         </div>
         <CardTitle className="font-semibold">{props.name}</CardTitle>
         {/* <CardDescription className="text-justify">

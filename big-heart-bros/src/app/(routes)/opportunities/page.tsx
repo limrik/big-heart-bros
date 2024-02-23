@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import VolunteerCard from "../../../components/volunteer-card";
 import { EventType, Skills, EventStatus, Interests } from "@prisma/client";
 import Event1Photo from "../../assets/volunteer-1.jpg";
+import Event2Photo from "../../assets/volunteer-2.jpg";
+import Event3Photo from "../../assets/volunteer-3.jpg";
+import Event4Photo from "../../assets/volunteer-4.jpg";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { set } from "date-fns";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -181,6 +184,8 @@ function page() {
     });
   };
 
+  const images = [Event1Photo, Event2Photo, Event3Photo, Event4Photo];
+
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
       <div className="w-5/6 mx-auto">
@@ -194,7 +199,7 @@ function page() {
           />
           <input
             type="text"
-            placeholder="Search for events.."
+            placeholder="Search for events..."
             value={searchQuery}
             onChange={handleSearch}
             className="pl-14 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 px-3 py-2 w-full border rounded-md bg-white"
@@ -231,11 +236,14 @@ function page() {
                 </div>
               ))
             : // If not loading, display VolunteerCard components
-              filteredEvents.map((event, index) => (
+              filteredEvents.map((event, index) => {
+                const randomIndex = Math.floor(Math.random() * images.length);
+
+                return (
                 <VolunteerCard
                   key={index}
                   id={event.event.id}
-                  image={Event1Photo}
+                  image={images[randomIndex]}
                   name={event.event.name}
                   description={event.event.description}
                   startDate={new Date(event.event.startDate)}
@@ -251,7 +259,8 @@ function page() {
                   registrationDeadline={event.event.registrationDeadline}
                   recommend={event.recommend}
                 />
-              ))}
+                );}
+              )}
         </div>
       </div>
     </div>
