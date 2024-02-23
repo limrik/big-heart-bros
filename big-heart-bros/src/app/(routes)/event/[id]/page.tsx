@@ -187,7 +187,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.startDate).getDate(),
                     new Date(event?.startTime).getHours(),
                     new Date(event?.startTime).getMinutes(),
-                    new Date(event?.startDate).getSeconds()
+                    new Date(event?.startDate).getSeconds(),
                   ),
                 }))}
                 startDate={
@@ -197,7 +197,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.startDate).getDate(),
                     new Date(event?.startTime).getHours(),
                     new Date(event?.startTime).getMinutes(),
-                    new Date(event?.startTime).getSeconds()
+                    new Date(event?.startTime).getSeconds(),
                   )
                 }
                 endDate={
@@ -207,7 +207,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     new Date(event?.endDate).getDate(),
                     new Date(event?.endTime).getHours(),
                     new Date(event?.endTime).getMinutes(),
-                    new Date(event?.endTime).getSeconds()
+                    new Date(event?.endTime).getSeconds(),
                   )
                 }
                 status={event?.status}

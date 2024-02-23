@@ -30,7 +30,7 @@ const EventFeedbackModal: React.FC<EventFeedbackModalProps> = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ message: feedback }),
-        }
+        },
       );
 
       if (!response.ok) {

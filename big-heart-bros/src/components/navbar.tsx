@@ -30,7 +30,7 @@ export default function Navbar() {
                   setUserType(UserType.VOLUNTEER);
                 }}
               >
-                <User className="mr-2"/>
+                <User className="mr-2" />
                 User
               </TabsTrigger>
               <TabsTrigger
@@ -40,7 +40,7 @@ export default function Navbar() {
                   setUserType(UserType.ORGANISATION);
                 }}
               >
-                <Building2 className="mr-2"/>
+                <Building2 className="mr-2" />
                 Organisation
               </TabsTrigger>
               <TabsTrigger
@@ -50,7 +50,7 @@ export default function Navbar() {
                   setUserType(UserType.ADMIN);
                 }}
               >
-                <Heart className="mr-2"/>
+                <Heart className="mr-2" />
                 Admin
               </TabsTrigger>
             </TabsList>

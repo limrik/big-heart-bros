@@ -58,7 +58,8 @@ const Home = () => {
             <div>
               <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl drop-shadow-2xl font-poppins text-center gradient-text">
                 When volunteering starts changing lives,
-                <br />so does yours.
+                <br />
+                so does yours.
               </h1>
               <p className="font-poppins text-base sm:text-xl text-center mx-4 mt-8 mb-12 animate-bounce">
                 Start your giving journey with us!

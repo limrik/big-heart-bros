@@ -60,7 +60,7 @@ function page() {
           const data = await response.json();
 
           const userResponse = await fetch(
-            `/api/checkUserByEmail/${session?.user?.email}`
+            `/api/checkUserByEmail/${session?.user?.email}`,
           );
           const userData = await userResponse.json();
 
@@ -73,7 +73,7 @@ function page() {
           } else {
             // If data1 is null, fetch default user data from the database
             const userResponse = await fetch(
-              `/api/checkUserByEmail/bentan@gmail.com`
+              `/api/checkUserByEmail/bentan@gmail.com`,
             );
             const userData = await userResponse.json();
             setUserInfo(userData.user);
@@ -89,7 +89,7 @@ function page() {
         const data = await response.json();
         setEvents(data.events);
         const userResponse = await fetch(
-          `/api/checkUserByEmail/bentan@gmail.com`
+          `/api/checkUserByEmail/bentan@gmail.com`,
         );
         const userData = await userResponse.json();
         setUserInfo(userData.user);
@@ -118,13 +118,13 @@ function page() {
       SKILLS_WEIGHTAGE *
         userSkills.reduce(
           (acc, skill) => acc + (event.skills.includes(skill) ? 0.9 : 0.1),
-          0
+          0,
         ) +
       INTERESTS_WEIGHTAGE *
         userInterests.reduce(
           (acc, interest) =>
             acc + (event.interests.includes(interest) ? 0.9 : 0.1),
-          0
+          0,
         );
     console.log(event.event.name + ": " + similarityScoreChecked);
     return {
@@ -168,7 +168,7 @@ function page() {
     const noTagsSelected = selectedTags.length === 0;
 
     const tagMatches = selectedTags.some((tag) =>
-      event.event.skills.includes(tag as Skills)
+      event.event.skills.includes(tag as Skills),
     );
 
     // Return true if both name/description match and at least one tag matches
@@ -207,7 +207,7 @@ function page() {
         </div>
 
         {/* Multi-select dropdown for selecting tags */}
-        <div className="flex justify-center my-4">
+        <div className="flex my-4 justify-center">
           <ToggleGroup type="multiple">
             {tags.map((tag) => (
               <ToggleGroupItem
@@ -240,26 +240,26 @@ function page() {
                 const randomIndex = Math.floor(Math.random() * images.length);
 
                 return (
-                <VolunteerCard
-                  key={index}
-                  id={event.event.id}
-                  image={images[randomIndex]}
-                  name={event.event.name}
-                  description={event.event.description}
-                  startDate={new Date(event.event.startDate)}
-                  endDate={new Date(event.event.endDate)}
-                  skills={event.skills}
-                  link="/home"
-                  button_desc="View Event"
-                  posterId={event.event.posterId}
-                  status={event.event.status}
-                  capacity={event.event.capacity ?? 0}
-                  location={event.event.location}
-                  registrationDeadline={event.event.registrationDeadline}
-                  recommend={event.recommend}
-                />
-                );}
-              )}
+                  <VolunteerCard
+                    key={index}
+                    id={event.event.id}
+                    image={images[randomIndex]}
+                    name={event.event.name}
+                    description={event.event.description}
+                    startDate={new Date(event.event.startDate)}
+                    endDate={new Date(event.event.endDate)}
+                    skills={event.skills}
+                    link="/home"
+                    button_desc="View Event"
+                    posterId={event.event.posterId}
+                    status={event.event.status}
+                    capacity={event.event.capacity ?? 0}
+                    location={event.event.location}
+                    registrationDeadline={event.event.registrationDeadline}
+                    recommend={event.recommend}
+                  />
+                );
+              })}
         </div>
       </div>
     </div>

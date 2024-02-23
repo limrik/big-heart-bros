@@ -4,10 +4,10 @@ import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 
-
-
 function getEventsWithOrg2Poster(userEvents: any[]): any[] {
-  const filteredEvents = userEvents.filter(item => item.event.posterId === "org_2");
+  const filteredEvents = userEvents.filter(
+    (item) => item.event.posterId === "org_2",
+  );
   return filteredEvents;
 }
 
@@ -23,7 +23,7 @@ function getTotalUniqueIndividuals(userEvents: any[]): number {
 
 function getTotalUniquePosterIds(userEvents: any[]): number {
   const uniquePosterIds = new Set(
-    userEvents.map((item) => item.event.posterId)
+    userEvents.map((item) => item.event.posterId),
   );
   return uniquePosterIds.size;
 }
@@ -45,13 +45,13 @@ function getTotalHoursOfImpact(userEvents) {
 function EventsByDateChart(eventsData) {
   const uniqueEventsData = eventsData.filter(
     (event, index, self) =>
-      index === self.findIndex((e) => e.eventId === event.eventId)
+      index === self.findIndex((e) => e.eventId === event.eventId),
   );
 
   uniqueEventsData.sort(
     (a, b) =>
       new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
+      new Date(b.event.startDate).getTime(),
   );
   const eventMonths: { [key: string]: number } = {};
 
@@ -65,7 +65,7 @@ function EventsByDateChart(eventsData) {
 
   const startDate = new Date(uniqueEventsData[0].event.startDate);
   const endDate = new Date(
-    uniqueEventsData[uniqueEventsData.length - 1].event.startDate
+    uniqueEventsData[uniqueEventsData.length - 1].event.startDate,
   );
   const labels: string[] = [];
   const data: number[] = [];
@@ -102,7 +102,7 @@ function VolunteersByDateChart(eventsData) {
   eventsData.sort(
     (a, b) =>
       new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
+      new Date(b.event.startDate).getTime(),
   );
   const volunteerCountsByDate = {};
 
@@ -147,19 +147,19 @@ function VolunteersByDateChart(eventsData) {
   return chartData;
 }
 
-
 export default function stats() {
   const [usersInEvents, setUsersInEvents] = useState([]);
   const [doughnutData, setDoughnutData] = useState({
-    datasets: [{
-      data: [], // This can now hold numbers
-      backgroundColor: [], // This can now hold strings
-      borderColor: [], // This can now hold strings
-      borderWidth: 1
-    }],
-    labels: [] // This can now hold strings
+    datasets: [
+      {
+        data: [], // This can now hold numbers
+        backgroundColor: [], // This can now hold strings
+        borderColor: [], // This can now hold strings
+        borderWidth: 1,
+      },
+    ],
+    labels: [], // This can now hold strings
   });
-
 
   useEffect(() => {
     async function fetchData() {
@@ -180,43 +180,43 @@ export default function stats() {
 
   const getGenderRatio = (usersData) => {
     const genderCounts = { male: 0, female: 0, other: 0 };
-    usersData.forEach(user => {
-      console.log(user.gender)
-      if (user.gender === 'male') genderCounts.male += 1;
-      else if (user.gender === 'female') genderCounts.female += 1;
+    usersData.forEach((user) => {
+      console.log(user.gender);
+      if (user.gender === "male") genderCounts.male += 1;
+      else if (user.gender === "female") genderCounts.female += 1;
       else genderCounts.other += 1;
     });
 
     return {
-      labels: ['Male', 'Female', 'Other'],
-      datasets: [{
-        label: 'Gender Ratio',
-        data: [genderCounts.male, genderCounts.female, genderCounts.other],
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255,99,132,1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1
-      }]
+      labels: ["Male", "Female", "Other"],
+      datasets: [
+        {
+          label: "Gender Ratio",
+          data: [genderCounts.male, genderCounts.female, genderCounts.other],
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(255,99,132,1)",
+            "rgba(255, 206, 86, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
     };
   };
 
-
   return (
-    
     <div>
       <div className="flex flex-row gap-8">
-      <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
+        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
           {" "}
           <h2 className="font-medium text-gray-700"> Gender Ratio </h2>
           <h1 className="text-3xl text-center font-semibold mt-1">
-          <Doughnut data={doughnutData} />
+            <Doughnut data={doughnutData} />
           </h1>
         </div>
 

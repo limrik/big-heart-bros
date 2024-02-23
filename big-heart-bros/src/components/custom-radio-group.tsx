@@ -1,13 +1,13 @@
-import { Label } from "@radix-ui/react-label"
-import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
-import React, { CSSProperties } from "react"
+import { Label } from "@radix-ui/react-label";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import React, { CSSProperties } from "react";
 
 interface Props {
-  displayNames: string[]
-  options: string[]
-  selectedOption: string
-  setSelectedOption: React.Dispatch<React.SetStateAction<string>>
-  styling?: CSSProperties
+  displayNames: string[];
+  options: string[];
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  styling?: CSSProperties;
 }
 
 function CustomRadioGroup({
@@ -38,7 +38,7 @@ function CustomRadioGroup({
         </div>
       ))}
     </RadioGroup>
-  )
+  );
 }
 
-export default CustomRadioGroup
+export default CustomRadioGroup;

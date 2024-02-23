@@ -40,7 +40,7 @@ function getMonthData(events: Event[]) {
       new Date(event.startDate).getMonth() + 1
     }/${new Date(event.startDate).getFullYear()}`;
     const endMonthYear = `${new Date(event.endDate).getMonth() + 1}/${new Date(
-      event.endDate
+      event.endDate,
     ).getFullYear()}`;
 
     // Check if start and end months are the same
@@ -53,7 +53,7 @@ function getMonthData(events: Event[]) {
       const startMonthDays = new Date(
         new Date(event.startDate).getFullYear(),
         new Date(event.startDate).getMonth() + 1,
-        0
+        0,
       ).getDate();
       const startMonthEnd = new Date(
         new Date(event.startDate).getFullYear(),
@@ -62,7 +62,7 @@ function getMonthData(events: Event[]) {
         23,
         59,
         59,
-        999
+        999,
       ).getTime();
       const startMonthDuration =
         (startMonthEnd - startDateTime) / (1000 * 3600); // Convert milliseconds to hours

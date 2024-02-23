@@ -7,10 +7,10 @@ const getApproveBreakdown = (approved, pending) => {
   const today = new Date();
 
   const approvedFiltered = approved.filter(
-    (event) => new Date(event.startDate) >= today
+    (event) => new Date(event.startDate) >= today,
   );
   const pendingFiltered = pending.filter(
-    (event) => new Date(event.startDate) >= today
+    (event) => new Date(event.startDate) >= today,
   );
 
   const approvedCount = approvedFiltered.length;

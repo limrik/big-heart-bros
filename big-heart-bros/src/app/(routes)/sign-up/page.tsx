@@ -39,7 +39,7 @@ import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
 import Link from "next/link";
 import { ValueSetter } from "date-fns/parse/_lib/Setter";
 import { Checkbox } from "../../../components/ui/checkbox";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const interests = [
   { id: "CommunityService", label: "Community Service" },
@@ -98,44 +98,42 @@ const skills = [
 const GenderType = z.enum(["Male", "Female"]);
 
 const ResidentialStatusType = z.enum([
- "SingaporeCitizen", "SingaporePR",
+  "SingaporeCitizen",
+  "SingaporePR",
   /*{ value: "DP", label: "Dependent Pass" },
   { value: "EP", label: "EP / PEP / DP with LOC / WP / S Pass etc" },
   { value: "LTVP", label: "Long Term Visitor Pass" },
   { value: "SP", label: "Student Pass" },
-  { value: "VV", label: "Visitor Visa" }, -- need to change schema for this*/ 
+  { value: "VV", label: "Visitor Visa" }, -- need to change schema for this*/
 ]);
 
-const formSchema = z
-  .object({
-    name: z.string().min(1, {
-      message: "Username must be at least 1 characters.",
-    }),
-    email: z.string().email({
-      message: "Please enter a valid email address.",
-    }),
-    phoneNumber: z.string(),
-    gender: GenderType,
-    residentialStatus: ResidentialStatusType,
-    skills: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
-    interests: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
-    canDrive: z.boolean(),
-    ownVehicle: z.boolean(),
-    dob: z.date().nullable(),
-    commitmentLevel: z.enum(["Adhoc", "Low", "Medium", "High"], {
-      required_error: "You need to select a commitment level",
-    }),
-    occupation: z.string()
-  })
-  /*.refine((data) => data.password === data.confirm, {
+const formSchema = z.object({
+  name: z.string().min(1, {
+    message: "Username must be at least 1 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  phoneNumber: z.string(),
+  gender: GenderType,
+  residentialStatus: ResidentialStatusType,
+  skills: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
+  interests: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
+  canDrive: z.boolean(),
+  ownVehicle: z.boolean(),
+  dob: z.date().nullable(),
+  commitmentLevel: z.enum(["Adhoc", "Low", "Medium", "High"], {
+    required_error: "You need to select a commitment level",
+  }),
+  occupation: z.string(),
+});
+/*.refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
     path: ["confirm"], // path of error*/
-
-
 
 export default function SignUp() {
   const router = useRouter();
@@ -153,7 +151,7 @@ export default function SignUp() {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    const userData = {...data};
+    const userData = { ...data };
 
     try {
       const response = await fetch(`/api/createUser/${data.email}`, {
@@ -175,10 +173,9 @@ export default function SignUp() {
     } catch (error) {
       console.error("Error making API request:", error);
     }
-    }
+  }
 
-
-    /*toast({
+  /*toast({
       title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
@@ -193,7 +190,6 @@ export default function SignUp() {
   ];
 
   const commitmentLevels = ["AdHoc", "Low", "Medium", "High"];
-
 
   return (
     <div>
@@ -252,7 +248,7 @@ export default function SignUp() {
                           </FormItem>
                         )}
                       />
-                                            <FormField
+                      <FormField
                         control={form.control}
                         name="phoneNumber"
                         render={({ field }) => (
@@ -268,7 +264,6 @@ export default function SignUp() {
                           </FormItem>
                         )}
                       />
-                     
                       <div className="pt-6 font-semibold font-poppins text-2xl">
                         Personal Information
                       </div>{" "}
@@ -285,7 +280,7 @@ export default function SignUp() {
                                     variant={"outline"}
                                     className={cn(
                                       "w-[240px] pl-3 text-left font-normal",
-                                      !field.value && "text-muted-foreground"
+                                      !field.value && "text-muted-foreground",
                                     )}
                                   >
                                     {field.value ? (
@@ -328,31 +323,33 @@ export default function SignUp() {
                             <FormItem className="mr-12">
                               <FormLabel>Residential Status</FormLabel>
                               <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="SingaporeCitizen" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                        SingaporeCitizen
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="SingaporePR" />
-                        </FormControl>
-                        <FormLabel className="font-normal">SingaporePR</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                  className="flex flex-col space-y-1"
+                                >
+                                  <FormItem className="flex items-center space-x-3 space-y-0">
+                                    <FormControl>
+                                      <RadioGroupItem value="SingaporeCitizen" />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      SingaporeCitizen
+                                    </FormLabel>
+                                  </FormItem>
+                                  <FormItem className="flex items-center space-x-3 space-y-0">
+                                    <FormControl>
+                                      <RadioGroupItem value="SingaporePR" />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      SingaporePR
+                                    </FormLabel>
+                                  </FormItem>
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
                           )}
-                        /> 
+                        />
                         <FormField
                           control={form.control}
                           name="gender"
@@ -360,29 +357,31 @@ export default function SignUp() {
                             <FormItem className="mr-12">
                               <FormLabel>Gender</FormLabel>
                               <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="Male" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Male
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="Female" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Female</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                  className="flex flex-col space-y-1"
+                                >
+                                  <FormItem className="flex items-center space-x-3 space-y-0">
+                                    <FormControl>
+                                      <RadioGroupItem value="Male" />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      Male
+                                    </FormLabel>
+                                  </FormItem>
+                                  <FormItem className="flex items-center space-x-3 space-y-0">
+                                    <FormControl>
+                                      <RadioGroupItem value="Female" />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      Female
+                                    </FormLabel>
+                                  </FormItem>
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
                           )}
                         />
                         <FormField
@@ -495,104 +494,121 @@ export default function SignUp() {
                       </div>
                       <div className="grid-cols-2 grid">
                         <div className="w-96">
-                        <FormField
-              control={form.control}
-              name="interests"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel className="text-base">Interests</FormLabel>
-                    <FormDescription>
-                      Select your interests.
-                    </FormDescription>
-                  </div>
-                  {interests.map((interests) => (
-                    <FormField
-                      key={interests.id}
-                      control={form.control}
-                      name="interests"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={interests.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(interests.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, interests.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== interests.id
-                                        )
+                          <FormField
+                            control={form.control}
+                            name="interests"
+                            render={() => (
+                              <FormItem>
+                                <div className="mb-4">
+                                  <FormLabel className="text-base">
+                                    Interests
+                                  </FormLabel>
+                                  <FormDescription>
+                                    Select your interests.
+                                  </FormDescription>
+                                </div>
+                                {interests.map((interests) => (
+                                  <FormField
+                                    key={interests.id}
+                                    control={form.control}
+                                    name="interests"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={interests.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(
+                                                interests.id,
+                                              )}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([
+                                                      ...field.value,
+                                                      interests.id,
+                                                    ])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value) =>
+                                                          value !==
+                                                          interests.id,
+                                                      ),
+                                                    );
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="font-normal">
+                                            {interests.label}
+                                          </FormLabel>
+                                        </FormItem>
                                       );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {interests.label}
-                            </FormLabel>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />  
+                                    }}
+                                  />
+                                ))}
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </div>
                         <div>
-                        <FormField
-              control={form.control}
-              name="skills"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel className="text-base">Skills</FormLabel>
-                    <FormDescription>
-                      Select your skills.
-                    </FormDescription>
-                  </div>
-                  {skills.map((skill) => (
-                    <FormField
-                      key={skill.id}
-                      control={form.control}
-                      name="skills"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={skill.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(skill.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, skill.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== skill.id
-                                        )
+                          <FormField
+                            control={form.control}
+                            name="skills"
+                            render={() => (
+                              <FormItem>
+                                <div className="mb-4">
+                                  <FormLabel className="text-base">
+                                    Skills
+                                  </FormLabel>
+                                  <FormDescription>
+                                    Select your skills.
+                                  </FormDescription>
+                                </div>
+                                {skills.map((skill) => (
+                                  <FormField
+                                    key={skill.id}
+                                    control={form.control}
+                                    name="skills"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={skill.id}
+                                          className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(
+                                                skill.id,
+                                              )}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([
+                                                      ...field.value,
+                                                      skill.id,
+                                                    ])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (value) =>
+                                                          value !== skill.id,
+                                                      ),
+                                                    );
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="font-normal">
+                                            {skill.label}
+                                          </FormLabel>
+                                        </FormItem>
                                       );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {skill.label}
-                            </FormLabel>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                                    }}
+                                  />
+                                ))}
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </div>
                       </div>
                       <Button

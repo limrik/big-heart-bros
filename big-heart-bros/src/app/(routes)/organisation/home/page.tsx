@@ -11,17 +11,17 @@ const page: React.FC = () => {
 
   return (
     <div className="bg-[#f7d9d9] min-h-screen">
-        <div className="w-5/6 mx-auto">
-          <h1 className="pt-12 text-2xl font-semibold"> Your Activity </h1>
-          <div>
-            <OrgActivityChart />
-          </div>
-          <h1 className="pt-12 text-2xl font-semibold"> Demographic </h1>
-          <div>
-            <OrgStatsCards />
-          </div>
-          <br />
+      <div className="w-5/6 mx-auto">
+        <h1 className="pt-12 text-2xl font-semibold"> Your Activity </h1>
+        <div>
+          <OrgActivityChart />
         </div>
+        <h1 className="pt-12 text-2xl font-semibold"> Demographic </h1>
+        <div>
+          <OrgStatsCards />
+        </div>
+        <br />
+      </div>
     </div>
   );
 };

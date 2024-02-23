@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     if (req.method === "PATCH") {
@@ -16,7 +16,7 @@ export default async function handler(
       }
       const updatedEvent = await prisma.event.update({
         where: { id: String(eventId) },
-        data: { status: EventStatus.Approved},
+        data: { status: EventStatus.Approved },
       });
 
       res.status(200).json({
