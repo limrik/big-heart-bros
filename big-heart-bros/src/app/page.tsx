@@ -97,7 +97,7 @@ const Home = () => {
       )}
 
       {userType === UserType.ORGANISATION && (
-        <OrgPage params={{ id: "default_id" }} />
+        <OrgPage params={{ id: "org_2" }} />
       )}
       {userType === UserType.ADMIN && <AdminPage />}
     </div>
