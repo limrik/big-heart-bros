@@ -15,8 +15,6 @@ import {
 import backgroundImage from "../../../assets/bigathearts2.png";
 import EventDetails from "../../../../components/event-details";
 import EventAttendance from "../../../../components/event-attendance";
-import { Button } from "../../../../components/ui/button";
-import Navbar from "../../../../components/navbar";
 
 interface Organisation {
   id: string;

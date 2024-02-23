@@ -104,7 +104,7 @@ export default function Page({ params }: { params: { id: string } }) {
       {userType === UserType.ORGANISATION ? (
         <div className="w-5/6 mx-auto">
           <div className="flex justify-between items-center">
-            <p className="text-3xl font-semibold">Organisation Dashboard</p>
+            <p className="text-3xl font-semibold">My Events</p>
             <div className="my-4 rounded-md p-2 px-4 flex items-center bg-[#fcb6b6] rounded-xl">
               <div className="text-right">
                 <p className="text-xl font-semibold ">{organisation?.name}</p>
