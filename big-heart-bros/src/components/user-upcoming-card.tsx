@@ -50,27 +50,6 @@ type CardComponentProps = {
   location: String;
 };
 
-const handleClick = async (userId, eventId) => {
-  try {
-    const response = await fetch("/api/userEvent/addUserToEvent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId, eventId }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to add user to event");
-    }
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error("Error adding user to event:", error.message);
-  }
-};
-
 const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
   console.log(props);
   return (

@@ -1,6 +1,6 @@
 import { UsersInEvents, Event, User } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 
 function getTotalEvents(userEvents: any[]): number {
   const uniqueEvents = new Set(userEvents.map((item) => item.eventId));
@@ -89,6 +89,123 @@ function EventsByDateChart(eventsData) {
   return chartData;
 }
 
+function EventsInterestsChart(eventsData) {
+  const uniqueEvents = eventsData.filter(
+    (event, index, self) =>
+      index === self.findIndex((e) => e.eventId === event.eventId)
+  );
+
+  const interestsCount = {};
+  uniqueEvents.forEach((event) => {
+    event.event.interests.forEach((interest) => {
+      interestsCount[interest] = (interestsCount[interest] || 0) + 1;
+    });
+  });
+
+  const sortedInterests = Object.keys(interestsCount).sort(
+    (a, b) => interestsCount[b] - interestsCount[a]
+  );
+
+  const top3Interests =
+    sortedInterests.length > 3 ? sortedInterests.slice(0, 3) : sortedInterests;
+
+  const labels = top3Interests;
+  const data = labels.map((interest) => interestsCount[interest]);
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Interests",
+        data: data,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return chartData;
+}
+
+function EventsSkillsChart(eventsData) {
+  const uniqueEvents = eventsData.filter(
+    (event, index, self) =>
+      index === self.findIndex((e) => e.eventId === event.eventId)
+  );
+
+  const skillsCount = {};
+  uniqueEvents.forEach((event) => {
+    event.event.skills.forEach((skill) => {
+      skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+    });
+  });
+
+  const sortedSkills = Object.keys(skillsCount).sort(
+    (a, b) => skillsCount[b] - skillsCount[a]
+  );
+
+  const top3Skills =
+    sortedSkills.length > 3 ? sortedSkills.slice(0, 3) : sortedSkills;
+
+  const labels = top3Skills;
+  const data = labels.map((interest) => skillsCount[interest]);
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Skills",
+        data: data,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return chartData;
+}
+
+function VolunteersInterestsChart(eventsData) {
+  const uniqueVolunteers = eventsData.filter(
+    (event, index, self) =>
+      index === self.findIndex((e) => e.userId === event.userId)
+  );
+
+  const interestsCount = {};
+  uniqueVolunteers.forEach((volunteer) => {
+    volunteer.user.interests.forEach((interest) => {
+      interestsCount[interest] = (interestsCount[interest] || 0) + 1;
+    });
+  });
+
+  const sortedInterests = Object.keys(interestsCount).sort(
+    (a, b) => interestsCount[b] - interestsCount[a]
+  );
+
+  const top3Interests =
+    sortedInterests.length > 3 ? sortedInterests.slice(0, 3) : sortedInterests;
+
+  const labels = top3Interests;
+  const data = labels.map((interest) => interestsCount[interest]);
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Interests",
+        data: data,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return chartData;
+}
+
 function VolunteersByDateChart(eventsData) {
   eventsData.sort(
     (a, b) =>
@@ -138,6 +255,68 @@ function VolunteersByDateChart(eventsData) {
   return chartData;
 }
 
+function VolunteersSkillsChart(eventsData) {
+  const uniqueVolunteers = eventsData.filter(
+    (event, index, self) =>
+      index === self.findIndex((e) => e.userId === event.userId)
+  );
+
+  const skillsCount = {};
+  uniqueVolunteers.forEach((volunteer) => {
+    volunteer.event.skills.forEach((skill) => {
+      skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+    });
+  });
+
+  const sortedSkills = Object.keys(skillsCount).sort(
+    (a, b) => skillsCount[b] - skillsCount[a]
+  );
+
+  const top3Skills =
+    sortedSkills.length > 3 ? sortedSkills.slice(0, 3) : sortedSkills;
+
+  const labels = top3Skills;
+  const data = labels.map((interest) => skillsCount[interest]);
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Skills",
+        data: data,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return chartData;
+}
+
+const horizontalOptions = {
+  indexAxis: "y" as const,
+  elements: {
+    bar: {
+      borderWidth: 2,
+    },
+  },
+  responsive: true,
+  scales: {
+    x: {
+      suggestedMin: 0,
+      suggestedMax: 20,
+    },
+  },
+  maintainAspectRatio: false,
+  height: 50,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
 export default function AdminStatsCards() {
   const [usersInEvents, setUsersInEvents] = useState([]);
 
@@ -159,13 +338,21 @@ export default function AdminStatsCards() {
     <div>
       <div className="flex flex-row gap-8">
         <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
+          <h2 className="font-medium text-gray-700"> Total Organisations </h2>
+          <h1 className="text-3xl text-center font-semibold mt-1">
+            {usersInEvents.length > 0
+              ? getTotalUniquePosterIds(usersInEvents)
+              : ""}{" "}
+          </h1>
+        </div>
+        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
           {" "}
           <h2 className="font-medium text-gray-700"> Total Events </h2>
           <h1 className="text-3xl text-center font-semibold mt-1">
             {" "}
             {usersInEvents.length > 0 ? getTotalEvents(usersInEvents) : ""}{" "}
           </h1>
-        </div>
+        </div>{" "}
         <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
           {" "}
           <h2 className="font-medium text-gray-700">
@@ -192,52 +379,111 @@ export default function AdminStatsCards() {
               : ""}{" "}
           </h1>
         </div>
-        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700"> Total Organisations </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-            {" "}
-            {usersInEvents.length > 0
-              ? getTotalUniquePosterIds(usersInEvents)
-              : ""}{" "}
-          </h1>
-        </div>
       </div>
       <div className="flex flex-row gap-8">
         <div className=" bg-gray-100 my-4 w-[590px] rounded px-4 py-6 border border-gray-200">
           <h2 className="font-medium mb-4 text-gray-700"> Events by Month </h2>
-          {usersInEvents.length > 0 ? (
-            <Line
-              data={EventsByDateChart(usersInEvents)}
-              options={{
-                scales: {
-                  y: {
-                    suggestedMin: 0,
-                    suggestedMax: 6,
+          <div className="flex justify-center items-center h-5/6">
+            {usersInEvents.length > 0 ? (
+              <Line
+                data={EventsByDateChart(usersInEvents)}
+                options={{
+                  scales: {
+                    y: {
+                      suggestedMin: 0,
+                      suggestedMax: 6,
+                    },
                   },
-                },
-              }}
-            />
-          ) : null}
+                }}
+              />
+            ) : null}
+          </div>
         </div>
+        <div>
+          <div className=" bg-gray-100 my-4 w-[590px] rounded p-4 border border-gray-200">
+            <h2 className="font-medium mb-4 text-gray-700">
+              {" "}
+              Top Interests in Events
+            </h2>
+            {usersInEvents.length > 0 ? (
+              <div className="w-full">
+                {usersInEvents.length > 0 && (
+                  <Bar
+                    data={EventsInterestsChart(usersInEvents)}
+                    options={horizontalOptions}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>{" "}
+          <div className=" bg-gray-100 my-4 w-[590px] rounded p-4 border border-gray-200">
+            <h2 className="font-medium text-gray-700"> Top Skills in Events</h2>
+            {usersInEvents.length > 0 ? (
+              <div className="w-full">
+                {usersInEvents.length > 0 && (
+                  <Bar
+                    data={EventsSkillsChart(usersInEvents)}
+                    options={horizontalOptions}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-row gap-8">
+        {" "}
         <div className=" bg-gray-100 my-4 w-[590px] rounded px-4 py-6 border border-gray-200">
-          <h2 className="font-medium mb-4 text-gray-700">
-            {" "}
-            Volunteers by Month{" "}
-          </h2>
-          {usersInEvents.length > 0 ? (
-            <Line
-              data={VolunteersByDateChart(usersInEvents)}
-              options={{
-                scales: {
-                  y: {
-                    suggestedMin: 0,
-                    suggestedMax: 20,
+          <h2 className="font-medium text-gray-700"> Volunteers by Month </h2>
+          <div className="flex justify-center items-center h-5/6">
+            {usersInEvents.length > 0 ? (
+              <Line
+                data={VolunteersByDateChart(usersInEvents)}
+                options={{
+                  scales: {
+                    y: {
+                      suggestedMin: 0,
+                      suggestedMax: 20,
+                    },
                   },
-                },
-              }}
-            />
-          ) : null}
+                }}
+              />
+            ) : null}
+          </div>
+        </div>
+        <div>
+          <div className=" bg-gray-100 my-4 w-[590px] rounded p-4 border border-gray-200">
+            <h2 className="font-medium text-gray-700">
+              {" "}
+              Top Interests in Volunteers
+            </h2>
+            {usersInEvents.length > 0 ? (
+              <div className="w-full">
+                {usersInEvents.length > 0 && (
+                  <Bar
+                    data={VolunteersInterestsChart(usersInEvents)}
+                    options={horizontalOptions}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>{" "}
+          <div className=" bg-gray-100 my-4 w-[590px] rounded p-4 border border-gray-200">
+            <h2 className="font-medium text-gray-700">
+              {" "}
+              Top Skills in Volunteers
+            </h2>
+            {usersInEvents.length > 0 ? (
+              <div className="w-full">
+                {usersInEvents.length > 0 && (
+                  <Bar
+                    data={VolunteersSkillsChart(usersInEvents)}
+                    options={horizontalOptions}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
