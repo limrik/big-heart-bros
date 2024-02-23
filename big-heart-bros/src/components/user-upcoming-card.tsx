@@ -211,7 +211,7 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                   </div>
                 </DialogDescription>
                 <DialogDescription>
-                  <span className="font-bold">Contact: </span>
+                  <span className="font-bold">Contact: <span className="font-normal">+65 6123 4567</span></span>
                 </DialogDescription>
               </div>
             </div>
