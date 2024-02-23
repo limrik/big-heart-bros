@@ -1,6 +1,46 @@
 import { useEffect, useState } from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
+
+
+
+function getEventsWithOrg2Poster(userEvents: any[]): any[] {
+    const filteredEvents = userEvents.filter(item => item.event.posterId === "org_2");
+    return filteredEvents;
+  }
+
+function gender(eventsData) {
+    let dataFiltered = getEventsWithOrg2Poster(eventsData)
+    const genderCounts = { male: 0, female: 0, other: 0 };
+  
+    dataFiltered.forEach(user => {
+      if (user.user.gender === 'Male') genderCounts.male += 1;
+      else if (user.user.gender === 'Female') genderCounts.female += 1;
+      else genderCounts.other += 1;
+    });
+  
+    const chartData = {
+      labels: ['Male', 'Female'],
+      datasets: [{
+        label: 'Gender Ratio',
+        data: [genderCounts.male, genderCounts.female],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }]
+    }
+  
+    return chartData
+  }
 
 function getVolunteersByEventTypeAndMonth(eventsData) {
 
@@ -108,6 +148,20 @@ export default function OrgActivityChart() {
                     ) : <p>Loading data...</p>}
                 </div>
             </div>
+            <div className="bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
+      <h2 className="font-medium text-gray-700">Gender Ratio</h2>
+      <h1 className="text-3xl text-center font-semibold mt-1">
+        <Doughnut
+          data={gender(usersInEvents)}
+          width={200}
+          height={200}
+          options={{
+            maintainAspectRatio: false,
+          }}
+        />
+      </h1>
+    </div>
         </div>
+
     );
 }

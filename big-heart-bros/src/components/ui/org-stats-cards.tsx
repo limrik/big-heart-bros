@@ -1,10 +1,34 @@
-import { UsersInEvents, Event, User } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import { PolarArea } from 'react-chartjs-2';
 
 
+const colorPalette = [
+	'#FF6384', // red
+	'#36A2EB', // blue
+	'#FFCE56', // yellow
+	'#4BC0C0', // teal
+	'#9966FF', // purple
+	'#FF9F40', // orange
+	'#4D5360', // dark grey
+  ];
+
+  const colorPalette1 = [
+    '#FF6384', // Red
+    '#36A2EB', // Blue
+    '#FFCE56', // Yellow
+    '#4BC0C0', // Teal
+    '#9966FF', // Purple
+    '#FF9F40', // Orange
+    '#4D5360', // Dark Grey
+    '#C9CB74', // Olive Green
+    '#7E57C2', // Deep Purple
+    '#42A5F5', // Light Blue
+    '#D81B60', // Pink
+    '#8D6E63', // Brown
+  ];
 
 function getEventsWithOrg2Poster(userEvents: any[]): any[] {
   const filteredEvents = userEvents.filter(item => item.event.posterId === "org_2");
@@ -16,10 +40,12 @@ function getTotalEvents(userEvents: any[]): number {
   return uniqueEvents.size;
 }
 
-function getTotalUniqueIndividuals(userEvents: any[]): number {
+/*
+function getUniqueIndividuals(userEvents: any[]): any[] {
   const uniqueIndividuals = new Set(userEvents.map((item) => item.userId));
-  return uniqueIndividuals.size;
+  return uniqueIndividuals;
 }
+*/
 
 function getTotalUniquePosterIds(userEvents: any[]): number {
   const uniquePosterIds = new Set(
@@ -28,123 +54,73 @@ function getTotalUniquePosterIds(userEvents: any[]): number {
   return uniquePosterIds.size;
 }
 
-function getTotalHoursOfImpact(userEvents) {
-  let totalHours = 0;
+function interests(eventsData) {
+  let dataFiltered = getEventsWithOrg2Poster(eventsData)
 
-  userEvents.forEach((entry) => {
-    const startDate = new Date(entry.event.startDate);
-    const endDate = new Date(entry.event.endDate);
-    const durationInMillis = endDate.getTime() - startDate.getTime();
-    const durationInHours = durationInMillis / (1000 * 60 * 60); // Convert milliseconds to hours
-    totalHours += durationInHours;
-  });
 
-  return totalHours;
+  const interestCounts = { CommunityService: 0, EnvironmentalProtection: 0, HealthcareSupport: 0, 
+    EducationSupport: 0, YouthMentoring: 0, ElderlySupport : 0, ArtsAndCulture: 0, SportsAndRecreation: 0, TechnologyAssistance: 0 , FundraisingEvents: 0, FoodBankAssistance: 0, HomelessnessSupport: 0};
+
+    dataFiltered.forEach(user => {
+      user.user.interests.forEach(skill => {
+        if(skill == "CommunityService") interestCounts.CommunityService +=1;
+          else if (skill == "EnvironmentalProtection") interestCounts.EnvironmentalProtection += 1;
+          else if (skill == "HealthcareSupport") interestCounts.HealthcareSupport += 1;
+          else if (skill == "EducationSupport") interestCounts.EducationSupport += 1;
+          else if (skill == "YouthMentoring") interestCounts.YouthMentoring += 1;
+          else if (skill == "ElderlySupport") interestCounts.ElderlySupport += 1;
+          else if (skill == "ArtsAndCulture") interestCounts.ArtsAndCulture += 1;
+          else if (skill == "SportsAndRecreation") interestCounts.SportsAndRecreation += 1;
+          else if (skill == "TechnologyAssistance") interestCounts.TechnologyAssistance += 1;
+          else if (skill == "FundraisingEvents") interestCounts.FundraisingEvents += 1;
+          else if (skill == "FoodBankAssistance") interestCounts.FoodBankAssistance += 1;
+          else interestCounts.HomelessnessSupport += 1;
+      })
+    })
+
+    const chartData = {
+      labels: ['CommunityService', 'EnvironmentalProtection', "HealthcareSupport", "EducationSupport", "YouthMentoring", "ElderlySupport", "ArtsAndCulture", "SportsAndRecreation", "TechnologyAssistance", "FundraisingEvents", "FoodBankAssistance", "HomelessnessSupport"],
+      datasets: [{
+        data: [interestCounts.CommunityService, interestCounts.EnvironmentalProtection, interestCounts.HealthcareSupport, interestCounts.EducationSupport, interestCounts.YouthMentoring, interestCounts.ElderlySupport, interestCounts.ArtsAndCulture, interestCounts.SportsAndRecreation, interestCounts.TechnologyAssistance, interestCounts.FundraisingEvents, interestCounts.FoodBankAssistance, interestCounts.HomelessnessSupport],
+        backgroundColor: colorPalette1,
+        borderWidth: 1
+      }]
+    };
+
+    return chartData
 }
 
-function EventsByDateChart(eventsData) {
-  const uniqueEventsData = eventsData.filter(
-    (event, index, self) =>
-      index === self.findIndex((e) => e.eventId === event.eventId)
-  );
 
-  uniqueEventsData.sort(
-    (a, b) =>
-      new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
-  );
-  const eventMonths: { [key: string]: number } = {};
+function skills(eventsData) {
+  let dataFiltered = getEventsWithOrg2Poster(eventsData)
 
-  uniqueEventsData.forEach((event) => {
-    const date = new Date(event.event.startDate);
-    const month = date.toLocaleString("default", { month: "long" }).slice(0, 3);
-    const year = date.getFullYear().toString().slice(-2);
-    const key = `${month} ${year}`;
-    eventMonths[key] = (eventMonths[key] || 0) + 1;
-  });
+  const skillCounts = { OnGroundVolunteering: 0, Photography: 0, Videography: 0, 
+    ArtsAndCraft: 0, PerformingSkills: 0, Sports : 0, Teaching: 0, Leadership: 0, DigitalMarketing: 0 };
 
-  const startDate = new Date(uniqueEventsData[0].event.startDate);
-  const endDate = new Date(
-    uniqueEventsData[uniqueEventsData.length - 1].event.startDate
-  );
-  const labels: string[] = [];
-  const data: number[] = [];
+    dataFiltered.forEach(user => {
+      user.user.skills.forEach(skill => {
+        if(skill == "OnGroundVolunteering") skillCounts.OnGroundVolunteering +=1;
+          else if (skill == "Photography") skillCounts.Photography += 1;
+          else if (skill == "Videography") skillCounts.Videography += 1;
+          else if (skill == "ArtsAndCraft") skillCounts.ArtsAndCraft += 1;
+          else if (skill == "PerformingSkills") skillCounts.PerformingSkills += 1;
+          else if (skill == "Sports") skillCounts.Sports += 1;
+          else if (skill == "Teaching") skillCounts.Teaching += 1;
+          else if (skill == "Leadership") skillCounts.Leadership += 1;
+          else skillCounts.DigitalMarketing += 1;
+      })
+    })
 
-  let currentDate = new Date(startDate);
-  while (currentDate <= endDate) {
-    const month = currentDate
-      .toLocaleString("default", { month: "long" })
-      .slice(0, 3);
-    const year = currentDate.getFullYear().toString().slice(-2);
-    const key = `${month} ${year}`;
-    labels.push(key);
-    data.push(eventMonths[key] || 0);
-    currentDate.setMonth(currentDate.getMonth() + 1);
-  }
+    const chartData = {
+      labels: ['OnGroundVolunteering', 'Photography', "Videography", "ArtsAndCraft", "PerformingSkills", "Sports", "Teaching", "Leadership", "DigitalMarketing"],
+      datasets: [{
+        data: [skillCounts.OnGroundVolunteering, skillCounts.Photography, skillCounts.Videography, skillCounts.ArtsAndCraft, skillCounts.PerformingSkills, skillCounts.Sports, skillCounts.Teaching, skillCounts.Leadership, skillCounts.DigitalMarketing],
+        borderWidth: 1
+        ,backgroundColor: colorPalette1
+      }]
+    }
 
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Number of Events",
-        data: data,
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
-
-  return chartData;
-}
-
-function VolunteersByDateChart(eventsData) {
-  eventsData.sort(
-    (a, b) =>
-      new Date(a.event.startDate).getTime() -
-      new Date(b.event.startDate).getTime()
-  );
-  const volunteerCountsByDate = {};
-
-  eventsData.forEach((event) => {
-    const date = new Date(event.event.startDate);
-    const month = date.toLocaleString("default", { month: "long" }).slice(0, 3); // Short month name
-    const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
-    const key = `${month} ${year}`;
-    volunteerCountsByDate[key] = (volunteerCountsByDate[key] || 0) + 1;
-  });
-
-  const startDate = new Date(eventsData[0].event.startDate);
-  const endDate = new Date(eventsData[eventsData.length - 1].event.startDate);
-  const labels: string[] = [];
-  const data: number[] = [];
-
-  let currentDate = new Date(startDate);
-  while (currentDate <= endDate) {
-    const month = currentDate
-      .toLocaleString("default", { month: "long" })
-      .slice(0, 3);
-    const year = currentDate.getFullYear().toString().slice(-2);
-    const key = `${month} ${year}`;
-    labels.push(key);
-    data.push(volunteerCountsByDate[key] || 0);
-    currentDate.setMonth(currentDate.getMonth() + 1);
-  }
-
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Number of Volunteers",
-        data: data,
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
-
-  return chartData;
+    return chartData
 }
 
 
@@ -167,9 +143,6 @@ export default function stats() {
         const response = await fetch("/api/allUsersInEvents");
         const data = await response.json();
         setUsersInEvents(data);
-
-        const chartData = getGenderRatio(data);
-        setDoughnutData(chartData);
       } catch (error) {
         console.error("Error fetching users in events data:", error);
       }
@@ -178,94 +151,35 @@ export default function stats() {
     fetchData();
   }, []);
 
-  const getGenderRatio = (usersData) => {
-    const genderCounts = { male: 0, female: 0, other: 0 };
-    usersData.forEach(user => {
-      console.log(user.gender)
-      if (user.gender === 'male') genderCounts.male += 1;
-      else if (user.gender === 'female') genderCounts.female += 1;
-      else genderCounts.other += 1;
-    });
-
-    return {
-      labels: ['Male', 'Female', 'Other'],
-      datasets: [{
-        label: 'Gender Ratio',
-        data: [genderCounts.male, genderCounts.female, genderCounts.other],
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255,99,132,1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
-  };
-
 
   return (
+<div>
+  <div className="flex flex-row gap-8">
     
-    <div>
-      <div className="flex flex-row gap-8">
-      <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700"> Gender Ratio </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-          <Doughnut data={doughnutData} />
-          </h1>
-        </div>
+    <div className="bg-gray-100 my-3 w-[500px] rounded px-4 py-6 border border-gray-200">
+    <h2 className="font-medium text-gray-700">Volunteer Interests</h2>
+    <h1 className="text-3xl text-center font-semibold mt-1">
+      <PolarArea
+        data={interests(usersInEvents)}
+        width={500}
+        height={200}
+      />
+    </h1>
+  </div>
 
-        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700"> Total Events </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-            {" "}
-            {usersInEvents.length > 0 ? getTotalEvents(usersInEvents) : ""}{" "}
-          </h1>
-        </div>
-        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700">
-            {" "}
-            Total Unique Volunteers{" "}
-          </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-            {" "}
-            {usersInEvents.length > 0
-              ? getTotalUniqueIndividuals(usersInEvents)
-              : ""}
-          </h1>
-        </div>
-        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700">
-            {" "}
-            Total Hours of Engagement{" "}
-          </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-            {" "}
-            {usersInEvents.length > 0
-              ? getTotalHoursOfImpact(usersInEvents)
-              : ""}{" "}
-          </h1>
-        </div>
-
-        <div className=" bg-gray-100 my-4 w-[280px] rounded px-4 py-6 border border-gray-200">
-          {" "}
-          <h2 className="font-medium text-gray-700"> Total Organisations </h2>
-          <h1 className="text-3xl text-center font-semibold mt-1">
-            {" "}
-            {usersInEvents.length > 0
-              ? getTotalUniquePosterIds(usersInEvents)
-              : ""}{" "}
-          </h1>
-        </div>
-      </div>
+    <div className="bg-gray-100 my-3 w-[500px] rounded px-4 py-6 border border-gray-200">
+      <h2 className="font-medium text-gray-700">Volunteer Skills</h2>
+      <h1 className="text-3xl text-center font-semibold mt-1">
+        <PolarArea
+          data={skills(usersInEvents)}
+          width={500}
+          height={200}
+        />
+      </h1>
     </div>
+  </div>
+
+</div>
+
   );
 }
