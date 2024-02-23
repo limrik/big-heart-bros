@@ -150,14 +150,14 @@ const CompletedEventCard: React.FC<CardComponentProps> = (props) => {
       <CardFooter>
         <div className="px-4">
           <div className="flex flex-wrap gap-2">
-            {props.skills.map((skill, index) => (
-              <div
-                key={index}
-                className="bg-gray-200 px-2 py-1 rounded-full text-sm text-gray-800"
-              >
-                {skill}
-              </div>
-            ))}
+              {props.skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
+                >
+                  {skill === "OnGroundVolunteering" ? "OnGroundVolunteer" : skill}
+                </div>
+              ))}
           </div>
         </div>
       </CardFooter>

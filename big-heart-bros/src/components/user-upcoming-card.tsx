@@ -180,13 +180,13 @@ const UserUpcomingCard: React.FC<CardComponentProps> = (props) => {
                     <div className="col-span-full">
                       <h3 className="font-bold">Skills Wanted:</h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                       {props.skills.map((skill, index) => (
                         <div
                           key={index}
                           className="bg-gray-300 p-2 rounded-xl text-sm text-center transition hover:bg-[#fcb6b6]"
                         >
-                          {skill}
+                          {skill === "OnGroundVolunteering" ? "OnGroundVolunteer" : skill}
                         </div>
                       ))}
                     </div>
